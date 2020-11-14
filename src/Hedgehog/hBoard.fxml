@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="828.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bekwam.rnb.client.RooksAndBishopsController">
+    <children>
+        <VBox fx:id="vbox" maxHeight="800.0" maxWidth="800.0">
+            <children>
+            <MenuBar prefHeight="25.0" prefWidth="841.0" VBox.vgrow="ALWAYS">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+                  <Group fx:id="rectangleGroup">
+                      <children>
+                          <Pane fx:id="row7">
+                              <children>
+                                  <Rectangle fx:id="sq0_7" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_7" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq2_7" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq3_7" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq4_7" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq5_7" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq6_7" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq7_7" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Circle fx:id="circle" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="100.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle3" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="300.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle32" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="500.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="circle35" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="700.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row6" layoutY="100.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq2_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq3_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq4_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq5_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq6_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq7_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                        <Pane fx:id="row72">
+                           <children>
+                              <Rectangle fx:id="sq0_72" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq1_72" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq2_72" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq3_72" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq4_72" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq5_72" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq6_72" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq7_72" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Circle fx:id="circle31" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="200.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle33" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="400.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle21" centerX="50.0" centerY="50.0" fill="WHITE" layoutY="4.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle34" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="600.0" layoutY="4.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row5" layoutY="200.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq2_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq3_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq4_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq5_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq6_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq7_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                        <Pane fx:id="row73">
+                           <children>
+                              <Rectangle fx:id="sq0_73" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq1_73" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq2_73" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq3_73" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq4_73" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq5_73" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq6_73" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq7_73" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Circle fx:id="circle4" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="100.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle22" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="300.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle5" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="500.0" layoutY="2.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle23" centerX="50.0" centerY="50.0" fill="WHITE" layoutX="696.0" layoutY="2.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row4" layoutY="300.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq2_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq3_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq4_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq5_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq6_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq7_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                        <Pane fx:id="row61">
+                           <children>
+                              <Rectangle fx:id="sq0_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq1_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq2_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq3_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq4_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq5_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq6_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq7_61" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Pane fx:id="row721">
+                                 <children>
+                                    <Rectangle fx:id="sq0_721" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq1_721" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq2_721" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq3_721" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq4_721" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq5_721" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq6_721" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq7_721" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row3" layoutY="400.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq2_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq3_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq4_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq5_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq6_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq7_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                        <Pane fx:id="row74">
+                           <children>
+                              <Rectangle fx:id="sq0_74" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq1_74" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq2_74" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq3_74" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq4_74" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq5_74" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq6_74" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq7_74" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row2" layoutY="500.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq2_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq3_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq4_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq5_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq6_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq7_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                        <Pane fx:id="row62">
+                           <children>
+                              <Rectangle fx:id="sq0_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq1_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq2_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq3_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq4_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq5_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq6_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq7_62" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Pane fx:id="row722">
+                                 <children>
+                                    <Rectangle fx:id="sq0_722" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq1_722" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq2_722" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq3_722" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq4_722" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq5_722" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq6_722" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq7_722" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Circle fx:id="circle2214" centerX="50.0" centerY="50.0" fill="#252222" layoutX="4.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle2218" centerX="50.0" centerY="50.0" fill="#252222" layoutX="200.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle2217" centerX="50.0" centerY="50.0" fill="#252222" layoutX="400.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle22110" centerX="50.0" centerY="50.0" fill="#252222" layoutX="600.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row1" layoutY="600.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_5" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_6" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq1_7" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                        <Pane fx:id="row75">
+                           <children>
+                              <Rectangle fx:id="sq0_75" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq1_75" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq2_75" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq3_75" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq4_75" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq5_75" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq6_75" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq7_75" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Circle fx:id="circle2213" centerX="50.0" centerY="50.0" fill="#252222" layoutX="100.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle2212" centerX="50.0" centerY="50.0" fill="#252222" layoutX="300.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle2215" centerX="50.0" centerY="50.0" fill="#252222" layoutX="500.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="circle2219" centerX="50.0" centerY="50.0" fill="#252222" layoutX="700.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                          <Pane fx:id="row0" layoutY="700.0">
+                              <children>
+                                  <Rectangle fx:id="sq0_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq1_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq2_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq3_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq4_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq5_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                  <Rectangle fx:id="sq6_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                  <Rectangle fx:id="sq7_0" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                        <Pane fx:id="row63">
+                           <children>
+                              <Rectangle fx:id="sq0_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq1_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq2_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq3_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq4_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq5_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Rectangle fx:id="sq6_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                              <Rectangle fx:id="sq7_63" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                              <Pane fx:id="row723">
+                                 <children>
+                                    <Rectangle fx:id="sq0_723" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq1_723" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq2_723" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="200.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq3_723" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="300.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq4_723" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="400.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq5_723" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="500.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Rectangle fx:id="sq6_723" arcHeight="5.0" arcWidth="5.0" fill="#483507" height="100.0" layoutX="600.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square" width="100.0" />
+                                    <Rectangle fx:id="sq7_723" arcHeight="5.0" arcWidth="5.0" fill="#e8e5ea" height="100.0" layoutX="700.0" stroke="BLACK" strokeType="INSIDE" styleClass="board_square_lt" width="100.0" />
+                                    <Circle fx:id="circle221" centerX="50.0" centerY="50.0" fill="#252222" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle2211" centerX="50.0" centerY="50.0" fill="#252222" layoutX="200.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle2216" centerX="50.0" centerY="50.0" fill="#252222" layoutX="400.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                    <Circle fx:id="circle22111" centerX="50.0" centerY="50.0" fill="#252222" layoutX="600.0" onMouseDragged="#movePiece" onMousePressed="#startMovingPiece" onMouseReleased="#finishMovingPiece" radius="40.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                              </children>
+                          </Pane>
+                      </children>
+                  </Group>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+</VBox>
