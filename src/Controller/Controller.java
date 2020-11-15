@@ -1,4 +1,4 @@
-package Hedgehog;
+package Controller;
 
 public class Controller {
 }
