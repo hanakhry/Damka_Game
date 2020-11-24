@@ -6,17 +6,17 @@ import java.util.List;
 
 /**
  * The {@code MoveLogic} class determines what a valid move is. It fully
- * implements all the rules of checkers.
+ * implements all the rules of Hamka.
  */
 public class MoveLogic {
 
 	/**
-	 * Determines if the specified move is valid based on the rules of checkers.
+	 * Determines if the specified move is valid based on the rules of Hamka.
 	 * 
 	 * @param game			the game to check against.
 	 * @param startIndex	the start index of the move.
 	 * @param endIndex		the end index of the move.
-	 * @return true if the move is legal according to the rules of checkers.
+	 * @return true if the move is legal according to the rules of Hamka.
 	 * @see {@link #isValidMove(Board, boolean, int, int, int)}
 	 */
 	public static boolean isValidMove(Game game,
@@ -26,14 +26,14 @@ public class MoveLogic {
 	}
 	
 	/**
-	 * Determines if the specified move is valid based on the rules of checkers.
+	 * Determines if the specified move is valid based on the rules of Hamka.
 	 * 
 	 * @param board			the current board to check against.
 	 * @param isP1Turn		the flag indicating if it is player 1's turn.
 	 * @param startIndex	the start index of the move.
 	 * @param endIndex		the end index of the move.
 	 * @param skipIndex		the index of the last skip this turn.
-	 * @return true if the move is legal according to the rules of checkers.
+	 * @return true if the move is legal according to the rules of Hamka.
 	 * @see {@link #isValidMove(Game, int, int)}
 	 */
 	public static boolean isValidMove(Board board, boolean isP1Turn,
@@ -80,8 +80,8 @@ public class MoveLogic {
 		
 		// Check if proper ID
 		int id = board.get(startIndex);
-		if ((isP1Turn && id != Board.BLACK_CHECKER && id != Board.BLACK_QUEEN)
-				|| (!isP1Turn && id != Board.WHITE_CHECKER
+		if ((isP1Turn && id != Board.BLACK_SOLDIER && id != Board.BLACK_QUEEN)
+				|| (!isP1Turn && id != Board.WHITE_SOLDIER
 				&& id != Board.WHITE_QUEEN)) {
 			return false;
 		}
@@ -90,8 +90,8 @@ public class MoveLogic {
 		Point middle = Board.middle(startIndex, endIndex);
 		int midID = board.get(Board.toIndex(middle));
 		if (midID != Board.INVALID && ((!isP1Turn &&
-				midID != Board.BLACK_CHECKER && midID != Board.BLACK_QUEEN) ||
-				(isP1Turn && midID != Board.WHITE_CHECKER &&
+				midID != Board.BLACK_SOLDIER && midID != Board.BLACK_QUEEN) ||
+				(isP1Turn && midID != Board.WHITE_SOLDIER &&
 				midID != Board.WHITE_QUEEN))) {
 			return false;
 		}
@@ -103,7 +103,7 @@ public class MoveLogic {
 	/**
 	 * Checks that the move is diagonal and magnitude 1 or 2 in the correct
 	 * direction. If the magnitude is not 2 (i.e. not a skip), it checks that
-	 * no skips are available by other checkers of the same player.
+	 * no skips are available by other soldiers of the same player.
 	 * 
 	 * @param board			the current board to check against.
 	 * @param isP1Turn		the flag indicating if it is player 1's turn.
@@ -125,8 +125,8 @@ public class MoveLogic {
 		
 		// Check that it was in the right direction
 		int id = board.get(startIndex);
-		if ((id == Board.WHITE_CHECKER && dy > 0) ||
-				(id == Board.BLACK_CHECKER && dy < 0)) {
+		if ((id == Board.WHITE_SOLDIER && dy > 0) ||
+				(id == Board.BLACK_SOLDIER && dy < 0)) {
 			return false;
 		}
 		
@@ -135,18 +135,18 @@ public class MoveLogic {
 		int midID = board.get(Board.toIndex(middle));
 		if (midID < 0) {
 			
-			// Get the correct checkers
-			List<Point> checkers;
+			// Get the correct soldiers
+			List<Point> soldiers;
 			if (isP1Turn) {
-				checkers = board.find(Board.BLACK_CHECKER);
-				checkers.addAll(board.find(Board.BLACK_QUEEN));
+				soldiers = board.find(Board.BLACK_SOLDIER);
+				soldiers.addAll(board.find(Board.BLACK_QUEEN));
 			} else {
-				checkers = board.find(Board.WHITE_CHECKER);
-				checkers.addAll(board.find(Board.WHITE_QUEEN));
+				soldiers = board.find(Board.WHITE_SOLDIER);
+				soldiers.addAll(board.find(Board.WHITE_QUEEN));
 			}
 			
 			// Check if any of them have a skip available
-			for (Point p : checkers) {
+			for (Point p : soldiers) {
 				int index = Board.toIndex(p);
 				if (!MoveMore.getSkips(board, index).isEmpty()) {
 					return false;
@@ -159,20 +159,20 @@ public class MoveLogic {
 	}
 	
 	/**
-	 * Checks if the specified checker is safe (i.e. the opponent cannot skip
-	 * the checker).
+	 * Checks if the specified soldier is safe (i.e. the opponent cannot skip
+	 * the soldier).
 	 * 
 	 * @param board		the current board state.
-	 * @param checker	the point where the test checker is located at.
-	 * @return true if and only if the checker at the point is safe.
+	 * @param soldier	the point where the test soldier is located at.
+	 * @return true if and only if the soldier at the point is safe.
 	 */
-	public static boolean isSafe(Board board, Point checker) {
+	public static boolean isSafe(Board board, Point soldier) {
 		
 		// Trivial cases
-		if (board == null || checker == null) {
+		if (board == null || soldier == null) {
 			return true;
 		}
-		int index = Board.toIndex(checker);
+		int index = Board.toIndex(soldier);
 		if (index < 0) {
 			return true;
 		}
@@ -182,9 +182,9 @@ public class MoveLogic {
 		}
 		
 		// Determine if it can be skipped
-		boolean isBlack = (id == Board.BLACK_CHECKER || id == Board.BLACK_QUEEN);
+		boolean isBlack = (id == Board.BLACK_SOLDIER || id == Board.BLACK_QUEEN);
 		List<Point> check = new ArrayList<>();
-		MoveMore.addPoints(check, checker, Board.BLACK_QUEEN, 1);
+		MoveMore.addPoints(check, soldier, Board.BLACK_QUEEN, 1);
 		for (Point p : check) {
 			int start = Board.toIndex(p);
 			int tid = board.get(start);
@@ -195,17 +195,17 @@ public class MoveLogic {
 			}
 			
 			// Check ID
-			boolean isWhite = (tid == Board.WHITE_CHECKER ||
+			boolean isWhite = (tid == Board.WHITE_SOLDIER ||
 					tid == Board.WHITE_QUEEN);
 			if (isBlack && !isWhite) {
 				continue;
 			}
-			boolean isKing = (tid == Board.BLACK_QUEEN || tid == Board.BLACK_QUEEN);
+			boolean isQueen = (tid == Board.BLACK_QUEEN || tid == Board.BLACK_QUEEN);
 			
 			// Determine if valid skip direction
-			int dx = (checker.x - p.x) * 2;
-			int dy = (checker.y - p.y) * 2;
-			if (!isKing && (isWhite ^ (dy < 0))) {
+			int dx = (soldier.x - p.x) * 2;
+			int dy = (soldier.y - p.y) * 2;
+			if (!isQueen && (isWhite ^ (dy < 0))) {
 				continue;
 			}
 			int endIndex = Board.toIndex(new Point(p.x + dx, p.y + dy));

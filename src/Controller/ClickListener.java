@@ -18,9 +18,9 @@ public class ClickListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
             // Get the new mouse coordinates and handle the click
-            Point m = this.hBoard.getMousePosition();
+            Point m = hBoard.getMousePosition();
             if (m != null) {
-                this.hBoard.handleClick(m.x, m.y);
+                hBoard.handleClick(m.x, m.y);
             }
         }
 

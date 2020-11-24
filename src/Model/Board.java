@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@code Board} class represents a game state for checkers. A standard
- * checker board is 8 x 8 (64) tiles, alternating white/black. Checkers are
+ * The {@code Board} class represents a game state for soldiers. A standard
+ * soldier board is 8 x 8 (64) tiles, alternating white/black. soldiers are
  * only allowed on black tiles and can therefore only move diagonally. The
  * board is optimized to use as little memory space as possible and only uses
  * 3 integers to represent the state of the board (3 bits for each of the 32
@@ -14,7 +14,7 @@ import java.util.List;
  * <p>
  * This class uses integers to represent the state of each tile and
  * specifically uses these constants for IDs: {@link #EMPTY},
- * {@link #BLACK_CHECKER}, {@link #WHITE_CHECKER}, {@link #BLACK_QUEEN},
+ * {@link #BLACK_SOLDIER}, {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN},
  * {@link #WHITE_QUEEN}.
  * <p>
  * Tile states can be retrieved through {@link #get(int)} and
@@ -24,29 +24,29 @@ import java.util.List;
  */
 public class Board {
 	
-	/** An ID indicating a point was not on the checker board. */
+	/** An ID indicating a point was not on the Hamka board. */
 	public static final int INVALID = -1;
 
-	/** The ID of an empty checker board tile. */
+	/** The ID of an empty Hamka board tile. */
 	public static final int EMPTY = 0;
 
-	/** The ID of a white checker in the checker board. */
-	public static final int BLACK_CHECKER = 4 * 1 + 2 * 1 + 1 * 0;
+	/** The ID of a white soldier in the Hamka board. */
+	public static final int BLACK_SOLDIER = 4 * 1 + 2 * 1 + 1 * 0;
 	
-	/** The ID of a white checker in the checker board. */
-	public static final int WHITE_CHECKER = 4 * 1 + 2 * 0 + 1 * 0;
+	/** The ID of a white soldier in the Hamka board. */
+	public static final int WHITE_SOLDIER = 4 * 1 + 2 * 0 + 1 * 0;
 
-	/** The ID of a black checker that is also a queen. */
+	/** The ID of a black soldier that is also a queen. */
 	public static final int BLACK_QUEEN = 4 * 1 + 2 * 1 + 1 * 1;
 	
-	/** The ID of a white checker that is also a queen. */
+	/** The ID of a white soldier that is also a queen. */
 	public static final int WHITE_QUEEN = 4 * 1 + 2 * 0 + 1 * 1;
 
 	/** The current state of the board, represented as three integers. */
 	private int[] state;
 	
 	/**
-	 * Constructs a new checker game board, pre-filled with a new game state.
+	 * Constructs a new Hamka game board, pre-filled with a new game state.
 	 */
 	public Board() {
 		reset();
@@ -56,7 +56,7 @@ public class Board {
 	 * Creates an exact copy of the board. Any changes made to the copy will
 	 * not affect the current object.
 	 * 
-	 * @return a copy of this checker board.
+	 * @return a copy of this Hamka board.
 	 */
 	public Board copy() {
 		Board copy = new Board();
@@ -65,22 +65,22 @@ public class Board {
 	}
 	
 	/**
-	 * Resets the checker board to the original game state with black checkers
-	 * on top and white on the bottom. There are both 12 black checkers and 12
-	 * white checkers.
+	 * Resets the Hamka board to the original game state with black soldiers
+	 * on top and white on the bottom. There are both 12 black soldiers and 12
+	 * white soldiers.
 	 */
 	public void reset() {
 
 		// Reset the state
 		this.state = new int[3];
 		for (int i = 0; i < 12; i ++) {
-			set(i, BLACK_CHECKER);
-			set(31 - i, WHITE_CHECKER);
+			set(i, BLACK_SOLDIER);
+			set(31 - i, WHITE_SOLDIER);
 		}
 	}
 	
 	/**
-	 * Searches through the checker board and finds black tiles that match the
+	 * Searches through the Hamka board and finds black tiles that match the
 	 * specified ID.
 	 * 
 	 * @param id	the ID to search for.
@@ -108,8 +108,8 @@ public class Board {
 	 * @param x		the x-coordinate on the board (from 0 to 7 inclusive).
 	 * @param y		the y-coordinate on the board (from 0 to 7 inclusive).
 	 * @param id	the new ID to set the black tile to.
-	 * @see {@link #set(int, int)}, {@link #EMPTY}, {@link #BLACK_CHECKER},
-	 * {@link #WHITE_CHECKER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
+	 * @see {@link #set(int, int)}, {@link #EMPTY}, {@link #BLACK_SOLDIER},
+	 * {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
 	 */
 	public void set(int x, int y, int id) {
 		set(toIndex(x, y), id);
@@ -122,8 +122,8 @@ public class Board {
 	 * 
 	 * @param index	the index of the black tile (from 0 to 31 inclusive).
 	 * @param id	the new ID to set the black tile to.
-	 * @see {@link #set(int, int, int)}, {@link #EMPTY}, {@link #BLACK_CHECKER},
-	 * {@link #WHITE_CHECKER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
+	 * @see {@link #set(int, int, int)}, {@link #EMPTY}, {@link #BLACK_SOLDIER},
+	 * {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
 	 */
 	public void set(int index, int id) {
 		
@@ -145,7 +145,7 @@ public class Board {
 	}
 	
 	/**
-	 * Gets the ID corresponding to the specified point on the checker board.
+	 * Gets the ID corresponding to the specified point on the Hamka board.
 	 * 
 	 * @param x	the x-coordinate on the board (from 0 to 7 inclusive).
 	 * @param y	the y-coordinate on the board (from 0 to 7 inclusive).
@@ -159,7 +159,7 @@ public class Board {
 	}
 	
 	/**
-	 * Gets the ID corresponding to the specified point on the checker board.
+	 * Gets the ID corresponding to the specified point on the Hamka board.
 	 * 
 	 * @param index	the index of the black tile (from 0 to 31 inclusive).
 	 * @return the ID at the specified location or {@link #INVALID} if the
@@ -191,7 +191,7 @@ public class Board {
 	}
 	
 	/**
-	 * Converts a point to an index of a black tile on the checker board, such
+	 * Converts a point to an index of a black tile on the Hamka board, such
 	 * that (1, 0) is index 0, (3, 0) is index 1, ... (7, 7) is index 31.
 	 * 
 	 * @param x	the x-coordinate on the board (from 0 to 7 inclusive).
@@ -211,7 +211,7 @@ public class Board {
 	}
 	
 	/**
-	 * Converts a point to an index of a black tile on the checker board, such
+	 * Converts a point to an index of a black tile on the Hamka board, such
 	 * that (1, 0) is index 0, (3, 0) is index 1, ... (7, 7) is index 31.
 	 * 
 	 * @param p	the point to convert to an index.
@@ -272,10 +272,10 @@ public class Board {
 	}
 	
 	/**
-	 * Gets the middle point on the checker board between two points.
+	 * Gets the middle point on the Hamka board between two points.
 	 * 
-	 * @param p1	the first point of a black tile on the checker board.
-	 * @param p2	the second point of a black tile on the checker board.
+	 * @param p1	the first point of a black tile on the Hamka board.
+	 * @param p2	the second point of a black tile on the Hamka board.
 	 * @return the middle point between two points or (-1, -1) if the points
 	 * are not on the board, are not distance 2 from each other in x and y,
 	 * or are on a white tile.
@@ -292,7 +292,7 @@ public class Board {
 	}
 	
 	/**
-	 * Gets the middle point on the checker board between two points.
+	 * Gets the middle point on the Hamka board between two points.
 	 * 
 	 * @param index1	the index of the first point (from 0 to 31 inclusive).
 	 * @param index2	the index of the second point (from 0 to 31 inclusive).
@@ -306,7 +306,7 @@ public class Board {
 	}
 	
 	/**
-	 * Gets the middle point on the checker board between two points.
+	 * Gets the middle point on the Hamka board between two points.
 	 * 
 	 * @param x1	the x-coordinate of the first point.
 	 * @param y1	the y-coordinate of the first point.
@@ -334,7 +334,7 @@ public class Board {
 	}
 	
 	/**
-	 * Checks if an index corresponds to a black tile on the checker board.
+	 * Checks if an index corresponds to a black tile on the Hamka board.
 	 * 
 	 * @param testIndex	the index to check.
 	 * @return true if and only if the index is between 0 and 31 inclusive.
@@ -344,7 +344,7 @@ public class Board {
 	}
 	
 	/**
-	 * Checks if a point corresponds to a black tile on the checker board.
+	 * Checks if a point corresponds to a black tile on the Hamka board.
 	 * 
 	 * @param testPoint	the point to check.
 	 * @return true if and only if the point is on the board, specifically on

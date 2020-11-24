@@ -17,10 +17,10 @@ import Model.Game;
 import Model.Player;
 
 /**
- * The {@code CheckerBoard} class is a graphical user interface component that
- * is capable of drawing any checkers game state. It also handles player turns.
+ * The {@code HamkaBoard} class is a graphical user interface component that
+ * is capable of drawing any Hamka game state. It also handles player turns.
  * For human players, this means interacting with and selecting tiles on the
- * checker board. For non-human players, this means using the logic implemented
+ * Hamka board. For non-human players, this means using the logic implemented
  * by the specified player object itself is used.
  */
 public class HamkaBoard extends JButton {
@@ -31,22 +31,22 @@ public class HamkaBoard extends JButton {
 	private static final int TIMER_DELAY = 1000;
 	
 	/** The number of pixels of padding between this component's border and the
-	 * actual checker board that is drawn. */
+	 * actual Hamka board that is drawn. */
 	private static final int PADDING = 16;
 
-	/** The game of checkers that is being played on this component. */
+	/** The game of Hamka that is being played on this component. */
 	private Game game;
 	
-	/** The window containing this checker board UI component. */
+	/** The window containing this Hamka board UI component. */
 	private HamkaWindow window;
 	
-	/** The player in control of the black checkers. */
+	/** The player in control of the black soldiers. */
 	private Player player1;
 	
-	/** The player in control of the white checkers. */
+	/** The player in control of the white soldiers. */
 	private Player player2;
 	
-	/** The last point that the current player selected on the checker board. */
+	/** The last point that the current player selected on the Hamka board. */
 	private Point selected;
 	
 	/** The flag to determine the colour of the selected tile. If the selection
@@ -139,7 +139,7 @@ public class HamkaBoard extends JButton {
 
 	
 	/**
-	 * Draws the current checkers game state.
+	 * Draws the current Hamka game state.
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -156,9 +156,9 @@ public class HamkaBoard extends JButton {
 		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * PADDING) / 8;
 		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
 		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
-		final int CHECKER_SIZE = Math.max(0, BOX_SIZE - 2 * BOX_PADDING);
+		final int SOLDIER_SIZE = Math.max(0, BOX_SIZE - 2 * BOX_PADDING);
 		
-		// Draw checker board
+		// Draw Hamka board
 		g.setColor(Color.BLACK);
 		g.drawRect(OFFSET_X - 1, OFFSET_Y - 1, BOX_SIZE * 8 + 1, BOX_SIZE * 8 + 1);
 		g.setColor(lightTile);
@@ -180,7 +180,7 @@ public class HamkaBoard extends JButton {
 
 		}
 		
-		// Draw the checkers
+		// Draw the soldiers
 		Board b = game.getBoard();
 		for (int y = 0; y < 8; y ++) {
 			int cy = OFFSET_Y + y * BOX_SIZE + BOX_PADDING;
@@ -194,63 +194,63 @@ public class HamkaBoard extends JButton {
 				
 				int cx = OFFSET_X + x * BOX_SIZE + BOX_PADDING;
 				
-				// Black checker
-				if (id == Board.BLACK_CHECKER) {
+				// Black soldier
+				if (id == Board.BLACK_SOLDIER) {
 					g.setColor(Color.DARK_GRAY);
-					g.fillOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
-					g.drawOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.BLACK);
-					g.fillOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
-					g.drawOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 				}
 				
 				// Black queen
 				else if (id == Board.BLACK_QUEEN) {
 					g.setColor(Color.DARK_GRAY);
-					g.fillOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
-					g.drawOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
-					g.fillOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
-					g.drawOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.BLACK);
-					g.fillOval(cx - 1, cy - 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx - 1, cy - 2, SOLDIER_SIZE, SOLDIER_SIZE);
 				}
 				
-				// White checker
-				else if (id == Board.WHITE_CHECKER) {
+				// White soldier
+				else if (id == Board.WHITE_SOLDIER) {
 					g.setColor(Color.LIGHT_GRAY);
-					g.fillOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
-					g.drawOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.WHITE);
-					g.fillOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
-					g.drawOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 				}
 				
 				// White queen
 				else if (id == Board.WHITE_QUEEN) {
 					g.setColor(Color.LIGHT_GRAY);
-					g.fillOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
-					g.drawOval(cx + 1, cy + 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
-					g.fillOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
-					g.drawOval(cx, cy, CHECKER_SIZE, CHECKER_SIZE);
+					g.drawOval(cx, cy, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.WHITE);
-					g.fillOval(cx - 1, cy - 2, CHECKER_SIZE, CHECKER_SIZE);
+					g.fillOval(cx - 1, cy - 2, SOLDIER_SIZE, SOLDIER_SIZE);
 				}
 				
 				// Any queen (add some extra highlights)
 				if (id == Board.BLACK_QUEEN || id == Board.WHITE_QUEEN) {
 					g.setColor(new Color(255, 240,0));
-					g.drawOval(cx - 1, cy - 2, CHECKER_SIZE, CHECKER_SIZE);
-					g.drawOval(cx + 1, cy, CHECKER_SIZE - 4, CHECKER_SIZE - 4);
+					g.drawOval(cx - 1, cy - 2, SOLDIER_SIZE, SOLDIER_SIZE);
+					g.drawOval(cx + 1, cy, SOLDIER_SIZE - 4, SOLDIER_SIZE - 4);
 				}
 			}
 		}
@@ -393,17 +393,17 @@ public class HamkaBoard extends JButton {
 	 * @param b			the current board.
 	 * @param isP1Turn	the flag indicating if it is player 1's turn.
 	 * @param selected	the point to test.
-	 * @return true if and only if the selected point is a checker that would
+	 * @return true if and only if the selected point is a soldier that would
 	 * be allowed to make a move in the current turn.
 	 */
 	private boolean isValidSelection(Board b, boolean isP1Turn, Point selected) {
 
 		// Trivial cases
 		int i = Board.toIndex(selected), id = b.get(i);
-		if (id == Board.EMPTY || id == Board.INVALID) { // no checker here
+		if (id == Board.EMPTY || id == Board.INVALID) { // no soldier here
 			return false;
-		} else if(isP1Turn ^ (id == Board.BLACK_CHECKER ||
-				id == Board.BLACK_QUEEN)) { // wrong checker
+		} else if(isP1Turn ^ (id == Board.BLACK_SOLDIER ||
+				id == Board.BLACK_QUEEN)) { // wrong soldier
 			return false;
 		} else if (!MoveMore.getSkips(b, i).isEmpty()) { // skip available
 			return true;
@@ -411,17 +411,17 @@ public class HamkaBoard extends JButton {
 			return false;
 		}
 		
-		// Determine if there is a skip available for another checker
+		// Determine if there is a skip available for another soldier
 		List<Point> points = b.find(
-				isP1Turn? Board.BLACK_CHECKER : Board.WHITE_CHECKER);
+				isP1Turn? Board.BLACK_SOLDIER : Board.WHITE_SOLDIER);
 		points.addAll(b.find(
 				isP1Turn? Board.BLACK_QUEEN : Board.WHITE_QUEEN));
 		for (Point p : points) {
-			int checker = Board.toIndex(p);
-			if (checker == i) {
+			int soldier = Board.toIndex(p);
+			if (soldier == i) {
 				continue;
 			}
-			if (!MoveMore.getSkips(b, checker).isEmpty()) {
+			if (!MoveMore.getSkips(b, soldier).isEmpty()) {
 				return false;
 			}
 		}
@@ -431,8 +431,8 @@ public class HamkaBoard extends JButton {
 
 	/**
 	 * The {@code ClickListener} class is responsible for responding to click
-	 * events on the checker board component. It uses the coordinates of the
-	 * mouse relative to the location of the checker board component.
+	 * events on the Hamka board component. It uses the coordinates of the
+	 * mouse relative to the location of the Hamka board component.
 	 */
 
 

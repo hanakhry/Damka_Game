@@ -4,12 +4,12 @@ import java.awt.Point;
 import java.util.List;
 
 /**
- * The {@code Game} class represents a game of checkers and ensures that all
- * moves made are valid as per the rules of checkers.
+ * The {@code Game} class represents a game of Hamka and ensures that all
+ * moves made are valid as per the rules of Hamka.
  */
 public class Game {
 
-	/** The current state of the checker board. */
+	/** The current state of the Hamka board. */
 	private Board board;
 	
 	/** The flag indicating if it is player 1's turn. */
@@ -47,7 +47,7 @@ public class Game {
 	}
 	
 	/**
-	 * Resets the game of checkers to the initial state.
+	 * Resets the game of Hamka to the initial state.
 	 */
 	public void restart() {
 		this.board = new Board();
@@ -92,14 +92,14 @@ public class Game {
 		this.board.set(midIndex, Board.EMPTY);
 		this.board.set(startIndex, Board.EMPTY);
 		
-		// Make the checker a queen if necessary
+		// Make the soldier a queen if necessary
 		Point end = Board.toPoint(endIndex);
 		int id = board.get(endIndex);
 		boolean switchTurn = false;
-		if (end.y == 0 && id == Board.WHITE_CHECKER) {
+		if (end.y == 0 && id == Board.WHITE_SOLDIER) {
 			this.board.set(endIndex, Board.WHITE_QUEEN);
 			switchTurn = true;
-		} else if (end.y == 7 && id == Board.BLACK_CHECKER) {
+		} else if (end.y == 7 && id == Board.BLACK_SOLDIER) {
 			this.board.set(endIndex, Board.BLACK_QUEEN);
 			switchTurn = true;
 		}
@@ -138,13 +138,13 @@ public class Game {
 	 */
 	public boolean isGameOver() {
 
-		// Ensure there is at least one of each checker
-		List<Point> black = board.find(Board.BLACK_CHECKER);
+		// Ensure there is at least one of each soldier
+		List<Point> black = board.find(Board.BLACK_SOLDIER);
 		black.addAll(board.find(Board.BLACK_QUEEN));
 		if (black.isEmpty()) {
 			return true;
 		}
-		List<Point> white = board.find(Board.WHITE_CHECKER);
+		List<Point> white = board.find(Board.WHITE_SOLDIER);
 		white.addAll(board.find(Board.WHITE_QUEEN));
 		if (white.isEmpty()) {
 			return true;

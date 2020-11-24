@@ -1,5 +1,7 @@
 package Model;
 
+import java.sql.Time;
+
 /**
  * The {@code Player} class is an abstract class that represents a player in a
  * game of checkers.
@@ -7,6 +9,8 @@ package Model;
 public class Player {
 
 	public String pUsername;
+	public int pScore;
+	public Time pTime;
 
 
 	/**

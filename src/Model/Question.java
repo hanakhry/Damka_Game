@@ -1,3 +1,5 @@
+package Model;
+
 import Utils.Level;
 import Utils.Constants;
 

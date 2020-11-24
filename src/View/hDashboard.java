@@ -24,9 +24,7 @@
  * 
  * 9.	The player with the black Soldiers moves first.
  */
-
 package View;
-
 import javax.swing.UIManager;
 
 public class hDashboard {

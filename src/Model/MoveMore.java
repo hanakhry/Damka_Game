@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * The {@code MoveGenerator} class provides a method for determining if a given
- * checker can make any move or skip.
+ * soldier can make any move or skip.
  */
 public class MoveMore {
 
@@ -132,8 +132,8 @@ public class MoveMore {
 			return false;
 		} else if (midID == Board.INVALID || midID == Board.EMPTY) {
 			return false;
-		} else if ((midID == Board.BLACK_CHECKER || midID == Board.BLACK_QUEEN)
-				^ (id == Board.WHITE_CHECKER || id == Board.WHITE_QUEEN)) {
+		} else if ((midID == Board.BLACK_SOLDIER || midID == Board.BLACK_QUEEN)
+				^ (id == Board.WHITE_SOLDIER || id == Board.WHITE_QUEEN)) {
 			return false;
 		}
 		
@@ -152,13 +152,13 @@ public class MoveMore {
 		
 		// Add points moving down
 		boolean isQueen = (id == Board.BLACK_QUEEN || id == Board.WHITE_QUEEN);
-		if (isQueen || id == Board.BLACK_CHECKER) {
+		if (isQueen || id == Board.BLACK_SOLDIER) {
 			points.add(new Point(p.x + delta, p.y + delta));
 			points.add(new Point(p.x - delta, p.y + delta));
 		}
 		
 		// Add points moving up
-		if (isQueen || id == Board.WHITE_CHECKER) {
+		if (isQueen || id == Board.WHITE_SOLDIER) {
 			points.add(new Point(p.x + delta, p.y - delta));
 			points.add(new Point(p.x - delta, p.y - delta));
 		}
