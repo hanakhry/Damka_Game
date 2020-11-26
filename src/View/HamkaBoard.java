@@ -1,38 +1,22 @@
 package View;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.Timer;
-import Model.MoveMore;
+import Controller.HamkaClickListener;
 import Model.Board;
 import Model.Game;
+import Model.MoveMore;
 import Model.Player;
+import Utils.Constants;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
- * The {@code HamkaBoard} class is a graphical user interface component that
+ * The HamkaBoard class is a graphical user interface component that
  * is capable of drawing any Hamka game state. It also handles player turns.
- * For human players, this means interacting with and selecting tiles on the
- * Hamka board. For non-human players, this means using the logic implemented
- * by the specified player object itself is used.
+ * This means interacting with and selecting tiles on the Hamka board.
  */
-public class HamkaBoard extends JButton {
 
-	private static final long serialVersionUID = -6014690893709316364L;
-	
-	/** The amount of milliseconds before a computer player takes a move. */
-	private static final int TIMER_DELAY = 1000;
-	
-	/** The number of pixels of padding between this component's border and the
-	 * actual Hamka board that is drawn. */
-	private static final int PADDING = 16;
+public class HamkaBoard extends JButton {
 
 	/** The game of Hamka that is being played on this component. */
 	private Game game;
@@ -62,23 +46,20 @@ public class HamkaBoard extends JButton {
 	
 	/** A convenience flag to check if the game is over. */
 	private boolean isGameOver;
-	
-	/** The timer to control how fast a computer player makes a move. */
-	private Timer timer;
-	
+
+
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game(), null, null);
 	}
 	
-	public HamkaBoard(HamkaWindow window, Game game,
-					  Player player1, Player player2) {
+	public HamkaBoard(HamkaWindow window, Game game, Player player1, Player player2) {
 		
 		// Setup the component
 		super.setBorderPainted(false);
 		super.setFocusPainted(false);
 		super.setContentAreaFilled(false);
 		super.setBackground(Color.LIGHT_GRAY);
-		this.addActionListener(new ClickListener());
+		this.addActionListener(new HamkaClickListener(HamkaBoard.this));
 		
 		// Setup the game
 		this.game = (game == null)? new Game() : game;
@@ -99,30 +80,16 @@ public class HamkaBoard extends JButton {
 	}
 	
 	private void runPlayer() {
-		
-		// Nothing to do
+
 		Player player = getCurrentPlayer();
 		if (player == null || player.isActive()) {
 			return;
 		}
-		
-		// Set a timer to run
-		this.timer = new Timer(TIMER_DELAY, new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getCurrentPlayer().updateGame(game);
-				timer.stop();
-				update();
-			}
-		});
-		this.timer.start();
 	}
-	
 
 	
-	public synchronized boolean setGameState(boolean testValue,
-			String newState, String expected) {
+	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
 		
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
@@ -146,14 +113,13 @@ public class HamkaBoard extends JButton {
 		super.paint(g);
 		
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Game game = this.game.copy();
 		
 		// Perform calculations
 		final int BOX_PADDING = 4;
 		final int W = getWidth(), H = getHeight();
-		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * PADDING) / 8;
+		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
 		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
 		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
 		final int SOLDIER_SIZE = Math.max(0, BOX_SIZE - 2 * BOX_PADDING);
@@ -261,8 +227,7 @@ public class HamkaBoard extends JButton {
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;
 		g.setColor(back);
-		g.fillRect(W / 2 - width / 2 - 5, OFFSET_Y + 8 * BOX_SIZE + 2,
-				width + 10, 15);
+		g.fillRect(W / 2 - width / 2 - 5, OFFSET_Y + 8 * BOX_SIZE + 2, width + 10, 15);
 		g.setColor(front);
 		g.drawString(msg, W / 2 - width / 2, OFFSET_Y + 8 * BOX_SIZE + 2 + 11);
 		
@@ -300,15 +265,15 @@ public class HamkaBoard extends JButton {
 		return player1;
 	}
 
+	public Player getPlayer2() {
+		return player2;
+	}
+
 	public void setPlayer1(Player player1) {
 		this.player1 = (player1 == null)? new Player() : player1;
 		if (game.isP1Turn() && !this.player1.isActive()) {
 			this.selected = null;
 		}
-	}
-
-	public Player getPlayer2() {
-		return player2;
 	}
 
 	public void setPlayer2(Player player2) {
@@ -339,17 +304,13 @@ public class HamkaBoard extends JButton {
 	}
 
 	/**
-	 * Handles a click on this component at the specified point. If the current
-	 * player is not human, this method does nothing. Otherwise, the selected
-	 * point is updated and a move is attempted if the last click and this one
-	 * both are on black tiles.
-	 * 
-	 * @param x	the x-coordinate of the click on this component.
-	 * @param y	the y-coordinate of the click on this component.
+	 * Handles a click on this component at the specified point.
+	 * Parameter x the x-coordinate of the click on this component.
+	 * Parameter y the y-coordinate of the click on this component.
 	 */
 	public void handleClick(int x, int y) {
-		
-		// The game is over or the current player isn't human
+
+
 		if (isGameOver || !getCurrentPlayer().isActive()) {
 			return;
 		}
@@ -358,7 +319,7 @@ public class HamkaBoard extends JButton {
 		
 		// Determine what square (if any) was selected
 		final int W = getWidth(), H = getHeight();
-		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * PADDING) / 8;
+		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
 		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
 		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
 		x = (x - OFFSET_X) / BOX_SIZE;
@@ -370,8 +331,7 @@ public class HamkaBoard extends JButton {
 			boolean change = copy.isP1Turn();
 			String expected = copy.getGameState();
 			boolean move = copy.move(selected, sel);
-			boolean updated = (move?
-					setGameState(true, copy.getGameState(), expected) : false);
+			boolean updated = (move? setGameState(true, copy.getGameState(), expected) : false);
 
 			change = (copy.isP1Turn() != change);
 			this.selected = change? null : sel;
@@ -389,11 +349,7 @@ public class HamkaBoard extends JButton {
 	/**
 	 * Checks if a selected point is valid in the context of the current
 	 * player's turn.
-	 * 
-	 * @param b			the current board.
-	 * @param isP1Turn	the flag indicating if it is player 1's turn.
-	 * @param selected	the point to test.
-	 * @return true if and only if the selected point is a soldier that would
+	 * Return true if and only if the selected point is a soldier that would
 	 * be allowed to make a move in the current turn.
 	 */
 	private boolean isValidSelection(Board b, boolean isP1Turn, Point selected) {
@@ -412,10 +368,8 @@ public class HamkaBoard extends JButton {
 		}
 		
 		// Determine if there is a skip available for another soldier
-		List<Point> points = b.find(
-				isP1Turn? Board.BLACK_SOLDIER : Board.WHITE_SOLDIER);
-		points.addAll(b.find(
-				isP1Turn? Board.BLACK_QUEEN : Board.WHITE_QUEEN));
+		List<Point> points = b.find(isP1Turn? Board.BLACK_SOLDIER : Board.WHITE_SOLDIER);
+		points.addAll(b.find(isP1Turn? Board.BLACK_QUEEN : Board.WHITE_QUEEN));
 		for (Point p : points) {
 			int soldier = Board.toIndex(p);
 			if (soldier == i) {
@@ -429,23 +383,5 @@ public class HamkaBoard extends JButton {
 		return true;
 	}
 
-	/**
-	 * The {@code ClickListener} class is responsible for responding to click
-	 * events on the Hamka board component. It uses the coordinates of the
-	 * mouse relative to the location of the Hamka board component.
-	 */
 
-
-	private class ClickListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			// Get the new mouse coordinates and handle the click
-			Point m = HamkaBoard.this.getMousePosition();
-			if (m != null) {
-				handleClick(m.x, m.y);
-			}
-		}
-	}
 }

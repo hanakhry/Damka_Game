@@ -1,7 +1,7 @@
 package Model;
 
-import Utils.Level;
 import Utils.Constants;
+import Utils.Level;
 
 import java.util.ArrayList;
 
@@ -12,11 +12,12 @@ public class Question<String> {
     private ArrayList<String> answers;
     private int IndexOfCorrectAnswer;
     private Level level;
+    private String team;
     private int pointAdded;
     private int pointDecreaced;
 
 
-    public Question(String question, ArrayList<String> answers, int indexOfCorrectAnswer, Level level) {
+    public Question(String question, ArrayList<String> answers, int indexOfCorrectAnswer, Level level, String team) {
         super();
         this.question = question;
         this.answers = answers;
@@ -36,6 +37,7 @@ public class Question<String> {
                 pointDecreaced = Constants.pointsDecreacedHardQ;
                 break;
         }
+        this.team = team;
 
     }
 
@@ -91,10 +93,14 @@ public class Question<String> {
 
     public void setNumOfQuestion(int numOfQuestion) { this.numOfQuestion = numOfQuestion; }
 
+    public String getTeam() { return team; }
+
+    public void  setTeam(String team) { this.team = team; }
+
     @Override
     public java.lang.String toString() {
         return("Question [question=" + question + ", answers=" + answers + ", IndexOfCorrectAnswer="
-                        + IndexOfCorrectAnswer + ", level=" + level + "]");
+                + IndexOfCorrectAnswer + ", level=" + level + ", team=" + team + "]");
     }
 
 

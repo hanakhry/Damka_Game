@@ -14,9 +14,9 @@
  * 5.	After a Soldier/king moves one space diagonally, the player's turn is
  * 		over.
  * 
- * 6.	If an opponent's Soldier/king can be skipped, it must be skipped.
+ * 6.	If an opponent's Soldier/Queen can be eaten, it must be eaten.
  * 
- * 7.	If after a skip, the same Soldier can skip again, it must. Otherwise,
+ * 7.	If after eating, the same Soldier can eat again, it must. Otherwise,
  * 		the turn is over.
  * 
  * 8.	The game is over if a player either has no more Soldiers or cannot make
@@ -24,24 +24,26 @@
  * 
  * 9.	The player with the black Soldiers moves first.
  */
-package View;
-import javax.swing.UIManager;
+package Controller;
 
-public class hDashboard {
+import View.MainMenu;
 
-	public static void main(String[] args) {
-		
-		//Set the look and feel to the OS look and feel
+import javax.swing.*;
+import java.io.IOException;
+
+public class MainGame {
+
+	public static void main(String[] args) throws IOException {
+
 		try {
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
+			
+			UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		// Create a window to display the checkers game
-		HamkaWindow window = new HamkaWindow();
-		window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+			e.printStackTrace(); }
+		MainMenu window = new MainMenu();
+		MainMenu.NewGame.addActionListener(new MMOptionListener(window,MainMenu.NewGame));
+		window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
 		window.setVisible(true);
+
 	}
 }

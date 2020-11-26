@@ -4,9 +4,9 @@ public enum Level {
 
     EASY(1),MEDIUM(2) , HARD(3);
 
-    private final int level;
+    public final int level;
 
-    private Level(int level) {
+    Level(int level) {
         this.level = level;
     }
 
@@ -20,4 +20,15 @@ public enum Level {
         return HARD;
     }
 
+    //cast level value to a number (String format)
+    public String castLevel(){
+        if(this.equals(Level.EASY)){
+            return "1";
+        } else if(this.equals(Level.MEDIUM)){
+            return "2";
+        } else
+            return "3";
+    }
+
 }
+

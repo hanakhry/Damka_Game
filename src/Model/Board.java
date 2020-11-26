@@ -5,22 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@code Board} class represents a game state for soldiers. A standard
+ * The Board class represents a game state for soldiers. A standard
  * soldier board is 8 x 8 (64) tiles, alternating white/black. soldiers are
  * only allowed on black tiles and can therefore only move diagonally. The
  * board is optimized to use as little memory space as possible and only uses
  * 3 integers to represent the state of the board (3 bits for each of the 32
- * tiles). This makes it fast and efficient to {@link #copy()} the board state.
- * <p>
+ * tiles). This makes it fast and efficient to the board state.
+ *
  * This class uses integers to represent the state of each tile and
- * specifically uses these constants for IDs: {@link #EMPTY},
- * {@link #BLACK_SOLDIER}, {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN},
- * {@link #WHITE_QUEEN}.
- * <p>
- * Tile states can be retrieved through {@link #get(int)} and
- * {@link #get(int, int)}. Tile states can be set through
- * {@link #set(int, int)} and {@link #set(int, int, int)}. The entire game can
- * be reset with {@link #reset()}.
+ * specifically uses these constants for IDs: Empty,
+ * Black_Soldier, White_Soldier, Black_Queen, White_Queen.
+ *
+ * Tile states can be retrieved through get(int) and get(int,int).
+ * And set through set(int,int) , set(int,int,int).
+ * Game can be reset through reset().
  */
 public class Board {
 	

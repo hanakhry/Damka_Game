@@ -1,27 +1,24 @@
 package View;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import Model.Player;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
- * The {@code CheckersWindow} class is responsible for managing a window. This
- * window contains a game of checkers and also options to change the settings
- * of the game with an {@link OptionPanel}.
+ * This class is responsible for managing a window. This
+ * window contains a game of Hamka and also options to save\pause\restart
  */
+
 public class HamkaWindow extends JFrame {
 
-	private static final long serialVersionUID = 8782122389400590079L;
-	
+
 	/** The default width for the checkers window. */
-	public static final int DEFAULT_WIDTH = 500;
+	public static final int DEFAULT_WIDTH = 620;
 	
 	/** The default height for the checkers window. */
-	public static final int DEFAULT_HEIGHT = 600;
+	public static final int DEFAULT_HEIGHT = 750;
 	
 	/** The default title for the checkers window. */
 	public static final String DEFAULT_TITLE = "Hamka Hedgehog";
@@ -29,7 +26,7 @@ public class HamkaWindow extends JFrame {
 	/** The checker board component playing the updatable game. */
 	private HamkaBoard board;
 	
-	private OptionPanel opts;
+	private HamkaOptionPanel opts;
 	
 
 	
@@ -48,13 +45,14 @@ public class HamkaWindow extends JFrame {
 		// Setup the window
 		super(title);
 		super.setSize(width, height);
-		super.setLocationByPlatform(true);
+		setLocationRelativeTo(null);
+
 		
 		// Setup the components
 		JPanel layout = new JPanel(new BorderLayout());
 
 		this.board = new HamkaBoard(this);
-		this.opts = new OptionPanel(this);
+		this.opts = new HamkaOptionPanel(this);
 		layout.add(board, BorderLayout.CENTER);
 		layout.add(opts, BorderLayout.SOUTH);
 		this.add(layout);
