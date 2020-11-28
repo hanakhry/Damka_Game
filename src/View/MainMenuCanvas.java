@@ -7,7 +7,8 @@ public class MainMenuCanvas extends Canvas{
 
         Toolkit t=Toolkit.getDefaultToolkit();
         Image i=t.getImage(this.getClass().getResource("/Images/board.png"));
-        g.drawImage(i, 17,5,this);
+        Dimension d = getSize();
+        g.drawImage(i, 1, 1, d.width, d.height, this);
 
     }
 }

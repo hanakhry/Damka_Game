@@ -13,11 +13,15 @@ public class MainMenu extends JFrame {
     /** The default title for the checkers window. */
     public static final String DEFAULT_TITLE = "Hamka Hedgehog";
 
-    public MainMenuCanvas mMC;
+    private MainMenuCanvas mMC;
+
+
+
     public static JButton NewGame;
     public static JButton LoadGame;
     public static JButton Questions;
     public static JButton LeaderBoard;
+    public static JButton ExitGame;
 
 
     public MainMenu() {
@@ -41,23 +45,25 @@ public class MainMenu extends JFrame {
 
 
         JPanel oPts= new JPanel();
-        oPts.setLayout(new GridLayout(4, 1));
+        oPts.setLayout(new GridLayout(5, 1));
         this.NewGame = new JButton("New Game");
-
         this.LoadGame = new JButton("Load Game");
         this.Questions = new JButton("Question Management");
         this.LeaderBoard = new JButton("Leader Board");
+        this.ExitGame = new JButton("Exit");
 
 
         oPts.add(NewGame);
         oPts.add(LoadGame);
         oPts.add(Questions);
         oPts.add(LeaderBoard);
+        oPts.add(ExitGame);
 
         layout.add(oPts);
         this.add(layout);
 
 
     }
+
 
 }

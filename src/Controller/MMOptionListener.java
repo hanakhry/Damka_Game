@@ -26,10 +26,16 @@ public class MMOptionListener implements ActionListener {
 
         // Handle the user action
         if (e.getSource() == btn) {
+            if(btn.getText()=="New Game"){
             mMenu.dispose();
             HamkaWindow window = new HamkaWindow();
             window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
             window.setVisible(true);
+        }
+            if(btn.getText()=="Exit"){
+                mMenu.dispose();
+
+            }
         }
 
     }

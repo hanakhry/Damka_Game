@@ -49,7 +49,10 @@ public class Board {
 	public Board() {
 		reset();
 	}
-	
+
+	public Board(ArrayList<Integer> tiles){
+		//TODO
+	}
 	/**
 	 * Creates an exact copy of the board. Any changes made to the copy will
 	 * not affect the current object.
@@ -81,8 +84,8 @@ public class Board {
 	 * Searches through the Hamka board and finds black tiles that match the
 	 * specified ID.
 	 * 
-	 * @param id	the ID to search for.
-	 * @return a list of points on the board with the specified ID. If none
+	 * id = the ID to search for.
+	 * Return a list of points on the board with the specified ID. If none
 	 * exist, an empty list is returned.
 	 */
 	public List<Point> find(int id) {
@@ -101,13 +104,11 @@ public class Board {
 	/**
 	 * Sets the ID of a black tile on the board at the specified location.
 	 * If the location is not a black tile, nothing is updated. If the ID is
-	 * less than 0, the board at the location will be set to {@link #EMPTY}.
+	 * less than 0, the board at the location will be set to empty.
 	 * 
-	 * @param x		the x-coordinate on the board (from 0 to 7 inclusive).
-	 * @param y		the y-coordinate on the board (from 0 to 7 inclusive).
-	 * @param id	the new ID to set the black tile to.
-	 * @see {@link #set(int, int)}, {@link #EMPTY}, {@link #BLACK_SOLDIER},
-	 * {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
+	 * x , the x-coordinate on the board (from 0 to 7 inclusive).
+	 * y , the y-coordinate on the board (from 0 to 7 inclusive).
+	 * id, the new ID to set the black tile to.
 	 */
 	public void set(int x, int y, int id) {
 		set(toIndex(x, y), id);

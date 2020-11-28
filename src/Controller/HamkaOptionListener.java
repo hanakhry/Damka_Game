@@ -1,6 +1,8 @@
 package Controller;
 
 import View.HamkaWindow;
+import View.MainMenu;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +14,12 @@ import java.awt.event.ActionListener;
 public class HamkaOptionListener implements ActionListener {
 
     private HamkaWindow hWindow;
-    private JButton restartBtn;
+    private JButton btn;
 
-    public HamkaOptionListener(HamkaWindow hWindow, JButton restartBtn)
+    public HamkaOptionListener(HamkaWindow hWindow, JButton button)
     {
         this.hWindow = hWindow;
-        this.restartBtn=restartBtn;
+        this.btn=button;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -28,8 +30,17 @@ public class HamkaOptionListener implements ActionListener {
         }
 
         // Handle the user action
-        if (e.getSource() == restartBtn) {
-            hWindow.restart();
+        if (e.getSource() == btn) {
+            if(btn.getText()=="Restart")hWindow.restart();
+            if(btn.getText()=="Quit Game"){
+                hWindow.dispose();
+                MainMenu window = new MainMenu();
+                MainMenu.NewGame.addActionListener(new MMOptionListener(window,MainMenu.NewGame));
+                MainMenu.ExitGame.addActionListener(new MMOptionListener(window,MainMenu.ExitGame));
+                window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
+                window.setVisible(true);
+            }
+
         }
     }
 }

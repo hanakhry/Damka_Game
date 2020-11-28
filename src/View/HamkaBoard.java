@@ -6,6 +6,7 @@ import Model.Game;
 import Model.MoveMore;
 import Model.Player;
 import Utils.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -37,7 +38,8 @@ public class HamkaBoard extends JButton {
 	 * is valid, a green colour is used to highlight the tile. Otherwise, a red
 	 * colour is used. */
 	private boolean selectionValid;
-	
+
+
 	/** The colour of the light tiles (by default, this is white). */
 	private Color lightTile;
 
@@ -77,6 +79,8 @@ public class HamkaBoard extends JButton {
 		runPlayer();
 		this.isGameOver = game.isGameOver();
 		repaint();
+
+
 	}
 	
 	private void runPlayer() {
@@ -140,9 +144,10 @@ public class HamkaBoard extends JButton {
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected)) {
 			g.setColor(selectionValid? Color.GREEN : Color.RED);
-			g.fillRect(OFFSET_X + selected.x * BOX_SIZE,
-					OFFSET_Y + selected.y * BOX_SIZE,
-					BOX_SIZE, BOX_SIZE);
+			g.fillRect(OFFSET_X + selected.x * BOX_SIZE, OFFSET_Y + selected.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+
+
+
 
 		}
 		
@@ -222,7 +227,7 @@ public class HamkaBoard extends JButton {
 		}
 		
 		// Draw the player turn sign
-		String msg = game.isP1Turn()? "Player 1's turn" : "Player 2's turn";
+		String msg = game.isP1Turn()? "Black Player turn" : "White Player turn";
 		int width = g.getFontMetrics().stringWidth(msg);
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;

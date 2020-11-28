@@ -24,6 +24,7 @@ public class HamkaClickListener implements ActionListener {
             Point m = hBoard.getMousePosition();
             if (m != null) {
                 hBoard.handleClick(m.x, m.y);
+                hBoard.repaint();
             }
         }
 }

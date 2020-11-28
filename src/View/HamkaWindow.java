@@ -88,8 +88,12 @@ public class HamkaWindow extends JFrame {
 	 * Resets the game of checkers in the window.
 	 */
 	public void restart() {
+
 		this.board.getGame().restart();
 		this.board.update();
+		this.board.handleClick(0,0);
+
+
 	}
 	
 	public void setGameState(String state) {

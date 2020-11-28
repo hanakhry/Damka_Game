@@ -2,8 +2,11 @@ package View;
 
 import Controller.HamkaOptionListener;
 import Model.Player;
+
 import javax.swing.*;
 import java.awt.*;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * This class provides a user interface component to control
@@ -21,6 +24,8 @@ public class HamkaOptionPanel extends JPanel {
 	private JButton saveBtn;
 	/** The button that when clicked, pauses the game. */
 	private JButton pauseBtn;
+	/** The button that when clicked, Quit to Main Menu. */
+	private JButton quitBtn;
 
 	/**
 	 * Creates a new option panel for the specified Hamka window.
@@ -35,8 +40,9 @@ public class HamkaOptionPanel extends JPanel {
 		this.pauseBtn = new JButton("Pause");
 		this.restartBtn = new JButton("Restart");
 		this.saveBtn = new JButton("Save");
+		this.quitBtn = new JButton("Quit Game");
 		this.restartBtn.addActionListener(new HamkaOptionListener(this.window,this.restartBtn));
-
+		this.quitBtn.addActionListener(new HamkaOptionListener(this.window,this.quitBtn));
 
 
 		// Add components to the layout
@@ -48,19 +54,21 @@ public class HamkaOptionPanel extends JPanel {
 		JPanel bottom2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 		top2.add(new JLabel("Total Time:  "));
+		top2.add(new JLabel(DateFormat.getDateTimeInstance().format(new Date())));
 		top.add(pauseBtn);
 		top.add(saveBtn);
 		top.add(restartBtn);
+		top.add(quitBtn);
 		this.add(top2);
 		this.add(top);
 
-		middle.add(new JLabel("(black) Player 1 Score: "));
+		middle.add(new JLabel("Black Player Score: "));
 		this.add(middle);
-		middle2.add(new JLabel("(black) Player 1 Time: "));
+		middle2.add(new JLabel("Black Player Time: "));
 		this.add(middle2);
-		bottom.add(new JLabel("(white) Player 2 Score: "));
+		bottom.add(new JLabel("White Player Score: "));
 		this.add(bottom);
-		bottom2.add(new JLabel("(white) Player 2 Time: "));
+		bottom2.add(new JLabel("White Player Time: "));
 		this.add(bottom2);
 
 	}

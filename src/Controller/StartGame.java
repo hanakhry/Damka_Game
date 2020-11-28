@@ -31,7 +31,7 @@ import View.MainMenu;
 import javax.swing.*;
 import java.io.IOException;
 
-public class MainGame {
+public class StartGame {
 
 	public static void main(String[] args) throws IOException {
 
@@ -42,6 +42,7 @@ public class MainGame {
 			e.printStackTrace(); }
 		MainMenu window = new MainMenu();
 		MainMenu.NewGame.addActionListener(new MMOptionListener(window,MainMenu.NewGame));
+		MainMenu.ExitGame.addActionListener(new MMOptionListener(window,MainMenu.ExitGame));
 		window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
 		window.setVisible(true);
 

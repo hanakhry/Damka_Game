@@ -2,32 +2,33 @@ package Model;
 
 import Utils.Level;
 import org.json.simple.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
+import java.io.*;
+import java.util.*;
 
 
 public final class SysData {
     private static SysData instance;
     //HashMap key: question difficulty level, value: all questions of such difficulty
     private final HashMap<Level, ArrayList<Question>> questions = new HashMap();
+    private final HashMap<Integer, Game> games = new HashMap();
 
-    public SysData(){}
 
+    public SysData(){
+
+    }
+    //singeltone
     public static SysData getInstance() {
         if (instance == null) {
-            //instance = ; TODO
-        }
-
-        return instance;
+            instance = new SysData();
+            return instance;
+        } else
+            return instance;
     }
 
+
     public HashMap<Level, ArrayList<Question>> getQuestions() { return this.questions; }
+    public  HashMap<Integer, Game> games() { return this.games; }
 
     public void importQuestionsFromJSON(String path) {
         try (FileReader reader = new FileReader(new File(path))) {
@@ -210,5 +211,87 @@ public final class SysData {
 
         return 1;
     }
+
+    //import all games from JSON
+    public void importGamesFromJSON(String path) {
+        try (FileReader reader = new FileReader(new File(path))) {
+            JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
+            JsonArray gameObj = (JsonArray) doc.get("games");
+            Iterator<Object> iterator = gameObj.iterator();
+            while (iterator.hasNext()) {
+                JsonObject obj = (JsonObject) iterator.next();
+                int id = Integer.parseInt((String) obj.get("Id"));
+                ArrayList<Integer> tiles = (ArrayList<Integer>) obj.get("Tiles");
+                String turn = (String) obj.get("Turn");
+                Boolean isTurn = false;
+                if(turn.equals("B")){
+                    isTurn = true;
+                }
+                Game newGame = new Game(id, tiles, isTurn);
+                games.put(id, newGame);
+            }
+
+        } catch (IOException | DeserializationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    //add game to json(Save)
+    public void addGameToJSON(String path, Game game) throws IOException {
+        //array that holds all of the existing questions
+        ArrayList<Game> appendList = new ArrayList<>();
+        ArrayList<Integer> tiles = new ArrayList<Integer>();
+        if(games.isEmpty()){
+            importGamesFromJSON("JSON/games.JSON");
+        }
+
+        for (Map.Entry<Integer, Game> entry : games.entrySet()) {
+            appendList.add(entry.getValue());
+        }
+        try {
+            //new array to hold the questions
+            JsonArray games = new JsonArray();
+
+            //add the question to array
+            JsonObject jsonObject = new JsonObject();
+            //~~~~~~
+            jsonObject.put("Id", game.getId());
+            //game -> get tiles
+            //get ->(boolean)turn -> B/W
+            jsonObject.put("Tiles", game.getBoard());
+            String turn;
+            boolean isP1Turn=game.isP1Turn();
+            if(isP1Turn==true)
+                turn="B";
+            turn="W";
+            jsonObject.put("Turn", turn);
+
+            //add already existing objects back into the file
+            for(Game q : appendList){
+                //~~~~~
+                jsonObject.put("Id", game.getId());
+                //game -> get tiles
+                //get ->(boolean)turn -> B/W
+                jsonObject.put("Tiles", game.getBoard());
+                String turn1;
+                boolean isP1Turn1=game.isP1Turn();
+                if(isP1Turn1==true)
+                    turn1="B";
+                turn1="W";
+                jsonObject.put("Turn", turn1);
+            }
+
+            JsonObject doc = new JsonObject();
+            doc.put("games", games);
+
+            writeToFile(path, doc);
+        } catch ( NullPointerException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

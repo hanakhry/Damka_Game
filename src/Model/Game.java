@@ -1,6 +1,7 @@
 package Model;
 
-import java.awt.Point;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,8 @@ import java.util.List;
  * moves made are valid as per the rules of Hamka.
  */
 public class Game {
-
+	/** The ID for game.*/
+	private int id;
 	/** The current state of the Hamka board. */
 	private Board board;
 	
@@ -17,6 +19,8 @@ public class Game {
 	
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
+	private int player1Score;
+	private int player2Score;
 	
 	public Game() {
 		restart();
@@ -25,11 +29,20 @@ public class Game {
 	public Game(String state) {
 		setGameState(state);
 	}
-	
-	public Game(Board board, boolean isP1Turn, int skipIndex) {
+
+	public Game(int id,Board board, boolean isP1Turn, int skipIndex,int player1Score,int player2Score) {
+		this.id=id;
 		this.board = (board == null)? new Board() : board;
 		this.isP1Turn = isP1Turn;
 		this.skipIndex = skipIndex;
+		this.player1Score=player1Score;
+		this.player2Score=player2Score;
+	}
+	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
+		this.id = id;
+		//TODO board cons from tiles
+		this.board = new Board(tiles);
+		this.isP1Turn = isP1Turn;
 	}
 	
 	/**
@@ -51,7 +64,7 @@ public class Game {
 	 */
 	public void restart() {
 		this.board = new Board();
-		this.isP1Turn = true;
+		this.isP1Turn = false;
 		this.skipIndex = -1;
 	}
 	
@@ -197,7 +210,16 @@ public class Game {
 		
 		return state;
 	}
-	
+	public int getId() { return id; }
+
+	public void setId(int id) { this.id = id; }
+	public int getPlayer1Score() { return player1Score; }
+
+	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }
+
+	public int getPlayer2Score() { return player2Score; }
+
+	public void setPlayer2Score(int player2Score) { this.player2Score = player2Score; }
 	/**
 	 * Parses a string representing a game state that was generated from
 	 * {@link #getGameState()}.
@@ -235,4 +257,6 @@ public class Game {
 			}
 		}
 	}
+
+
 }
