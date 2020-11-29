@@ -6,33 +6,18 @@ import java.util.List;
 
 
 /**
- * The {@code MoveGenerator} class provides a method for determining if a given
+ * The MoveGenerator class provides a method for determining if a given
  * soldier can make any move or skip.
  */
 public class MoveMore {
 
 	/**
 	 * Gets a list of move end-points for a given start index.
-	 * 
-	 * @param board	the board to look for available moves.
-	 * @param start	the center index to look for moves around.
-	 * @return the list of points such that the start to a given point
-	 * represents a move available.
-	 * @see {@link #getMoves(Board, int)}
+	 * board, the board to look for available moves.
+	 * start, the center index to look for moves around.
+	 * return the list of points such that the start to a given point represents a move available.
 	 */
-	public static List<Point> getMoves(Board board, Point start) {
-		return getMoves(board, Board.toIndex(start));
-	}
-	
-	/**
-	 * Gets a list of move end-points for a given start index.
-	 * 
-	 * @param board			the board to look for available moves.
-	 * @param startIndex	the center index to look for moves around.
-	 * @return the list of points such that the start to a given point
-	 * represents a move available.
-	 * @see {@link #getMoves(Board, Point)}
-	 */
+
 	public static List<Point> getMoves(Board board, int startIndex) {
 		
 		// Trivial cases
@@ -56,29 +41,19 @@ public class MoveMore {
 		
 		return endPoints;
 	}
+
+	public static List<Point> getMoves(Board board, Point start) {
+		return getMoves(board, Board.toIndex(start));
+	}
 	
 	/**
 	 * Gets a list of skip end-points for a given starting point.
 	 * 
-	 * @param board	the board to look for available skips.
-	 * @param start	the center index to look for skips around.
-	 * @return the list of points such that the start to a given point
-	 * represents a skip available.
-	 * @see {@link #getSkips(Board, int)}
+	 * board, the board to look for available skips.
+	 * start, the center index to look for skips around.
+	 * return the list of points such that the start to a given point represents a skip available.
 	 */
-	public static List<Point> getSkips(Board board, Point start) {
-		return getSkips(board, Board.toIndex(start));
-	}
-	
-	/**
-	 * Gets a list of skip end-points for a given start index.
-	 * 
-	 * @param board			the board to look for available skips.
-	 * @param startIndex	the center index to look for skips around.
-	 * @return the list of points such that the start to a given point
-	 * represents a skip available.
-	 * @see {@link #getSkips(Board, Point)}
-	 */
+
 	public static List<Point> getSkips(Board board, int startIndex) {
 		
 		// Trivial cases
@@ -104,15 +79,19 @@ public class MoveMore {
 
 		return endPoints;
 	}
-	
+
+	public static List<Point> getSkips(Board board, Point start) {
+		return getSkips(board, Board.toIndex(start));
+	}
+
 	/**
 	 * Checks if a skip is valid.
-	 * 
-	 * @param board			the board to check against.
-	 * @param startIndex	the start index of the skip.
-	 * @param endIndex		the end index of the skip.
-	 * @return true if and only if the skip can be performed.
+	 * board, the board to check against.
+	 * startIndex, the start index of the skip.
+	 * endIndex, the end index of the skip.
+	 * return true if and only if the skip can be performed.
 	 */
+
 	public static boolean isValidSkip(Board board,
 			int startIndex, int endIndex) {
 		
@@ -142,11 +121,10 @@ public class MoveMore {
 	
 	/**
 	 * Adds points that could potentially result in moves/skips.
-	 * 
-	 * @param points	the list of points to add to.
-	 * @param p			the center point.
-	 * @param id		the ID at the center point.
-	 * @param delta		the amount to add/subtract.
+	 * points, the list of points to add to.
+	 * p, the center point.
+	 * id, the ID at the center point.
+	 * delta, the amount to add/subtract.
 	 */
 	public static void addPoints(List<Point> points, Point p, int id, int delta) {
 		

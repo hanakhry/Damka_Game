@@ -17,7 +17,7 @@ public final class SysData {
     public SysData(){
 
     }
-    //singeltone
+    //singletone
     public static SysData getInstance() {
         if (instance == null) {
             instance = new SysData();

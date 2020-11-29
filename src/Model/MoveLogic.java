@@ -5,19 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@code MoveLogic} class determines what a valid move is. It fully
+ * The MoveLogic class determines what a valid move is. It fully
  * implements all the rules of Hamka.
  */
 public class MoveLogic {
 
 	/**
 	 * Determines if the specified move is valid based on the rules of Hamka.
-	 * 
-	 * @param game			the game to check against.
-	 * @param startIndex	the start index of the move.
-	 * @param endIndex		the end index of the move.
-	 * @return true if the move is legal according to the rules of Hamka.
-	 * @see {@link #isValidMove(Board, boolean, int, int, int)}
+	 * parameter game, the game to check against.
+	 * parameter startIndex, the start index of the move.
+	 * parameter endIndex, the end index of the move.
+	 * return true if the move is legal according to the rules of Hamka.
 	 */
 	public static boolean isValidMove(Game game,
 			int startIndex, int endIndex) {
@@ -28,13 +26,12 @@ public class MoveLogic {
 	/**
 	 * Determines if the specified move is valid based on the rules of Hamka.
 	 * 
-	 * @param board			the current board to check against.
-	 * @param isP1Turn		the flag indicating if it is player 1's turn.
-	 * @param startIndex	the start index of the move.
-	 * @param endIndex		the end index of the move.
-	 * @param skipIndex		the index of the last skip this turn.
-	 * @return true if the move is legal according to the rules of Hamka.
-	 * @see {@link #isValidMove(Game, int, int)}
+	 * board, the current board to check against.
+	 * isP1Turn, the flag indicating if it is player 1's turn.
+	 * startIndex, the start index of the move.
+	 * endIndex, the end index of the move.
+	 * skipIndex, the index of the last skip this turn.
+	 * return true if the move is legal according to the rules of Hamka.
 	 */
 	public static boolean isValidMove(Board board, boolean isP1Turn,
 			int startIndex, int endIndex, int skipIndex) {
@@ -61,14 +58,12 @@ public class MoveLogic {
 	}
 	
 	/**
-	 * Validates all ID related values for the start, end, and middle (if the
-	 * move is a skip).
-	 * 
-	 * @param board			the current board to check against.
-	 * @param isP1Turn		the flag indicating if it is player 1's turn.
-	 * @param startIndex	the start index of the move.
-	 * @param endIndex		the end index of the move.
-	 * @return true if and only if all IDs are valid.
+	 * Validates all ID related values for the start, end, and middle (if the move is a skip).
+	 * board, the current board to check against.
+	 * isP1Turn, the flag indicating if it is player 1's turn.
+	 * startIndex, the start index of the move.
+	 * endIndex, the end index of the move.
+	 * return true if and only if all IDs are valid.
 	 */
 	private static boolean validateIDs(Board board, boolean isP1Turn,
 			int startIndex, int endIndex) {
@@ -102,14 +97,13 @@ public class MoveLogic {
 	
 	/**
 	 * Checks that the move is diagonal and magnitude 1 or 2 in the correct
-	 * direction. If the magnitude is not 2 (i.e. not a skip), it checks that
+	 * direction. If the magnitude is not 2 (not a skip), it checks that
 	 * no skips are available by other soldiers of the same player.
-	 * 
-	 * @param board			the current board to check against.
-	 * @param isP1Turn		the flag indicating if it is player 1's turn.
-	 * @param startIndex	the start index of the move.
-	 * @param endIndex		the end index of the move.
-	 * @return true if and only if the move distance is valid.
+	 * board, the current board to check against.
+	 * isP1Turn, the flag indicating if it is player 1's turn.
+	 * startIndex, the start index of the move.
+	 * endIndex, the end index of the move.
+	 * return true if and only if the move distance is valid.
 	 */
 	private static boolean validateDistance(Board board, boolean isP1Turn,
 			int startIndex, int endIndex) {
@@ -159,12 +153,10 @@ public class MoveLogic {
 	}
 	
 	/**
-	 * Checks if the specified soldier is safe (i.e. the opponent cannot skip
-	 * the soldier).
-	 * 
-	 * @param board		the current board state.
-	 * @param soldier	the point where the test soldier is located at.
-	 * @return true if and only if the soldier at the point is safe.
+	 * Checks if the specified soldier is safe (i.e. the opponent cannot skip the soldier).
+	 * board, the current board state.
+	 * soldier, the point where the test soldier is located at.
+	 * return true if and only if the soldier at the point is safe.
 	 */
 	public static boolean isSafe(Board board, Point soldier) {
 		

@@ -15,7 +15,7 @@ public class SysDataTest {
 
         public static void main(String[] args) throws IOException {
             /**
-             * ~~TEST add/edit/delete a question from JSON file
+             * ~TEST add/edit/delete a question from JSON file
              * can only edit/delete a question that already exists in the file before running the application
              */
 

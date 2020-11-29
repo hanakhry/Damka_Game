@@ -48,8 +48,7 @@ public class Game {
 	/**
 	 * Creates a copy of this game such that any modifications made to one are
 	 * not made to the other.
-	 * 
-	 * @return an exact copy of this game.
+	 * return an exact copy of this game.
 	 */
 	public Game copy() {
 		Game g = new Game();
@@ -64,17 +63,16 @@ public class Game {
 	 */
 	public void restart() {
 		this.board = new Board();
+		//White player starts
 		this.isP1Turn = false;
 		this.skipIndex = -1;
 	}
 	
 	/**
 	 * Attempts to make a move from the start point to the end point.
-	 * 
-	 * @param start	the start point for the move.
-	 * @param end	the end point for the move.
-	 * @return true if and only if an update was made to the game state.
-	 * @see {@link #move(int, int)}
+	 * parameter start, the start point for the move.
+	 * parameter end, the end point for the move.
+	 * return true if and only if an update was made to the game state.
 	 */
 	public boolean move(Point start, Point end) {
 		if (start == null || end == null) {
@@ -85,11 +83,9 @@ public class Game {
 	
 	/**
 	 * Attempts to make a move given the start and end index of the move.
-	 * 
-	 * @param startIndex	the start index of the move.
-	 * @param endIndex		the end index of the move.
-	 * @return true if and only if an update was made to the game state.
-	 * @see {@link #move(Point, Point)}
+	 * startIndex the start index of the move.
+	 * endIndex the end index of the move.
+	 * return true if and only if an update was made to the game state.
 	 */
 	public boolean move(int startIndex, int endIndex) {
 		
@@ -136,8 +132,7 @@ public class Game {
 	
 	/**
 	 * Gets a copy of the current board state.
-	 * 
-	 * @return a non-reference to the current game board state.
+	 * return a non-reference to the current game board state.
 	 */
 	public Board getBoard() {
 		return board.copy();
@@ -146,8 +141,7 @@ public class Game {
 	/**
 	 * Determines if the game is over. The game is over if one or both players
 	 * cannot make a single move during their turn.
-	 * 
-	 * @return true if the game is over.
+	 * return true if the game is over.
 	 */
 	public boolean isGameOver() {
 
@@ -190,11 +184,8 @@ public class Game {
 	}
 	
 	/**
-	 * Gets the current game state as a string of data that can be parsed by
-	 * {@link #setGameState(String)}.
-	 * 
-	 * @return a string representing the current game state.
-	 * @see {@link #setGameState(String)}
+	 * Gets the current game state as a string of data that can be parsed by setGameState(String)
+	 * return a string representing the current game state.
 	 */
 	public String getGameState() {
 		
@@ -210,22 +201,17 @@ public class Game {
 		
 		return state;
 	}
+
 	public int getId() { return id; }
 
 	public void setId(int id) { this.id = id; }
 	public int getPlayer1Score() { return player1Score; }
-
 	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }
-
 	public int getPlayer2Score() { return player2Score; }
-
 	public void setPlayer2Score(int player2Score) { this.player2Score = player2Score; }
 	/**
-	 * Parses a string representing a game state that was generated from
-	 * {@link #getGameState()}.
-	 * 
-	 * @param state	the game state.
-	 * @see {@link #getGameState()}
+	 * Parses a string representing a game state that was generated from getGameState()
+	 * parameter state the game state.
 	 */
 	public void setGameState(String state) {
 		

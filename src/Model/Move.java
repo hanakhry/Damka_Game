@@ -3,8 +3,7 @@ package Model;
 import java.awt.Point;
 
 /**
- * The {@code Move} class represents a move and contains a weight associated
- * with the move.
+ * The Move class represents a move and contains a weight associated with the move.
  */
 public class Move {
 	

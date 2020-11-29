@@ -91,6 +91,7 @@ public class HamkaWindow extends JFrame {
 
 		this.board.getGame().restart();
 		this.board.update();
+		//to reset colors on board after restarting (clicking white tile)
 		this.board.handleClick(0,0);
 
 

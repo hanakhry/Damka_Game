@@ -2,7 +2,6 @@ package Controller;
 
 import View.HamkaWindow;
 import View.MainMenu;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,7 @@ import java.awt.event.ActionListener;
  * OptionListener responsible for listening to user clicks on the option panel
  * and activate relevant buttons
  */
+
 public class HamkaOptionListener implements ActionListener {
 
     private HamkaWindow hWindow;

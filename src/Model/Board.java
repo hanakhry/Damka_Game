@@ -1,9 +1,3 @@
-package Model;
-
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The Board class represents a game state for soldiers. A standard
  * soldier board is 8 x 8 (64) tiles, alternating white/black. soldiers are
@@ -20,6 +14,12 @@ import java.util.List;
  * And set through set(int,int) , set(int,int,int).
  * Game can be reset through reset().
  */
+package Model;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 	
 	/** An ID indicating a point was not on the Hamka board. */
@@ -28,7 +28,7 @@ public class Board {
 	/** The ID of an empty Hamka board tile. */
 	public static final int EMPTY = 0;
 
-	/** The ID of a white soldier in the Hamka board. */
+	/** The ID of a black soldier in the Hamka board. */
 	public static final int BLACK_SOLDIER = 4 * 1 + 2 * 1 + 1 * 0;
 	
 	/** The ID of a white soldier in the Hamka board. */
@@ -46,9 +46,6 @@ public class Board {
 	/**
 	 * Constructs a new Hamka game board, pre-filled with a new game state.
 	 */
-	public Board() {
-		reset();
-	}
 
 	public Board(ArrayList<Integer> tiles){
 		//TODO
@@ -56,22 +53,23 @@ public class Board {
 	/**
 	 * Creates an exact copy of the board. Any changes made to the copy will
 	 * not affect the current object.
-	 * 
-	 * @return a copy of this Hamka board.
+	 * return a copy of this Hamka board.
 	 */
+	public Board() {
+		reset();
+	}
+
 	public Board copy() {
 		Board copy = new Board();
 		copy.state = state.clone();
 		return copy;
 	}
-	
 	/**
 	 * Resets the Hamka board to the original game state with black soldiers
 	 * on top and white on the bottom. There are both 12 black soldiers and 12
 	 * white soldiers.
 	 */
 	public void reset() {
-
 		// Reset the state
 		this.state = new int[3];
 		for (int i = 0; i < 12; i ++) {
@@ -83,7 +81,6 @@ public class Board {
 	/**
 	 * Searches through the Hamka board and finds black tiles that match the
 	 * specified ID.
-	 * 
 	 * id = the ID to search for.
 	 * Return a list of points on the board with the specified ID. If none
 	 * exist, an empty list is returned.
@@ -100,29 +97,13 @@ public class Board {
 		
 		return points;
 	}
-	
-	/**
-	 * Sets the ID of a black tile on the board at the specified location.
-	 * If the location is not a black tile, nothing is updated. If the ID is
-	 * less than 0, the board at the location will be set to empty.
-	 * 
-	 * x , the x-coordinate on the board (from 0 to 7 inclusive).
-	 * y , the y-coordinate on the board (from 0 to 7 inclusive).
-	 * id, the new ID to set the black tile to.
-	 */
-	public void set(int x, int y, int id) {
-		set(toIndex(x, y), id);
-	}
-	
+
 	/**
 	 * Sets the ID of a black tile on the board at the specified location.
 	 * If the location is not a black tile, nothing is updated. If the ID is
 	 * less than 0, the board at the location will be set to {@link #EMPTY}.
-	 * 
-	 * @param index	the index of the black tile (from 0 to 31 inclusive).
-	 * @param id	the new ID to set the black tile to.
-	 * @see {@link #set(int, int, int)}, {@link #EMPTY}, {@link #BLACK_SOLDIER},
-	 * {@link #WHITE_SOLDIER}, {@link #BLACK_QUEEN}, {@link #WHITE_QUEEN}
+	 * index the index of the black tile (from 0 to 31 inclusive).
+	 * ID, the new ID to set the black tile to.
 	 */
 	public void set(int index, int id) {
 		
@@ -142,29 +123,35 @@ public class Board {
 			this.state[i] = setBit(state[i], index, set);
 		}
 	}
-	
 	/**
-	 * Gets the ID corresponding to the specified point on the Hamka board.
-	 * 
-	 * @param x	the x-coordinate on the board (from 0 to 7 inclusive).
-	 * @param y	the y-coordinate on the board (from 0 to 7 inclusive).
-	 * @return the ID at the specified location or {@link #INVALID} if the
-	 * location is not on the board or the location is a white tile.
-	 * @see {@link #get(int)}, {@link #set(int, int)},
-	 * {@link #set(int, int, int)}
+	 * Sets the ID of a black tile on the board at the specified location.
+	 * If the location is not a black tile, nothing is updated. If the ID is
+	 * less than 0, the board at the location will be set to empty.
+	 * x , the x-coordinate on the board (from 0 to 7 inclusive).
+	 * y , the y-coordinate on the board (from 0 to 7 inclusive).
+	 * id, the new ID to set the black tile to.
 	 */
-	public int get(int x, int y) {
-		return get(toIndex(x, y));
+	public void set(int x, int y, int id) {
+		set(toIndex(x, y), id);
 	}
 	
 	/**
 	 * Gets the ID corresponding to the specified point on the Hamka board.
 	 * 
-	 * @param index	the index of the black tile (from 0 to 31 inclusive).
-	 * @return the ID at the specified location or {@link #INVALID} if the
+	 * x, the x-coordinate on the board (from 0 to 7 inclusive).
+	 * y, the y-coordinate on the board (from 0 to 7 inclusive).
+	 * return the ID at the specified location or INVALID if the
+	 * location is not on the board or the location is a white tile.
+	 */
+	public int get(int x, int y) {
+		return get(toIndex(x, y));
+	}
+	/**
+	 * Gets the ID corresponding to the specified point on the Hamka board.
+	 * 
+	 * parameter Index, the index of the black tile (from 0 to 31 inclusive).
+	 * Return the ID at the specified location or INVALID if the
 	 * location is not on the board.
-	 * @see {@link #get(int, int)}, {@link #set(int, int)},
-	 * {@link #set(int, int, int)}
 	 */
 	public int get(int index) {
 		if (!isValidIndex(index)) {
@@ -177,11 +164,9 @@ public class Board {
 	/**
 	 * Converts a black tile index (0 to 31 inclusive) to an (x, y) point, such
 	 * that index 0 is (1, 0), index 1 is (3, 0), ... index 31 is (7, 7).
-	 * 
-	 * @param index	the index of the black tile to convert to a point.
-	 * @return the (x, y) point corresponding to the black tile index or the
-	 * point (-1, -1) if the index is not between 0 - 31 (inclusive).
-	 * @see {@link #toIndex(int, int)}, {@link #toIndex(Point)}
+	 * Parameter index , the index of the black tile to convert to a point.
+	 * Return the (x, y) point corresponding to the black tile index or the
+	 * point (-1, -1) if the index is not between 0 - 31 .
 	 */
 	public static Point toPoint(int index) {
 		int y = index / 4;
@@ -192,16 +177,13 @@ public class Board {
 	/**
 	 * Converts a point to an index of a black tile on the Hamka board, such
 	 * that (1, 0) is index 0, (3, 0) is index 1, ... (7, 7) is index 31.
-	 * 
-	 * @param x	the x-coordinate on the board (from 0 to 7 inclusive).
-	 * @param y	the y-coordinate on the board (from 0 to 7 inclusive).
-	 * @return the index of the black tile or -1 if the point is not a black
+	 * x, the x-coordinate on the board (from 0 to 7 inclusive).
+	 * y, the y-coordinate on the board (from 0 to 7 inclusive).
+	 * return the index of the black tile or -1 if the point is not a black
 	 * tile.
-	 * @see {@link #toIndex(Point)}, {@link #toPoint(int)}
 	 */
 	public static int toIndex(int x, int y) {
-		
-		// Invalid (x, y) (i.e. not in board, or white tile)
+		// Invalid (x, y) (not in board, or white tile)
 		if (!isValidPoint(new Point(x, y))) {
 			return -1;
 		}
@@ -212,25 +194,22 @@ public class Board {
 	/**
 	 * Converts a point to an index of a black tile on the Hamka board, such
 	 * that (1, 0) is index 0, (3, 0) is index 1, ... (7, 7) is index 31.
-	 * 
-	 * @param p	the point to convert to an index.
-	 * @return the index of the black tile or -1 if the point is not a black
-	 * tile.
-	 * @see {@link #toIndex(int, int)}, {@link #toPoint(int)}
+	 * p, the point to convert to an index.
+	 * return the index of the black tile or -1 if the point is not a black tile.
 	 */
+
 	public static int toIndex(Point p) {
+
 		return (p == null)? -1 : toIndex(p.x, p.y);
 	}
-	
+
 	/**
 	 * Sets or clears the specified bit in the target value and returns
 	 * the updated value.
-	 * 
-	 * @param target	the target value to update.
-	 * @param bit		the bit to update (from 0 to 31 inclusive).
-	 * @param set		true to set the bit, false to clear the bit.
-	 * @return the updated target value with the bit set or cleared.
-	 * @see {@link #getBit(int, int)}
+	 * Parameter target, the target value to update.
+	 * Parameter bit, the bit to update (from 0 to 31 inclusive).
+	 * Parameter set, true to set the bit, false to clear the bit.
+	 * return the updated target value with the bit set or cleared.
 	 */
 	public static int setBit(int target, int bit, boolean set) {
 		
@@ -254,11 +233,9 @@ public class Board {
 	
 	/**
 	 * Gets the state of a bit and determines if it is set (1) or not (0).
-	 * 
-	 * @param target	the target value to get the bit from.
-	 * @param bit		the bit to get (from 0 to 31 inclusive).
-	 * @return 1 if and only if the specified bit is set, 0 otherwise.
-	 * @see {@link #setBit(int, int, boolean)}
+	 * Parameter target, the target value to get the bit from.
+	 * Parameter bit, the bit to get (from 0 to 31 inclusive).
+	 * return 1 if and only if the specified bit is set, 0 otherwise.
 	 */
 	public static int getBit(int target, int bit) {
 		
@@ -272,13 +249,10 @@ public class Board {
 	
 	/**
 	 * Gets the middle point on the Hamka board between two points.
-	 * 
-	 * @param p1	the first point of a black tile on the Hamka board.
-	 * @param p2	the second point of a black tile on the Hamka board.
-	 * @return the middle point between two points or (-1, -1) if the points
-	 * are not on the board, are not distance 2 from each other in x and y,
-	 * or are on a white tile.
-	 * @see {@link #middle(int, int)}, {@link #middle(int, int, int, int)}
+	 * p1 the first point of a black tile on the Hamka board.
+	 * p2 the second point of a black tile on the Hamka board.
+	 * return the middle point between two points or (-1, -1) if the points
+	 * are not on the board, are not distance 2 from each other in x and y,or are on a white tile.
 	 */
 	public static Point middle(Point p1, Point p2) {
 		
@@ -292,29 +266,24 @@ public class Board {
 	
 	/**
 	 * Gets the middle point on the Hamka board between two points.
-	 * 
-	 * @param index1	the index of the first point (from 0 to 31 inclusive).
-	 * @param index2	the index of the second point (from 0 to 31 inclusive).
-	 * @return the middle point between two points or (-1, -1) if the points
-	 * are not on the board, are not distance 2 from each other in x and y,
-	 * or are on a white tile.
-	 * @see {@link #middle(Point, Point)}, {@link #middle(int, int, int, int)}
+	 * index1 the index of the first point (from 0 to 31 inclusive).
+	 * index2 the index of the second point (from 0 to 31 inclusive).
+	 * return the middle point between two points or (-1, -1) if the points
+	 * are not on the board, are not distance 2 from each other in x and y,or are on a white tile.
 	 */
 	public static Point middle(int index1, int index2) {
+
 		return middle(toPoint(index1), toPoint(index2));
 	}
 	
 	/**
 	 * Gets the middle point on the Hamka board between two points.
-	 * 
-	 * @param x1	the x-coordinate of the first point.
-	 * @param y1	the y-coordinate of the first point.
-	 * @param x2	the x-coordinate of the second point.
-	 * @param y2	the y-coordinate of the second point.
-	 * @return the middle point between two points or (-1, -1) if the points
-	 * are not on the board, are not distance 2 from each other in x and y,
-	 * or are on a white tile.
-	 * @see {@link #middle(int, int)}, {@link #middle(Point, Point)}
+	 * x1 the x-coordinate of the first point.
+	 * y1 the y-coordinate of the first point.
+	 * x2 the x-coordinate of the second point.
+	 * y2 the y-coordinate of the second point.
+	 * return the middle point between two points or (-1, -1) if the points
+	 * are not on the board, are not distance 2 from each other in x and y,or are on a white tile.
 	 */
 	public static Point middle(int x1, int y1, int x2, int y2) {
 		
@@ -334,9 +303,8 @@ public class Board {
 	
 	/**
 	 * Checks if an index corresponds to a black tile on the Hamka board.
-	 * 
-	 * @param testIndex	the index to check.
-	 * @return true if and only if the index is between 0 and 31 inclusive.
+	 * testIndex the index to check.
+	 * return true if and only if the index is between 0 and 31 inclusive.
 	 */
 	public static boolean isValidIndex(int testIndex) {
 		return testIndex >= 0 && testIndex < 32;
@@ -344,10 +312,8 @@ public class Board {
 	
 	/**
 	 * Checks if a point corresponds to a black tile on the Hamka board.
-	 * 
-	 * @param testPoint	the point to check.
-	 * @return true if and only if the point is on the board, specifically on
-	 * a black tile.
+	 * testPoint the point to check.
+	 * return true if and only if the point is on the board, specifically on a black tile.
 	 */
 	public static boolean isValidPoint(Point testPoint) {
 		

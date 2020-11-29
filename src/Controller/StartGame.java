@@ -22,12 +22,11 @@
  * 8.	The game is over if a player either has no more Soldiers or cannot make
  * 		a move on their turn.
  * 
- * 9.	The player with the black Soldiers moves first.
+ * 9.	The player with the White Soldiers moves first.
  */
 package Controller;
 
 import View.MainMenu;
-
 import javax.swing.*;
 import java.io.IOException;
 
@@ -36,10 +35,10 @@ public class StartGame {
 	public static void main(String[] args) throws IOException {
 
 		try {
-			
 			UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace(); }
+
 		MainMenu window = new MainMenu();
 		MainMenu.NewGame.addActionListener(new MMOptionListener(window,MainMenu.NewGame));
 		MainMenu.ExitGame.addActionListener(new MMOptionListener(window,MainMenu.ExitGame));
