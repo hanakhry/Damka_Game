@@ -4,7 +4,7 @@
  * 1.	Soldier can only move diagonally, on dark tiles.
  * 
  * 2.	Normal Soldier can only move forward diagonally (for black Soldier,
- * 		this is down and for white Soldier, this is up).
+ * 		this is down and for white Soldier this is up).
  * 
  * 3.	A Soldier becomes a king when it reaches the opponents end and cannot
  * 		move forward anymore.

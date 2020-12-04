@@ -2,7 +2,6 @@ package Model;
 
 import Utils.Level;
 import org.json.simple.*;
-
 import java.io.*;
 import java.util.*;
 
