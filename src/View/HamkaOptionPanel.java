@@ -1,10 +1,11 @@
 package View;
 
-import Controller.HamkaOptionListener;
 import Model.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -41,8 +42,8 @@ public class HamkaOptionPanel extends JPanel {
 		this.restartBtn = new JButton("Restart");
 		this.saveBtn = new JButton("Save");
 		this.quitBtn = new JButton("Quit Game");
-		this.restartBtn.addActionListener(new HamkaOptionListener(this.window,this.restartBtn));
-		this.quitBtn.addActionListener(new HamkaOptionListener(this.window,this.quitBtn));
+		this.restartBtn.addActionListener(new HamkaOptionListener());
+		this.quitBtn.addActionListener(new HamkaOptionListener());
 
 
 		// Add components to the layout
@@ -89,10 +90,35 @@ public class HamkaOptionPanel extends JPanel {
 	 */
 	private static Player getPlayer() {
 		
-		Player player = new Player();
+		Player player = new Player("Player",0);
 		return player;
 
 	}
 
 
-}
+
+	private class HamkaOptionListener implements ActionListener {
+
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			// No window to update
+			if (window == null) {
+				return;
+			}
+			Object src = e.getSource();
+			// Handle the user action
+			if (src == restartBtn) window.restart();
+				if(src==quitBtn){
+					window.dispose();
+					MainMenu window = new MainMenu();
+					window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
+					window.setVisible(true);
+				}
+
+			}
+		}
+	}
+
+

@@ -16,33 +16,26 @@
  */
 package Model;
 
-import java.awt.Point;
+
+import Utils.Constants;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Timer;
 public class Board {
 	
-	/** An ID indicating a point was not on the Hamka board. */
-	public static final int INVALID = -1;
 
-	/** The ID of an empty Hamka board tile. */
-	public static final int EMPTY = 0;
-
-	/** The ID of a black soldier in the Hamka board. */
-	public static final int BLACK_SOLDIER = 4 * 1 + 2 * 1 + 1 * 0;
-	
-	/** The ID of a white soldier in the Hamka board. */
-	public static final int WHITE_SOLDIER = 4 * 1 + 2 * 0 + 1 * 0;
-
-	/** The ID of a black soldier that is also a queen. */
-	public static final int BLACK_QUEEN = 4 * 1 + 2 * 1 + 1 * 1;
-	
-	/** The ID of a white soldier that is also a queen. */
-	public static final int WHITE_QUEEN = 4 * 1 + 2 * 0 + 1 * 1;
 
 	/** The current state of the board, represented as three integers. */
 	private int[] state;
-	
+
+	/** Time for each player turn **/
+	private Timer timePStart;
+
+	/** Time since start of game **/
+	private Timer timeGStart;
+
 	/**
 	 * Constructs a new Hamka game board, pre-filled with a new game state.
 	 */
@@ -73,8 +66,8 @@ public class Board {
 		// Reset the state
 		this.state = new int[3];
 		for (int i = 0; i < 12; i ++) {
-			set(i, BLACK_SOLDIER);
-			set(31 - i, WHITE_SOLDIER);
+			set(i, Constants.BLACK_SOLDIER);
+			set(31 - i, Constants.WHITE_SOLDIER);
 		}
 	}
 	
@@ -101,7 +94,7 @@ public class Board {
 	/**
 	 * Sets the ID of a black tile on the board at the specified location.
 	 * If the location is not a black tile, nothing is updated. If the ID is
-	 * less than 0, the board at the location will be set to {@link #EMPTY}.
+	 * less than 0, the board at the location will be set to EMPTY.
 	 * index the index of the black tile (from 0 to 31 inclusive).
 	 * ID, the new ID to set the black tile to.
 	 */
@@ -114,7 +107,7 @@ public class Board {
 		
 		// Invalid ID, so just set to EMPTY
 		if (id < 0) {
-			id = EMPTY;
+			id = Constants.EMPTY;
 		}
 		
 		// Set the state bits
@@ -155,7 +148,7 @@ public class Board {
 	 */
 	public int get(int index) {
 		if (!isValidIndex(index)) {
-			return INVALID;
+			return Constants.INVALID;
 		}
 		return getBit(state[0], index) * 4 + getBit(state[1], index) * 2
 				+ getBit(state[2], index);

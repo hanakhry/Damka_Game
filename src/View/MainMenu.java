@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainMenu extends JFrame {
     /** The default width for the checkers window. */
@@ -51,7 +53,8 @@ public class MainMenu extends JFrame {
         this.Questions = new JButton("Question Management");
         this.LeaderBoard = new JButton("Leader Board");
         this.ExitGame = new JButton("Exit");
-
+        this.NewGame.addActionListener(new MMOptionListener());
+        this.ExitGame.addActionListener(new MMOptionListener());
 
         oPts.add(NewGame);
         oPts.add(LoadGame);
@@ -65,5 +68,26 @@ public class MainMenu extends JFrame {
 
     }
 
+    public class MMOptionListener implements ActionListener {
 
-}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            Object src = e.getSource();
+            // Handle the user action
+            if (src== NewGame) {
+                    dispose();
+                    HamkaWindow window = new HamkaWindow();
+                    window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+                    window.setVisible(true);
+                }
+                if(src==ExitGame){
+                    dispose();
+                }
+            }
+
+        }
+    }
+
+
+

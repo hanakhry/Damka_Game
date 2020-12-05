@@ -40,8 +40,6 @@ public class StartGame {
 			e.printStackTrace(); }
 
 		MainMenu window = new MainMenu();
-		MainMenu.NewGame.addActionListener(new MMOptionListener(window,MainMenu.NewGame));
-		MainMenu.ExitGame.addActionListener(new MMOptionListener(window,MainMenu.ExitGame));
 		window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
 		window.setVisible(true);
 

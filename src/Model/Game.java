@@ -1,5 +1,7 @@
 package Model;
 
+import Utils.Constants;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,13 @@ public class Game {
 	/** The current state of the Hamka board. */
 	private Board board;
 	
-	/** The flag indicating if it is player 1's turn. */
+	/** The flag indicating if it is player 1's (Black) turn. */
 	private boolean isP1Turn;
 	
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
+
+	/** Players Score **/
 	private int player1Score;
 	private int player2Score;
 	
@@ -98,18 +102,18 @@ public class Game {
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
 		this.board.set(endIndex, board.get(startIndex));
-		this.board.set(midIndex, Board.EMPTY);
-		this.board.set(startIndex, Board.EMPTY);
+		this.board.set(midIndex, Constants.EMPTY);
+		this.board.set(startIndex, Constants.EMPTY);
 		
 		// Make the soldier a queen if necessary
 		Point end = Board.toPoint(endIndex);
 		int id = board.get(endIndex);
 		boolean switchTurn = false;
-		if (end.y == 0 && id == Board.WHITE_SOLDIER) {
-			this.board.set(endIndex, Board.WHITE_QUEEN);
+		if (end.y == 0 && id == Constants.WHITE_SOLDIER) {
+			this.board.set(endIndex, Constants.WHITE_QUEEN);
 			switchTurn = true;
-		} else if (end.y == 7 && id == Board.BLACK_SOLDIER) {
-			this.board.set(endIndex, Board.BLACK_QUEEN);
+		} else if (end.y == 7 && id == Constants.BLACK_SOLDIER) {
+			this.board.set(endIndex, Constants.BLACK_QUEEN);
 			switchTurn = true;
 		}
 		
@@ -118,7 +122,7 @@ public class Game {
 		if (midValid) {
 			this.skipIndex = endIndex;
 		}
-		if (!midValid || MoveMore.getSkips(
+		if (!midValid || MoveLogic.getSkips(
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
@@ -146,13 +150,13 @@ public class Game {
 	public boolean isGameOver() {
 
 		// Ensure there is at least one of each soldier
-		List<Point> black = board.find(Board.BLACK_SOLDIER);
-		black.addAll(board.find(Board.BLACK_QUEEN));
+		List<Point> black = board.find(Constants.BLACK_SOLDIER);
+		black.addAll(board.find(Constants.BLACK_QUEEN));
 		if (black.isEmpty()) {
 			return true;
 		}
-		List<Point> white = board.find(Board.WHITE_SOLDIER);
-		white.addAll(board.find(Board.WHITE_QUEEN));
+		List<Point> white = board.find(Constants.WHITE_SOLDIER);
+		white.addAll(board.find(Constants.WHITE_QUEEN));
 		if (white.isEmpty()) {
 			return true;
 		}
@@ -161,8 +165,8 @@ public class Game {
 		List<Point> test = isP1Turn? black : white;
 		for (Point p : test) {
 			int i = Board.toIndex(p);
-			if (!MoveMore.getMoves(board, i).isEmpty() ||
-					!MoveMore.getSkips(board, i).isEmpty()) {
+			if (!MoveLogic.getMoves(board, i).isEmpty() ||
+					!MoveLogic.getSkips(board, i).isEmpty()) {
 				return false;
 			}
 		}
@@ -203,7 +207,6 @@ public class Game {
 	}
 
 	public int getId() { return id; }
-
 	public void setId(int id) { this.id = id; }
 	public int getPlayer1Score() { return player1Score; }
 	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }

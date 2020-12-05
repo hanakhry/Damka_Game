@@ -1,14 +1,13 @@
 package View;
 
-import Controller.HamkaClickListener;
-import Model.Board;
-import Model.Game;
-import Model.MoveMore;
-import Model.Player;
+
+import Model.*;
 import Utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -61,7 +60,7 @@ public class HamkaBoard extends JButton {
 		super.setFocusPainted(false);
 		super.setContentAreaFilled(false);
 		super.setBackground(Color.LIGHT_GRAY);
-		this.addActionListener(new HamkaClickListener(HamkaBoard.this));
+		this.addActionListener(new HamkaClickListener());
 		
 		// Setup the game
 		this.game = (game == null)? new Game() : game;
@@ -76,7 +75,6 @@ public class HamkaBoard extends JButton {
 	 * Checks if the game is over and redraws the component graphics.
 	 */
 	public void update() {
-		runPlayer();
 		this.isGameOver = game.isGameOver();
 		repaint();
 
@@ -86,9 +84,7 @@ public class HamkaBoard extends JButton {
 	private void runPlayer() {
 
 		Player player = getCurrentPlayer();
-		if (player == null || player.isActive()) {
-			return;
-		}
+		return;
 
 	}
 
@@ -159,14 +155,14 @@ public class HamkaBoard extends JButton {
 				int id = b.get(x, y);
 				
 				// Empty, just skip
-				if (id == Board.EMPTY) {
+				if (id == Constants.EMPTY) {
 					continue;
 				}
 				
 				int cx = OFFSET_X + x * BOX_SIZE + BOX_PADDING;
 				
 				// Black soldier
-				if (id == Board.BLACK_SOLDIER) {
+				if (id == Constants.BLACK_SOLDIER) {
 					g.setColor(Color.DARK_GRAY);
 					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
@@ -178,7 +174,7 @@ public class HamkaBoard extends JButton {
 				}
 				
 				// Black queen
-				else if (id == Board.BLACK_QUEEN) {
+				else if (id == Constants.BLACK_QUEEN) {
 					g.setColor(Color.DARK_GRAY);
 					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.LIGHT_GRAY);
@@ -192,7 +188,7 @@ public class HamkaBoard extends JButton {
 				}
 				
 				// White soldier
-				else if (id == Board.WHITE_SOLDIER) {
+				else if (id == Constants.WHITE_SOLDIER) {
 					g.setColor(Color.LIGHT_GRAY);
 					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
@@ -204,7 +200,7 @@ public class HamkaBoard extends JButton {
 				}
 				
 				// White queen
-				else if (id == Board.WHITE_QUEEN) {
+				else if (id == Constants.WHITE_QUEEN) {
 					g.setColor(Color.LIGHT_GRAY);
 					g.fillOval(cx + 1, cy + 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.setColor(Color.DARK_GRAY);
@@ -218,7 +214,7 @@ public class HamkaBoard extends JButton {
 				}
 				
 				// Any queen (add some extra highlights)
-				if (id == Board.BLACK_QUEEN || id == Board.WHITE_QUEEN) {
+				if (id == Constants.BLACK_QUEEN || id == Constants.WHITE_QUEEN) {
 					g.setColor(new Color(255, 240,0));
 					g.drawOval(cx - 1, cy - 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.drawOval(cx + 1, cy, SOLDIER_SIZE - 4, SOLDIER_SIZE - 4);
@@ -275,17 +271,13 @@ public class HamkaBoard extends JButton {
 	}
 
 	public void setPlayer1(Player player1) {
-		this.player1 = (player1 == null)? new Player() : player1;
-		if (game.isP1Turn() && !this.player1.isActive()) {
-			this.selected = null;
-		}
+		this.player1 = (player1 == null)? new Player("Black Player",0) : player1;
+
 	}
 
 	public void setPlayer2(Player player2) {
-		this.player2 = (player2 == null)? new Player() : player2;
-		if (!game.isP1Turn() && !this.player2.isActive()) {
-			this.selected = null;
-		}
+		this.player2 = (player2 == null)? new Player("White Player",0) : player2;
+
 	}
 	
 	public Player getCurrentPlayer() {
@@ -316,7 +308,7 @@ public class HamkaBoard extends JButton {
 	public void handleClick(int x, int y) {
 
 
-		if (isGameOver || !getCurrentPlayer().isActive()) {
+		if (isGameOver) {
 			return;
 		}
 		
@@ -361,26 +353,26 @@ public class HamkaBoard extends JButton {
 
 		// Trivial cases
 		int i = Board.toIndex(selected), id = b.get(i);
-		if (id == Board.EMPTY || id == Board.INVALID) { // no soldier here
+		if (id == Constants.EMPTY || id == Constants.INVALID) { // no soldier here
 			return false;
-		} else if(isP1Turn ^ (id == Board.BLACK_SOLDIER ||
-				id == Board.BLACK_QUEEN)) { // wrong soldier
+		} else if(isP1Turn ^ (id == Constants.BLACK_SOLDIER ||
+				id == Constants.BLACK_QUEEN)) { // wrong soldier
 			return false;
-		} else if (!MoveMore.getSkips(b, i).isEmpty()) { // skip available
+		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available
 			return true;
-		} else if (MoveMore.getMoves(b, i).isEmpty()) { // no moves
+		} else if (MoveLogic.getMoves(b, i).isEmpty()) { // no moves
 			return false;
 		}
 		
 		// Determine if there is a skip available for another soldier
-		List<Point> points = b.find(isP1Turn? Board.BLACK_SOLDIER : Board.WHITE_SOLDIER);
-		points.addAll(b.find(isP1Turn? Board.BLACK_QUEEN : Board.WHITE_QUEEN));
+		List<Point> points = b.find(isP1Turn? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER);
+		points.addAll(b.find(isP1Turn? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN));
 		for (Point p : points) {
 			int soldier = Board.toIndex(p);
 			if (soldier == i) {
 				continue;
 			}
-			if (!MoveMore.getSkips(b, soldier).isEmpty()) {
+			if (!MoveLogic.getSkips(b, soldier).isEmpty()) {
 				return false;
 			}
 		}
@@ -388,5 +380,16 @@ public class HamkaBoard extends JButton {
 		return true;
 	}
 
+	private class HamkaClickListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			// Get the new mouse coordinates and handle the click
+			Point m = HamkaBoard.this.getMousePosition();
+			if (m != null) {
+				handleClick(m.x, m.y);
+			}
+		}
+	}
 }
