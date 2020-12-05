@@ -128,6 +128,7 @@ public class Game {
 		}
 		if (switchTurn) {
 			this.isP1Turn = !isP1Turn;
+
 			this.skipIndex = -1;
 		}
 		

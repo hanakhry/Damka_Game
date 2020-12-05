@@ -315,7 +315,7 @@ public class Board {
 		}
 		
 		// Check that it is on the board
-		final int x = testPoint.x, y = testPoint.y;
+		int x = testPoint.x, y = testPoint.y;
 		if (x < 0 || x > 7 || y < 0 || y > 7) {
 			return false;
 		}
