@@ -142,13 +142,13 @@ public class HamkaBoard extends JButton {
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected)) {
 			g.setColor(selectionValid? Color.GREEN : Color.RED);
-			g.fillRect(OFFSET_X + selected.x * BOX_SIZE, OFFSET_Y + selected.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+			g.drawRect(OFFSET_X + selected.x * BOX_SIZE - 1 , OFFSET_Y + selected.y * BOX_SIZE - 1 , BOX_SIZE +2, BOX_SIZE +2);
 
 			try {
 				for (int i = 0; i < 3; i++) {
 					Point yellowPoint = yellowSquare.get(i);
 					g.setColor(Color.yellow);
-					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE, OFFSET_Y + yellowPoint.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
 				}
 
 			} catch (NullPointerException e){
@@ -157,7 +157,7 @@ public class HamkaBoard extends JButton {
 				for (int i = 0; i < 3; i++) {
 					Point yellowPoint = yellowSquare.get(i);
 					g.setColor(Color.yellow);
-					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE, OFFSET_Y + yellowPoint.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
 				}
 			}
 
@@ -264,7 +264,7 @@ public class HamkaBoard extends JButton {
 			g.fillRoundRect(W / 2 - width / 2 - 5,
 					OFFSET_Y + BOX_SIZE * 4 - 16,
 					width + 10, 30, 10, 10);
-			g.setColor(Color.RED);
+			g.setColor(Color.GREEN);
 			g.drawString(msg, W / 2 - width / 2, OFFSET_Y + BOX_SIZE * 4 + 7);
 		}
 	}
