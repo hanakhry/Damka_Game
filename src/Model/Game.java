@@ -22,9 +22,9 @@ public class Game {
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
 
-	/** Players Score **/
-	private int player1Score;
-	private int player2Score;
+	/** Players score **/
+	private int p1Score;
+	private int p2Score;
 	
 	public Game() {
 		restart();
@@ -34,13 +34,12 @@ public class Game {
 		setGameState(state);
 	}
 
-	public Game(int id,Board board, boolean isP1Turn, int skipIndex,int player1Score,int player2Score) {
+	public Game(int id,Board board, boolean isP1Turn, int skipIndex) {
 		this.id=id;
 		this.board = (board == null)? new Board() : board;
 		this.isP1Turn = isP1Turn;
 		this.skipIndex = skipIndex;
-		this.player1Score=player1Score;
-		this.player2Score=player2Score;
+
 	}
 	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
 		this.id = id;
@@ -209,10 +208,10 @@ public class Game {
 
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
-	public int getPlayer1Score() { return player1Score; }
-	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }
-	public int getPlayer2Score() { return player2Score; }
-	public void setPlayer2Score(int player2Score) { this.player2Score = player2Score; }
+	public int getPlayer1Score() { return p1Score; }
+	public void setPlayer1Score(int p1Score) { this.p1Score = p1Score; }
+	public int getPlayer2Score() { return p2Score; }
+	public void setPlayer2Score(int p2Score) { this.p2Score = p2Score; }
 	/**
 	 * Parses a string representing a game state that was generated from getGameState()
 	 * parameter state the game state.

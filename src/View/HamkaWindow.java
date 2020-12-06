@@ -63,6 +63,9 @@ public class HamkaWindow extends JFrame {
 	public HamkaBoard getBoard() {
 		return board;
 	}
+	public HamkaOptionPanel getOpts() {
+		return opts;
+	}
 
 	/**
 	 * Updates the type of player that is being used for player 1.

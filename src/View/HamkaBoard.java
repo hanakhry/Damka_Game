@@ -223,6 +223,7 @@ public class HamkaBoard extends JButton {
 		}
 		
 		// Draw the player turn sign
+		
 		String msg = game.isP1Turn()? "Black Player turn" : "White Player turn";
 		int width = g.getFontMetrics().stringWidth(msg);
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
@@ -234,8 +235,14 @@ public class HamkaBoard extends JButton {
 		
 		// Draw a game over sign
 		if (isGameOver) {
+			getWindow().getOpts().cntd.pause();
+			getWindow().getOpts().cntd2.pause();
+			getWindow().getOpts().cntd3.pause();
 			g.setFont(new Font("Arial", Font.BOLD, 20));
-			msg = "Game Over!";
+			if(getGame().getPlayer1Score()>getGame().getPlayer2Score())
+			msg = "Black Player Won!";
+			else
+				msg= "White Player Won!";
 			width = g.getFontMetrics().stringWidth(msg);
 			g.setColor(new Color(240, 240, 255));
 			g.fillRoundRect(W / 2 - width / 2 - 5,

@@ -27,15 +27,18 @@ public class HamkaOptionPanel extends JPanel {
 	private JButton quitBtn;
 	/** Timers labels */
 	private JLabel timeLabel=new JLabel();
-	private CountTimer cntd=new CountTimer(timeLabel,1);
+	private JLabel scoreLabel=new JLabel();
+	public CountTimer cntd=new CountTimer(timeLabel,scoreLabel,1);
 	private JLabel timeLabel2=new JLabel();
-	private CountTimer cntd2=new CountTimer(timeLabel2,2);
+	private JLabel scoreLabel2=new JLabel();
+	public CountTimer cntd2=new CountTimer(timeLabel2,scoreLabel2,2);
 	private JLabel timeLabel3=new JLabel();
-	private CountTimer cntd3=new CountTimer(timeLabel3,3);
+	public CountTimer cntd3=new CountTimer(timeLabel3,null,3);
 
 	/**
 	 * Creates a new option panel for the specified Hamka window.
 	 */
+
 	public HamkaOptionPanel(HamkaWindow window) {
 		super(new GridLayout(0, 1));
 		
@@ -62,9 +65,14 @@ public class HamkaOptionPanel extends JPanel {
 		JPanel middle2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel bottom2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		top2.add(new JLabel("Total Time:  "));
+		JLabel tT=new JLabel("Total Time:  ");
+		top2.add(tT);
+		Font f = tT.getFont();
+		tT.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		top2.add(tT);
 		top2.add(timeLabel3);
 		cntd3.start();
+
 		top.add(pauseBtn);
 		top.add(resumeBtn);
 		top.add(saveBtn);
@@ -73,19 +81,33 @@ public class HamkaOptionPanel extends JPanel {
 		this.add(top2);
 		this.add(top);
 
-		middle.add(new JLabel("Black Player Score: "));
+		JLabel bpS=new JLabel("Black Player Score: ");
+		f = bpS.getFont();
+		bpS.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		middle.add(bpS);
+		middle.add(scoreLabel);
+		scoreLabel.setText(String.valueOf(0));
 		this.add(middle);
-		middle2.add(new JLabel("Black Player Time: "));
+
+		JLabel bpT=new JLabel("Black Player Time: ");
+		bpT.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		middle2.add(bpT);
 		middle2.add(timeLabel);
 		cntd.start();
-		//cntd.pause();
 		this.add(middle2);
-		bottom.add(new JLabel("White Player Score: "));
+
+		JLabel wpS=new JLabel("White Player Score: ");
+		wpS.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		bottom.add(wpS);
+		scoreLabel2.setText(String.valueOf(0));
+		bottom.add(scoreLabel2);
 		this.add(bottom);
-		bottom2.add(new JLabel("White Player Time: "));
+
+		JLabel wpT=new JLabel("White Player Time: ");
+		wpT.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		bottom2.add(wpT);
 		bottom2.add(timeLabel2);
 		cntd2.start();
-		//cntd2.pause();
 		this.add(bottom2);
 
 
@@ -108,6 +130,8 @@ public class HamkaOptionPanel extends JPanel {
 			Object src = e.getSource();
 			// Handle the user action
 			if (src == restartBtn) {
+				scoreLabel.setText("0");
+				scoreLabel2.setText("0");
 				cntd.reset();
 				cntd2.reset();
 				cntd3.reset();
@@ -133,19 +157,23 @@ public class HamkaOptionPanel extends JPanel {
 
 
 
-	private class CountTimer implements ActionListener {
+	public class CountTimer implements ActionListener {
 
-		private static final int ONE_SECOND = 1000;
+		private static final int ONE_SECOND = 800;
 		private int count;
 		private boolean isTimerActive = false;
 		private Timer tmr = new Timer(ONE_SECOND, this);
 		/** Jlabel from main class **/
 		private JLabel cntL;
+		private JLabel cnsL;
 		private int pTime;
+		private boolean flag1;
+		private boolean flag2;
 
-		public CountTimer(JLabel tL,int pT) {
+
+		public CountTimer(JLabel tL,JLabel sL,int pT) {
 			pTime=pT;
-			count=0;
+			cnsL=sL;
 			cntL=tL;
 			setTimerText(cntL,TimeFormat(count));
 			if(pTime==1||pTime==2) setTimerColor(cntL,Color.GREEN.darker());
@@ -153,17 +181,24 @@ public class HamkaOptionPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			flag1=false;
+			flag2=false;
             if(pTime==1&&window.getBoard().getGame().isP1Turn()) {
 				if (isTimerActive) {
 					count++;
 					setTimerText(cntL, TimeFormat(count));
 					if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-
+					flag1=true;
 
 				}
 			}
 			if(pTime==1&&!window.getBoard().getGame().isP1Turn()) {
+				if(count!=0||flag1)
+
+					window.getBoard().getGame().setPlayer1Score(window.getBoard().getGame().getPlayer1Score()+(60-count));
 				count=0;
+			    flag1=false;
+				cnsL.setText(String.valueOf(window.getBoard().getGame().getPlayer1Score()));
 				setTimerText(cntL, TimeFormat(count));
 				setTimerColor(cntL,Color.GREEN.darker());
 			}
@@ -172,11 +207,15 @@ public class HamkaOptionPanel extends JPanel {
 					count++;
 					setTimerText(cntL, TimeFormat(count));
 					if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-
+					flag2=true;
 				}
 			}
 			if(pTime==2&&window.getBoard().getGame().isP1Turn()) {
+				if(count!=0||flag2)
+				    window.getBoard().getGame().setPlayer2Score(window.getBoard().getGame().getPlayer2Score()+(60-count));
 				count=0;
+				flag2=false;
+                cnsL.setText(String.valueOf(window.getBoard().getGame().getPlayer2Score()));
 				setTimerText(cntL, TimeFormat(count));
 				setTimerColor(cntL,Color.GREEN.darker());
 			}
@@ -211,6 +250,8 @@ public class HamkaOptionPanel extends JPanel {
 		}
 
 		public void reset() {
+			window.getBoard().getGame().setPlayer1Score(0);
+			window.getBoard().getGame().setPlayer2Score(0);
 			count = 0;
 			isTimerActive = true;
 			setTimerText(cntL,TimeFormat(count));

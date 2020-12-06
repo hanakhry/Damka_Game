@@ -22,7 +22,6 @@ import Utils.Constants;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 public class Board {
 	
 
@@ -30,11 +29,6 @@ public class Board {
 	/** The current state of the board, represented as three integers. */
 	private int[] state;
 
-	/** Time for each player turn **/
-	private Timer timePStart;
-
-	/** Time since start of game **/
-	private Timer timeGStart;
 
 	/**
 	 * Constructs a new Hamka game board, pre-filled with a new game state.
