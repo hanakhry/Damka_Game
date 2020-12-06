@@ -1,9 +1,11 @@
 package View;
 
+import Controller.RandomEvents;
+import Model.Game;
 import Model.Player;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.*;import java.util.List;
 
 
 /**
@@ -22,6 +24,9 @@ public class HamkaWindow extends JFrame {
 	
 	/** The default title for the checkers window. */
 	public static final String DEFAULT_TITLE = "Hamka Hedgehog";
+
+	static RandomEvents random = new RandomEvents(new Game().getBoard().find(0));
+	public static List<Point>  yellowSquare = random.yellowEvents();
 	
 	/** The checker board component playing the updatable game. */
 	private HamkaBoard board;
@@ -59,7 +64,10 @@ public class HamkaWindow extends JFrame {
 		
 
 	}
-	
+
+	public static List<Point> getStartingSquares(){
+		return yellowSquare;
+	}
 	public HamkaBoard getBoard() {
 		return board;
 	}

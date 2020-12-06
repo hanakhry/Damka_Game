@@ -1,6 +1,7 @@
 package View;
 
 
+import Controller.RandomEvents;
 import Model.*;
 import Utils.Constants;
 
@@ -48,13 +49,15 @@ public class HamkaBoard extends JButton {
 	/** A convenience flag to check if the game is over. */
 	private boolean isGameOver;
 
+	private static List<Point> yellowSquare;
+
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game(), null, null);
 	}
 	
 	public HamkaBoard(HamkaWindow window, Game game, Player player1, Player player2) {
-		
+
 		// Setup the component
 		super.setBorderPainted(false);
 		super.setFocusPainted(false);
@@ -76,13 +79,11 @@ public class HamkaBoard extends JButton {
 	 */
 	public void update() {
 		this.isGameOver = game.isGameOver();
+		yellowSquare = game.getYellowSquares();
 		repaint();
-
-
 	}
 	
 	private void runPlayer() {
-
 		Player player = getCurrentPlayer();
 		return;
 
@@ -90,7 +91,8 @@ public class HamkaBoard extends JButton {
 
 	
 	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
-		
+		RandomEvents random = new RandomEvents(this.game.getBoard().find(0));
+		yellowSquare = random.yellowEvents();
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -111,7 +113,7 @@ public class HamkaBoard extends JButton {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
+
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Game game = this.game.copy();
@@ -142,8 +144,22 @@ public class HamkaBoard extends JButton {
 			g.setColor(selectionValid? Color.GREEN : Color.RED);
 			g.fillRect(OFFSET_X + selected.x * BOX_SIZE, OFFSET_Y + selected.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
 
+			try {
+				for (int i = 0; i < 3; i++) {
+					Point yellowPoint = yellowSquare.get(i);
+					g.setColor(Color.yellow);
+					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE, OFFSET_Y + yellowPoint.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+				}
 
+			} catch (NullPointerException e){
+				yellowSquare = HamkaWindow.getStartingSquares();
 
+				for (int i = 0; i < 3; i++) {
+					Point yellowPoint = yellowSquare.get(i);
+					g.setColor(Color.yellow);
+					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE, OFFSET_Y + yellowPoint.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+				}
+			}
 
 		}
 		
