@@ -99,7 +99,6 @@ public class HamkaWindow extends JFrame {
 	 * Resets the game of checkers in the window.
 	 */
 	public void restart() {
-
 		this.board.getGame().restart();
 		this.board.update();
 		//to reset colors on board after restarting (clicking white tile)
