@@ -4,6 +4,7 @@ import Controller.RandomEvents;
 import Utils.Constants;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,9 +27,12 @@ public class Game {
 	private int player1Score;
 	private int player2Score;
 	public List<Point> yellowSquares;
-	public List<Point> passYellowSquares;
+	public HashMap<String, List<Point>> colors;
+	public List<Point> redSquare;
 	
 	public Game() {
+		this.colors = new HashMap<>();
+		this.redSquare = new ArrayList<>();
 		restart();
 	}
 	
@@ -43,9 +47,13 @@ public class Game {
 		this.skipIndex = skipIndex;
 		this.player1Score=player1Score;
 		this.player2Score=player2Score;
+		this.colors = new HashMap<>();
+		this.redSquare = new ArrayList<>();
 	}
 	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
 		this.id = id;
+		this.colors = new HashMap<>();
+		this.redSquare = new ArrayList<>();
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
@@ -57,7 +65,8 @@ public class Game {
 	 * return an exact copy of this game.
 	 */
 	public Game copy() {
-		passYellowSquares = this.yellowSquares;
+		colors.put("yellow", this.yellowSquares);
+		colors.put("red", this.redSquare);
 		Game g = new Game();
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
@@ -202,7 +211,6 @@ public class Game {
 		for (int i = 0; i < 32; i ++) {
 			state += "" + board.get(i);
 		}
-		
 		// Add the other info
 		state += (isP1Turn? "1" : "0");
 		state += skipIndex;
@@ -216,8 +224,8 @@ public class Game {
 	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }
 	public int getPlayer2Score() { return player2Score; }
 	public void setPlayer2Score(int player2Score) { this.player2Score = player2Score; }
-	public List<Point> getYellowSquares(){ return passYellowSquares; }
-	public void setYellowSquares(List<Point> yellowSquares){ this.yellowSquares = yellowSquares; }
+	public HashMap<String, List<Point>> getColors(){ return colors; }
+	public void setColors(HashMap<String, List<Point>> colors){ this.colors = colors; }
 	/**
 	 * Parses a string representing a game state that was generated from getGameState()
 	 * parameter state the game state.
@@ -252,6 +260,12 @@ public class Game {
 			}
 		}
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
+		Point redPoint = random.redEvents(this ,isP1Turn, this.getBoard().find(0));
+		if(redPoint != null)
+			redSquare.add(redPoint);
+		else{
+			redSquare.add(new Point(0, 0));
+		}
 		yellowSquares = random.yellowEvents();
 	}
 

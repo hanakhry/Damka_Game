@@ -52,6 +52,8 @@ public class HamkaBoard extends JButton {
 
 	private static List<Point> yellowSquare;
 
+	private static Point redSquare;
+
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game(), null, null);
@@ -88,7 +90,11 @@ public class HamkaBoard extends JButton {
 	 */
 	public void update() {
 		this.isGameOver = game.isGameOver();
-		yellowSquare = game.getYellowSquares();
+		yellowSquare = game.colors.get("yellow");
+		if(!game.colors.get("red").isEmpty()) {
+			redSquare = game.colors.get("red").get(game.colors.get("red").size() -1);
+			System.out.println(redSquare);
+		}
 		repaint();
 	}
 	
@@ -102,6 +108,7 @@ public class HamkaBoard extends JButton {
 	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
 		RandomEvents random = new RandomEvents(this.game.getBoard().find(0));
 		yellowSquare = random.yellowEvents();
+		redSquare = random.redEvents(this.game, this.game.isP1Turn(), this.game.getBoard().find(0));
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -148,6 +155,7 @@ public class HamkaBoard extends JButton {
 			}
 		}
 
+		//draw yellow squares
 		try {
 			updateYellow(g, yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 
@@ -155,6 +163,21 @@ public class HamkaBoard extends JButton {
 			yellowSquare = HamkaWindow.getStartingSquares();
 			updateYellow(g,yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 		}
+
+		//draw red square
+
+		try {
+			if(!redSquare.equals(new Point(0, 0))) {
+				g.setColor(Color.red);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE, OFFSET_Y + redSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+			}
+		} catch (NullPointerException e) {
+			redSquare = HamkaWindow.getStartingRed();
+			if(!redSquare.equals(new Point(0, 0))) {
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE, OFFSET_Y + redSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+			}
+		}
+
 
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected)) {
@@ -421,7 +444,8 @@ public class HamkaBoard extends JButton {
 			Point m = HamkaBoard.this.getMousePosition();
 			if (m != null) {
 				handleClick(m.x, m.y);
-				handleClick(m.x, m.y);
+				/*Point p = Board.toPoint(Board.toIndex(0,0));
+				handleClick(p.x, p.y);*/
 			}
 		}
 	}
