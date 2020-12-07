@@ -19,7 +19,7 @@ public class CountTimerScore {
     private JLabel cntL;
     private JLabel cnsL;
     private int pTime;
-   
+
 
 
     public CountTimerScore(HamkaOptionPanel hamkaOptionPanel, JLabel tL, JLabel sL, int pT) {
