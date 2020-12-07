@@ -64,7 +64,7 @@ public class Game {
 		g.skipIndex = skipIndex;
 		return g;
 	}
-	
+
 	/**
 	 * Resets the game of Hamka to the initial state.
 	 */
@@ -85,6 +85,7 @@ public class Game {
 		if (start == null || end == null) {
 			return false;
 		}
+
 		return move(Board.toIndex(start), Board.toIndex(end));
 	}
 	
@@ -133,7 +134,8 @@ public class Game {
 
 			this.skipIndex = -1;
 		}
-		
+
+
 		return true;
 	}
 	
@@ -151,7 +153,6 @@ public class Game {
 	 * return true if the game is over.
 	 */
 	public boolean isGameOver() {
-
 		// Ensure there is at least one of each soldier
 		List<Point> black = board.find(Constants.BLACK_SOLDIER);
 		black.addAll(board.find(Constants.BLACK_QUEEN));
@@ -205,7 +206,7 @@ public class Game {
 		// Add the other info
 		state += (isP1Turn? "1" : "0");
 		state += skipIndex;
-		
+
 		return state;
 	}
 

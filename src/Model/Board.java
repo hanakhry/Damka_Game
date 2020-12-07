@@ -73,7 +73,6 @@ public class Board {
 	 * exist, an empty list is returned.
 	 */
 	public List<Point> find(int id) {
-		
 		// Find all black tiles with matching IDs
 		List<Point> points = new ArrayList<>();
 		for (int i = 0; i < 32; i ++) {

@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.util.List;
 
 /**
@@ -72,6 +73,14 @@ public class HamkaBoard extends JButton {
 		this.window = window;
 		setPlayer1(player1);
 		setPlayer2(player2);
+	}
+
+	private void updateYellow(Graphics g, List<Point> yellowSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
+		for (int i = 0; i < 3; i++) {
+			Point yellowPoint = yellowSquare.get(i);
+			g.setColor(Color.yellow);
+			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
+		}
 	}
 	
 	/**
@@ -138,31 +147,22 @@ public class HamkaBoard extends JButton {
 						BOX_SIZE, BOX_SIZE);
 			}
 		}
-		
+
+		try {
+			updateYellow(g, yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+
+		} catch (NullPointerException e){
+			yellowSquare = HamkaWindow.getStartingSquares();
+			updateYellow(g,yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+		}
+
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected)) {
 			g.setColor(selectionValid? Color.GREEN : Color.RED);
 			g.drawRect(OFFSET_X + selected.x * BOX_SIZE - 1 , OFFSET_Y + selected.y * BOX_SIZE - 1 , BOX_SIZE +2, BOX_SIZE +2);
 
-			try {
-				for (int i = 0; i < 3; i++) {
-					Point yellowPoint = yellowSquare.get(i);
-					g.setColor(Color.yellow);
-					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
-				}
-
-			} catch (NullPointerException e){
-				yellowSquare = HamkaWindow.getStartingSquares();
-
-				for (int i = 0; i < 3; i++) {
-					Point yellowPoint = yellowSquare.get(i);
-					g.setColor(Color.yellow);
-					g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
-				}
-			}
-
 		}
-		
+
 		// Draw the soldiers
 		Board b = game.getBoard();
 		for (int y = 0; y < 8; y ++) {
@@ -235,6 +235,7 @@ public class HamkaBoard extends JButton {
 					g.drawOval(cx - 1, cy - 2, SOLDIER_SIZE, SOLDIER_SIZE);
 					g.drawOval(cx + 1, cy, SOLDIER_SIZE - 4, SOLDIER_SIZE - 4);
 				}
+
 			}
 		}
 		
@@ -352,7 +353,7 @@ public class HamkaBoard extends JButton {
 			String expected = copy.getGameState();
 			boolean move = copy.move(selected, sel);
 			boolean updated = (move? setGameState(true, copy.getGameState(), expected) : false);
-
+			selected.setLocation(0, 0);
 			change = (copy.isP1Turn() != change);
 			this.selected = change? null : sel;
 		} else {
@@ -362,8 +363,16 @@ public class HamkaBoard extends JButton {
 		// Check if the selection is valid
 		this.selectionValid = isValidSelection(
 				copy.getBoard(), copy.isP1Turn(), selected);
-		
+
+
 		update();
+	}
+
+	public static void click(int x, int y) throws AWTException{
+		Robot bot = new Robot();
+		bot.mouseMove(x, y);
+		bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 	}
 	
 	/**
@@ -411,6 +420,7 @@ public class HamkaBoard extends JButton {
 			// Get the new mouse coordinates and handle the click
 			Point m = HamkaBoard.this.getMousePosition();
 			if (m != null) {
+				handleClick(m.x, m.y);
 				handleClick(m.x, m.y);
 			}
 		}
