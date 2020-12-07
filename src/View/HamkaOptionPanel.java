@@ -1,5 +1,7 @@
 package View;
 
+import Controller.CountTimerScore;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,8 @@ import java.awt.event.ActionListener;
  * options for the game of Hamka being played in the window.
  */
 public class HamkaOptionPanel extends JPanel {
+
+
 
 
 	/** The checkers window to update when an option is changed. */
@@ -28,12 +32,12 @@ public class HamkaOptionPanel extends JPanel {
 	/** Timers labels */
 	private JLabel timeLabel=new JLabel();
 	private JLabel scoreLabel=new JLabel();
-	public CountTimer cntd=new CountTimer(timeLabel,scoreLabel,1);
+	public CountTimerScore cntd=new CountTimerScore(this, timeLabel,scoreLabel,1);
 	private JLabel timeLabel2=new JLabel();
 	private JLabel scoreLabel2=new JLabel();
-	public CountTimer cntd2=new CountTimer(timeLabel2,scoreLabel2,2);
+	public CountTimerScore cntd2=new CountTimerScore(this, timeLabel2,scoreLabel2,2);
 	private JLabel timeLabel3=new JLabel();
-	public CountTimer cntd3=new CountTimer(timeLabel3,null,3);
+	public CountTimerScore cntd3=new CountTimerScore(this, timeLabel3,null,3);
 
 	/**
 	 * Creates a new option panel for the specified Hamka window.
@@ -154,128 +158,8 @@ public class HamkaOptionPanel extends JPanel {
 			}
 			}
 		}
-
-
-
-	public class CountTimer implements ActionListener {
-
-		private static final int ONE_SECOND = 800;
-		private int count;
-		private boolean isTimerActive = false;
-		private Timer tmr = new Timer(ONE_SECOND, this);
-		/** Jlabel from main class **/
-		private JLabel cntL;
-		private JLabel cnsL;
-		private int pTime;
-		private boolean flag1;
-		private boolean flag2;
-
-
-		public CountTimer(JLabel tL,JLabel sL,int pT) {
-			pTime=pT;
-			cnsL=sL;
-			cntL=tL;
-			setTimerText(cntL,TimeFormat(count));
-			if(pTime==1||pTime==2) setTimerColor(cntL,Color.GREEN.darker());
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			flag1=false;
-			flag2=false;
-            if(pTime==1&&window.getBoard().getGame().isP1Turn()) {
-				if (isTimerActive) {
-					count++;
-					setTimerText(cntL, TimeFormat(count));
-					if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-					flag1=true;
-
-				}
-			}
-			if(pTime==1&&!window.getBoard().getGame().isP1Turn()) {
-				if(count!=0||flag1)
-
-					window.getBoard().getGame().setPlayer1Score(window.getBoard().getGame().getPlayer1Score()+(60-count));
-				count=0;
-			    flag1=false;
-				cnsL.setText(String.valueOf(window.getBoard().getGame().getPlayer1Score()));
-				setTimerText(cntL, TimeFormat(count));
-				setTimerColor(cntL,Color.GREEN.darker());
-			}
-			if(pTime==2&& !window.getBoard().getGame().isP1Turn()) {
-				if (isTimerActive) {
-					count++;
-					setTimerText(cntL, TimeFormat(count));
-					if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-					flag2=true;
-				}
-			}
-			if(pTime==2&&window.getBoard().getGame().isP1Turn()) {
-				if(count!=0||flag2)
-				    window.getBoard().getGame().setPlayer2Score(window.getBoard().getGame().getPlayer2Score()+(60-count));
-				count=0;
-				flag2=false;
-                cnsL.setText(String.valueOf(window.getBoard().getGame().getPlayer2Score()));
-				setTimerText(cntL, TimeFormat(count));
-				setTimerColor(cntL,Color.GREEN.darker());
-			}
-
-			if(pTime==3) {
-				if (isTimerActive) {
-					count++;
-					setTimerText(cntL, TimeFormat(count));
-
-
-				}
-			}
-		}
-
-		public void start() {
-			count = 0;
-			isTimerActive = true;
-			tmr.start();
-		}
-
-		public void resume() {
-			isTimerActive = true;
-			tmr.restart();
-		}
-
-		public void stop() {
-			tmr.stop();
-		}
-
-		public void pause() {
-			isTimerActive = false;
-		}
-
-		public void reset() {
-			window.getBoard().getGame().setPlayer1Score(0);
-			window.getBoard().getGame().setPlayer2Score(0);
-			count = 0;
-			isTimerActive = true;
-			setTimerText(cntL,TimeFormat(count));
-            if(pTime==1||pTime==2) setTimerColor(cntL,Color.GREEN.darker());
-			tmr.restart();
-
-		}
-
-	}
-	private String TimeFormat(int count) {
-
-		int hours = count / 3600;
-		int minutes = (count-hours*3600)/60;
-		int seconds = count-minutes*60;
-
-		return String.format("%02d", hours) + " : " + String.format("%02d", minutes) + " : " + String.format("%02d", seconds);
-	}
-	private void setTimerText(JLabel tL,String sTime) {
-		tL.setText(sTime);
-	}
-
-
-	private void setTimerColor(JLabel tL,Color sColor) {
-		tL.setForeground(sColor);
+	public HamkaWindow getWindow() {
+		return window;
 	}
 
 }
