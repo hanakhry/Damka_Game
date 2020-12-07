@@ -19,8 +19,7 @@ public class CountTimerScore {
     private JLabel cntL;
     private JLabel cnsL;
     private int pTime;
-    private boolean flag1;
-    private boolean flag2;
+   
 
 
     public CountTimerScore(HamkaOptionPanel hamkaOptionPanel, JLabel tL, JLabel sL, int pT) {
@@ -34,23 +33,21 @@ public class CountTimerScore {
 
    // @Override
     public void actionPerformed(ActionEvent e) {
-        flag1 = false;
-        flag2 = false;
+
         if (pTime == 1 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
             if (isTimerActive) {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                flag1 = true;
+
 
             }
         }
         if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (count != 0 || flag1)
-
+            if (count != 0)
                 hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer1Score(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer1Score() + (60 - count));
             count = 0;
-            flag1 = false;
+
             cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer1Score()));
             setTimerText(cntL, TimeFormat(count));
             setTimerColor(cntL, Color.GREEN.darker());
@@ -60,14 +57,14 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                flag2 = true;
+
             }
         }
         if (pTime == 2 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (count != 0 || flag2)
+            if (count != 0 )
                 hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer2Score(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer2Score() + (60 - count));
             count = 0;
-            flag2 = false;
+
             cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer2Score()));
             setTimerText(cntL, TimeFormat(count));
             setTimerColor(cntL, Color.GREEN.darker());
