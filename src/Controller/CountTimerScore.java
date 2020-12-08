@@ -40,15 +40,14 @@ public class CountTimerScore {
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
 
-
             }
         }
         if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
             if (count != 0)
-                hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer1Score(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer1Score() + (60 - count));
+                hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore() + (60 - count));
             count = 0;
 
-            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer1Score()));
+            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore()));
             setTimerText(cntL, TimeFormat(count));
             setTimerColor(cntL, Color.GREEN.darker());
         }
@@ -62,10 +61,10 @@ public class CountTimerScore {
         }
         if (pTime == 2 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
             if (count != 0 )
-                hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer2Score(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer2Score() + (60 - count));
+                hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore() + (60 - count));
             count = 0;
 
-            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getPlayer2Score()));
+            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore()));
             setTimerText(cntL, TimeFormat(count));
             setTimerColor(cntL, Color.GREEN.darker());
         }
@@ -100,8 +99,8 @@ public class CountTimerScore {
     }
 
     public void reset() {
-        hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer1Score(0);
-        hamkaOptionPanel.getWindow().getBoard().getGame().setPlayer2Score(0);
+        hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().setpScore(0);
+        hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().setpScore(0);
         count = 0;
         isTimerActive = true;
         setTimerText(cntL, TimeFormat(count));

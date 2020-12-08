@@ -2,10 +2,10 @@ package View;
 
 import Controller.RandomEvents;
 import Model.Game;
-import Model.Player;
 
 import javax.swing.*;
-import java.awt.*;import java.util.List;
+import java.awt.*;
+import java.util.List;
 
 
 /**
@@ -33,20 +33,17 @@ public class HamkaWindow extends JFrame {
 	private HamkaBoard board;
 	
 	private HamkaOptionPanel opts;
+
+
+
+
+	public HamkaWindow(String user1,String user2) {
+		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE,user1,user2);
+	}
 	
 
 	
-	public HamkaWindow() {
-		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE);
-	}
-	
-	public HamkaWindow(Player player1, Player player2) {
-		this();
-		setPlayer1(player1);
-		setPlayer2(player2);
-	}
-	
-	public HamkaWindow(int width, int height, String title) {
+	public HamkaWindow(int width, int height, String title,String user1,String user2) {
 		
 		// Setup the window
 		super(title);
@@ -58,6 +55,8 @@ public class HamkaWindow extends JFrame {
 		JPanel layout = new JPanel(new BorderLayout());
 
 		this.board = new HamkaBoard(this);
+		getBoard().getGame().getBlack1Player().setpUsername(user1);
+		getBoard().getGame().getWhite2Player().setpUsername(user2);
 		this.opts = new HamkaOptionPanel(this);
 		layout.add(board, BorderLayout.CENTER);
 		layout.add(opts, BorderLayout.SOUTH);
@@ -79,29 +78,8 @@ public class HamkaWindow extends JFrame {
 		return opts;
 	}
 
-	/**
-	 * Updates the type of player that is being used for player 1.
-	 * 
-	 * @param player1	the new player instance to control player 1.
-	 */
-	public void setPlayer1(Player player1) {
-		this.board.setPlayer1(player1);
-		this.board.update();
-	}
-	
-	/**
-	 * Updates the type of player that is being used for player 2.
-	 * 
-	 * @param player2	the new player instance to control player 2.
-	 */
-	public void setPlayer2(Player player2) {
-		this.board.setPlayer2(player2);
-		this.board.update();
-	}
-	
-	/**
-	 * Resets the game of checkers in the window.
-	 */
+
+
 	public void restart() {
 		this.board.getGame().restart();
 		this.board.update();

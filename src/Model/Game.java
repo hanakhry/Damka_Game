@@ -2,7 +2,6 @@ package Model;
 
 import Controller.RandomEvents;
 import Utils.Constants;
-import View.HamkaBoard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,14 +24,18 @@ public class Game {
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
 
-	/** Players Score **/
-	private int player1Score;
-	private int player2Score;
+
+	/** Players **/
+	private Player black1Player;
+	private Player white2Player;
+
 	public List<Point> yellowSquares;
 	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	
 	public Game() {
+		this.black1Player=new Player("",0);
+		this.white2Player=new Player("",0);
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		restart();
@@ -42,15 +45,15 @@ public class Game {
 		setGameState(state);
 	}
 
-	public Game(int id,Board board, boolean isP1Turn, int skipIndex,int player1Score,int player2Score) {
+	public Game(int id,Board board, boolean isP1Turn, int skipIndex) {
 		this.id=id;
 		this.board = (board == null)? new Board() : board;
 		this.isP1Turn = isP1Turn;
 		this.skipIndex = skipIndex;
-		this.player1Score=player1Score;
-		this.player2Score=player2Score;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
+		this.black1Player=new Player("",0);
+		this.white2Player=new Player("",0);
 	}
 	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
 		this.id = id;
@@ -59,6 +62,8 @@ public class Game {
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
+		this.black1Player=new Player("",0);
+		this.white2Player=new Player("",0);
 	}
 	
 	/**
@@ -221,10 +226,16 @@ public class Game {
 
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
-	public int getPlayer1Score() { return player1Score; }
-	public void setPlayer1Score(int player1Score) { this.player1Score = player1Score; }
-	public int getPlayer2Score() { return player2Score; }
-	public void setPlayer2Score(int player2Score) { this.player2Score = player2Score; }
+
+
+	public Player getBlack1Player() {
+		return black1Player;
+	}
+
+	public Player getWhite2Player() {
+		return white2Player;
+	}
+
 	public HashMap<String, List<Point>> getColors(){ return colors; }
 	public void setColors(HashMap<String, List<Point>> colors){ this.colors = colors; }
 	/**

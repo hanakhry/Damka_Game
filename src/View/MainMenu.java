@@ -19,12 +19,13 @@ public class MainMenu extends JFrame {
 
 
 
-    public static JButton NewGame;
-    public static JButton LoadGame;
-    public static JButton Questions;
-    public static JButton LeaderBoard;
-    public static JButton ExitGame;
-
+    private JButton NewGame;
+    private JButton LoadGame;
+    private JButton Questions;
+    private JButton LeaderBoard;
+    private JButton ExitGame;
+    private JTextField user1 = new JTextField("Username 1");
+    private JTextField user2 = new JTextField("Username 2");
 
     public MainMenu() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE);
@@ -47,7 +48,10 @@ public class MainMenu extends JFrame {
 
 
         JPanel oPts= new JPanel();
-        oPts.setLayout(new GridLayout(5, 1));
+        JPanel oPtsUsers= new JPanel();
+        oPts.setLayout(new GridLayout(6, 1));
+        oPtsUsers.setLayout(new GridLayout(0, 2));
+
         this.NewGame = new JButton("New Game");
         this.LoadGame = new JButton("Load Game");
         this.Questions = new JButton("Question Management");
@@ -55,8 +59,20 @@ public class MainMenu extends JFrame {
         this.ExitGame = new JButton("Exit");
         this.NewGame.addActionListener(new MMOptionListener());
         this.ExitGame.addActionListener(new MMOptionListener());
+        Font font1 = new Font(Font.DIALOG_INPUT ,  Font.ITALIC, 12);
+        user1.setLocation(5, 5);
+        user1.setSize(150,20);
+        user1.setFont(font1);
+        user1.setHorizontalAlignment(JTextField.CENTER);
+        user2.setLocation(5, 5);
+        user2.setSize(150,20);
+        user2.setFont(font1);
+        user2.setHorizontalAlignment(JTextField.CENTER);
+        oPtsUsers.add(user1);
+        oPtsUsers.add(user2);
 
         oPts.add(NewGame);
+        oPts.add(oPtsUsers);
         oPts.add(LoadGame);
         oPts.add(Questions);
         oPts.add(LeaderBoard);
@@ -76,8 +92,11 @@ public class MainMenu extends JFrame {
             Object src = e.getSource();
             // Handle the user action
             if (src== NewGame) {
+
                     dispose();
-                    HamkaWindow window = new HamkaWindow();
+                    HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
+
+
                     window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                     window.setVisible(true);
                 }

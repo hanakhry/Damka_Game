@@ -2,14 +2,15 @@ package View;
 
 
 import Controller.RandomEvents;
-import Model.*;
+import Model.Board;
+import Model.Game;
+import Model.MoveLogic;
 import Utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.util.List;
 
 /**
@@ -25,12 +26,7 @@ public class HamkaBoard extends JButton {
 	
 	/** The window containing this Hamka board UI component. */
 	private HamkaWindow window;
-	
-	/** The player in control of the black soldiers. */
-	private Player player1;
-	
-	/** The player in control of the white soldiers. */
-	private Player player2;
+
 	
 	/** The last point that the current player selected on the Hamka board. */
 	private Point selected;
@@ -58,10 +54,10 @@ public class HamkaBoard extends JButton {
 
 
 	public HamkaBoard(HamkaWindow window) {
-		this(window, new Game(), null, null);
+		this(window, new Game());
 	}
 	
-	public HamkaBoard(HamkaWindow window, Game game, Player player1, Player player2) {
+	public HamkaBoard(HamkaWindow window, Game game) {
 
 		// Setup the component
 		super.setBorderPainted(false);
@@ -75,8 +71,7 @@ public class HamkaBoard extends JButton {
 		this.lightTile = Color.WHITE;
 		this.darkTile = Color.BLACK;
 		this.window = window;
-		setPlayer1(player1);
-		setPlayer2(player2);
+
 	}
 
 	private void updateYellow(Graphics g, List<Point> yellowSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
@@ -99,11 +94,6 @@ public class HamkaBoard extends JButton {
 		repaint();
 	}
 	
-	private void runPlayer() {
-		Player player = getCurrentPlayer();
-		return;
-
-	}
 
 	
 	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
@@ -265,7 +255,8 @@ public class HamkaBoard extends JButton {
 		
 		// Draw the player turn sign
 		
-		String msg = game.isP1Turn()? "Black Player turn" : "White Player turn";
+		String msg = game.isP1Turn()? getGame().getBlack1Player().getpUsername()+" Turn" : getGame().getWhite2Player().getpUsername()+" Turn";
+
 		int width = g.getFontMetrics().stringWidth(msg);
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;
@@ -280,10 +271,10 @@ public class HamkaBoard extends JButton {
 			getWindow().getOpts().cntd2.pause();
 			getWindow().getOpts().cntd3.pause();
 			g.setFont(new Font("Arial", Font.BOLD, 20));
-			if(getGame().getPlayer1Score()>getGame().getPlayer2Score())
-			msg = "Black Player Won!";
+			if(getGame().getBlack1Player().getpScore() > getGame().getWhite2Player().getpScore())
+			msg = getGame().getBlack1Player().getpUsername()+" Won!";
 			else
-				msg= "White Player Won!";
+				msg= getGame().getWhite2Player().getpUsername()+" Won!";
 			width = g.getFontMetrics().stringWidth(msg);
 			g.setColor(new Color(240, 240, 255));
 			g.fillRoundRect(W / 2 - width / 2 - 5,
@@ -310,27 +301,7 @@ public class HamkaBoard extends JButton {
 		this.window = window;
 	}
 
-	public Player getPlayer1() {
-		return player1;
-	}
 
-	public Player getPlayer2() {
-		return player2;
-	}
-
-	public void setPlayer1(Player player1) {
-		this.player1 = (player1 == null)? new Player("Black Player",0) : player1;
-
-	}
-
-	public void setPlayer2(Player player2) {
-		this.player2 = (player2 == null)? new Player("White Player",0) : player2;
-
-	}
-	
-	public Player getCurrentPlayer() {
-		return game.isP1Turn()? player1 : player2;
-	}
 
 	public Color getLightTile() {
 		return lightTile;

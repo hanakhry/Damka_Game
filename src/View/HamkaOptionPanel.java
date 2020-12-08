@@ -85,7 +85,7 @@ public class HamkaOptionPanel extends JPanel {
 		this.add(top2);
 		this.add(top);
 
-		JLabel bpS=new JLabel("Black Player Score: ");
+		JLabel bpS=new JLabel(window.getBoard().getGame().getBlack1Player().getpUsername()+" Score: ");
 		f = bpS.getFont();
 		bpS.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		middle.add(bpS);
@@ -93,21 +93,21 @@ public class HamkaOptionPanel extends JPanel {
 		scoreLabel.setText(String.valueOf(0));
 		this.add(middle);
 
-		JLabel bpT=new JLabel("Black Player Time: ");
+		JLabel bpT=new JLabel(window.getBoard().getGame().getBlack1Player().getpUsername()+" Time: ");
 		bpT.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		middle2.add(bpT);
 		middle2.add(timeLabel);
 		cntd.start();
 		this.add(middle2);
 
-		JLabel wpS=new JLabel("White Player Score: ");
+		JLabel wpS=new JLabel(window.getBoard().getGame().getWhite2Player().getpUsername()+" Score: ");
 		wpS.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		bottom.add(wpS);
 		scoreLabel2.setText(String.valueOf(0));
 		bottom.add(scoreLabel2);
 		this.add(bottom);
 
-		JLabel wpT=new JLabel("White Player Time: ");
+		JLabel wpT=new JLabel(window.getBoard().getGame().getWhite2Player().getpUsername()+" Time: ");
 		wpT.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		bottom2.add(wpT);
 		bottom2.add(timeLabel2);
