@@ -17,10 +17,10 @@ public class Game {
 	private int id;
 	/** The current state of the Hamka board. */
 	private Board board;
-	
+
 	/** The flag indicating if it is player 1's (Black) turn. */
 	private boolean isP1Turn;
-	
+
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
 
@@ -32,15 +32,19 @@ public class Game {
 	public List<Point> yellowSquares;
 	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
-	
+	public List<Point> greenSquare;
+
+	public boolean isGreen = false;
+
 	public Game() {
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
+		this.greenSquare = new ArrayList<>();
 		restart();
 	}
-	
+
 	public Game(String state) {
 		setGameState(state);
 	}
@@ -52,6 +56,7 @@ public class Game {
 		this.skipIndex = skipIndex;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
+		this.greenSquare = new ArrayList<>();
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 	}
@@ -59,13 +64,14 @@ public class Game {
 		this.id = id;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
+		this.greenSquare = new ArrayList<>();
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 	}
-	
+
 	/**
 	 * Creates a copy of this game such that any modifications made to one are
 	 * not made to the other.
@@ -74,6 +80,7 @@ public class Game {
 	public Game copy() {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
+		colors.put("green", this.greenSquare);
 		Game g = new Game();
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
@@ -89,8 +96,9 @@ public class Game {
 		//White player starts
 		this.isP1Turn = false;
 		this.skipIndex = -1;
+		this.isGreen = false;
 	}
-	
+
 	/**
 	 * Attempts to make a move from the start point to the end point.
 	 * parameter start, the start point for the move.
@@ -101,9 +109,10 @@ public class Game {
 		if (start == null || end == null) {
 			return false;
 		}
+		this.isGreen = false;
 		return move(Board.toIndex(start), Board.toIndex(end));
 	}
-	
+
 	/**
 	 * Attempts to make a move given the start and end index of the move.
 	 * startIndex the start index of the move.
@@ -115,14 +124,14 @@ public class Game {
 		if (!MoveLogic.isValidMove(this, startIndex, endIndex)) {
 			return false;
 		}
-		
+
 		// Make the move
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
 		this.board.set(endIndex, board.get(startIndex));
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
-		
+
 		// Make the soldier a queen if necessary
 		Point end = Board.toPoint(endIndex);
 		int id = board.get(endIndex);
@@ -134,7 +143,7 @@ public class Game {
 			this.board.set(endIndex, Constants.BLACK_QUEEN);
 			switchTurn = true;
 		}
-		
+
 		// Check if the turn should switch (i.e. no more skips)
 		boolean midValid = Board.isValidIndex(midIndex);
 		if (midValid) {
@@ -153,7 +162,7 @@ public class Game {
 
 		return true;
 	}
-	
+
 	/**
 	 * Gets a copy of the current board state.
 	 * return a non-reference to the current game board state.
@@ -161,7 +170,7 @@ public class Game {
 	public Board getBoard() {
 		return board.copy();
 	}
-	
+
 	/**
 	 * Determines if the game is over. The game is over if one or both players
 	 * cannot make a single move during their turn.
@@ -179,7 +188,7 @@ public class Game {
 		if (white.isEmpty()) {
 			return true;
 		}
-		
+
 		// Check that the current player can move
 		List<Point> test = isP1Turn? black : white;
 		for (Point p : test) {
@@ -189,29 +198,37 @@ public class Game {
 				return false;
 			}
 		}
-		
+
 		// No moves
 		return true;
 	}
-	
+
 	public boolean isP1Turn() {
 		return isP1Turn;
 	}
-	
+
+	public boolean isGreen(){
+		return isGreen;
+	}
+
+	public void setGreen(boolean flag){
+		this.isGreen = flag;
+	}
+
 	public void setP1Turn(boolean isP1Turn) {
 		this.isP1Turn = isP1Turn;
 	}
-	
+
 	public int getSkipIndex() {
 		return skipIndex;
 	}
-	
+
 	/**
 	 * Gets the current game state as a string of data that can be parsed by setGameState(String)
 	 * return a string representing the current game state.
 	 */
 	public String getGameState() {
-		
+
 		// Add the game board
 		String state = "";
 		for (int i = 0; i < 32; i ++) {
@@ -243,14 +260,14 @@ public class Game {
 	 * parameter state the game state.
 	 */
 	public void setGameState(String state) {
-		
+
 		restart();
-		
+
 		// Trivial cases
 		if (state == null || state.isEmpty()) {
 			return;
 		}
-		
+
 		// Update the board
 		int n = state.length();
 		for (int i = 0; i < 32 && i < n; i ++) {
@@ -259,7 +276,7 @@ public class Game {
 				this.board.set(i, id);
 			} catch (NumberFormatException e) {}
 		}
-		
+
 		// Update the other info
 		if (n > 32) {
 			this.isP1Turn = (state.charAt(32) == '1');
@@ -273,11 +290,16 @@ public class Game {
 		}
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
 		Point redPoint = random.redEvents(this ,isP1Turn, this.getBoard().find(0));
+		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
 		if(redPoint != null)
 			redSquare.add(redPoint);
 		else{
 			redSquare.add(new Point(0, 0));
 		}
+		if(greenPoint != null)
+			greenSquare.add(greenPoint);
+		else
+			greenSquare.add(new Point(0, 0));
 		yellowSquares = random.yellowEvents();
 	}
 

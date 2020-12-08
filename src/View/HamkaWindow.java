@@ -18,20 +18,22 @@ public class HamkaWindow extends JFrame {
 
 	/** The default width for the checkers window. */
 	public static final int DEFAULT_WIDTH = 620;
-	
+
 	/** The default height for the checkers window. */
 	public static final int DEFAULT_HEIGHT = 750;
-	
+
 	/** The default title for the checkers window. */
 	public static final String DEFAULT_TITLE = "Hamka Hedgehog";
 
 	static RandomEvents random = new RandomEvents(new Game().getBoard().find(0));
 	public static List<Point>  yellowSquare = random.yellowEvents();
 	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn() ,new Game().getBoard().find(0));
-	
+	public static Point greenSquare = random.greenEvents(new Game(), new Game().getBoard().find(0), redSquare);
+
+
 	/** The checker board component playing the updatable game. */
 	private HamkaBoard board;
-	
+
 	private HamkaOptionPanel opts;
 
 
@@ -40,17 +42,17 @@ public class HamkaWindow extends JFrame {
 	public HamkaWindow(String user1,String user2) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE,user1,user2);
 	}
-	
 
-	
+
+
 	public HamkaWindow(int width, int height, String title,String user1,String user2) {
-		
+
 		// Setup the window
 		super(title);
 		super.setSize(width, height);
 		setLocationRelativeTo(null);
 
-		
+
 		// Setup the components
 		JPanel layout = new JPanel(new BorderLayout());
 
@@ -61,7 +63,7 @@ public class HamkaWindow extends JFrame {
 		layout.add(board, BorderLayout.CENTER);
 		layout.add(opts, BorderLayout.SOUTH);
 		this.add(layout);
-		
+
 
 	}
 
@@ -70,6 +72,9 @@ public class HamkaWindow extends JFrame {
 	}
 	public static Point getStartingRed(){
 		return redSquare;
+	}
+	public static Point getStartingGreen(){
+		return greenSquare;
 	}
 	public HamkaBoard getBoard() {
 		return board;
@@ -88,7 +93,7 @@ public class HamkaWindow extends JFrame {
 
 
 	}
-	
+
 	public void setGameState(String state) {
 		this.board.getGame().setGameState(state);
 	}
