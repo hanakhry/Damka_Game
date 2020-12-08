@@ -1,16 +1,19 @@
 package Controller;
 
+import View.HamkaBoard;
 import View.HamkaOptionPanel;
-
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
 
 public class CountTimerScore {
 
     private static final int ONE_SECOND = 800;
     private final HamkaOptionPanel hamkaOptionPanel;
     private int count;
+    private HamkaBoard h;
     private boolean isTimerActive = false;
     private Timer tmr = new Timer(ONE_SECOND, this::actionPerformed);
     /**
@@ -39,7 +42,11 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
+                if(count > 5){
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
+                    hamkaOptionPanel.getWindow().getBoard().update();
 
+                }
             }
         }
         if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
@@ -56,7 +63,15 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
+                if(count > 5){
+                    //green
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
+                    hamkaOptionPanel.getWindow().getBoard().update();
 
+                }
+                if(count > 90){
+                    //red
+                }
             }
         }
         if (pTime == 2 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
@@ -74,6 +89,8 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
 
+                }
+                if(count > 8){
 
             }
         }

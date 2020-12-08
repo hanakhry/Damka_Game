@@ -50,6 +50,8 @@ public class HamkaBoard extends JButton {
 
 	private static Point redSquare;
 
+	public static Point greenSquare;
+
 	private static boolean colorChange = true;
 
 
@@ -91,6 +93,9 @@ public class HamkaBoard extends JButton {
 		if(!game.colors.get("red").isEmpty()) {
 			redSquare = game.colors.get("red").get(game.colors.get("red").size() -1);
 		}
+		if(!game.colors.get("green").isEmpty()) {
+			greenSquare = game.colors.get("green").get(game.colors.get("green").size() -1);
+		}
 		repaint();
 	}
 	
@@ -100,6 +105,7 @@ public class HamkaBoard extends JButton {
 		RandomEvents random = new RandomEvents(this.game.getBoard().find(0));
 		yellowSquare = random.yellowEvents();
 		redSquare = random.redEvents(this.game, this.game.isP1Turn(), this.game.getBoard().find(0));
+		greenSquare = random.greenEvents(this.game, this.game.getBoard().find(0), redSquare);
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -169,6 +175,21 @@ public class HamkaBoard extends JButton {
 			}
 		}
 
+		//green square
+		if(this.game.isGreen) {
+			try {
+				if (!greenSquare.equals(new Point(0, 0))) {
+					g.setColor(Color.green);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+				}
+			} catch (NullPointerException e) {
+				greenSquare = HamkaWindow.getStartingGreen();
+				if (!greenSquare.equals(new Point(0, 0))) {
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+				}
+			}
+
+		}
 
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected) && colorChange) {

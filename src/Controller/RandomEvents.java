@@ -71,6 +71,18 @@ public class RandomEvents {
         return troops;
     }
 
+    public static Point greenEvents(Game g, List<Point> emptyBlackCells, Point redPoint){
+        //green can't be red
+        emptyBlackCells.remove(redPoint);
+        List<Point> validMoves = new ArrayList<>();
+        List<Point> troops = new ArrayList<>();
+        troops.addAll(getTroops(g, !g.isP1Turn()));
+
+        for(int i = 0; i < troops.size(); i++)
+            validMoves.addAll(allValidMoves(troops.get(i), emptyBlackCells, g));
+        return randomRedPoint(validMoves);
+    }
+    
     public static Point redEvents(Game g, boolean turn, List<Point> emptyBlackCells){
         List<Point> validMoves = new ArrayList<>();
         List<Point> troops = new ArrayList<>();
