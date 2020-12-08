@@ -14,7 +14,8 @@ import java.util.Random;
 
 public class RandomEvents {
     static List<Point> emptyBlackCells;
-
+    static boolean flag1=false;
+    static boolean flag2=false;
     public RandomEvents(List<Point> emptyBlackCells){
         this.emptyBlackCells = emptyBlackCells;
     }
@@ -74,6 +75,8 @@ public class RandomEvents {
     public static Point redEvents(Game g, boolean turn, List<Point> emptyBlackCells){
         List<Point> validMoves = new ArrayList<>();
         List<Point> troops = new ArrayList<>();
+
+
         troops.addAll(getTroops(g, turn));
 
         //the other soldiers
@@ -82,11 +85,23 @@ public class RandomEvents {
 
         for(Point p : troops){
            if(!MoveLogic.isSafe(g.getBoard(), p)) {
+               if(turn) flag1=true;
+
+               if(!turn) flag2=true;
+
                //current player is eligible to eat
                System.out.println("not safe");
                return null;
            }
+
+
         }
+        if(flag1)g.getBlack1Player().setpScore(g.getBlack1Player().getpScore()+100);
+        if(flag2)g.getWhite2Player().setpScore(g.getWhite2Player().getpScore()+100);
+        flag1=false;
+        flag2=false;
+
+
         for(int i = 0; i < secondaryTroops.size(); i++)
             validMoves.addAll(allValidMoves(secondaryTroops.get(i), emptyBlackCells, g));
         return randomRedPoint(validMoves);

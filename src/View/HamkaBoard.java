@@ -160,12 +160,12 @@ public class HamkaBoard extends JButton {
 		try {
 			if(!redSquare.equals(new Point(0, 0))) {
 				g.setColor(Color.red);
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE, OFFSET_Y + redSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE+2, OFFSET_Y + redSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
 			}
 		} catch (NullPointerException e) {
 			redSquare = HamkaWindow.getStartingRed();
 			if(!redSquare.equals(new Point(0, 0))) {
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE, OFFSET_Y + redSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE +2, OFFSET_Y + redSquare.y * BOX_SIZE +2, BOX_SIZE - 4, BOX_SIZE - 4);
 			}
 		}
 
@@ -379,6 +379,7 @@ public class HamkaBoard extends JButton {
 				id == Constants.BLACK_QUEEN)) { // wrong soldier
 			return false;
 		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available
+
 			return true;
 		} else if (MoveLogic.getMoves(b, i).isEmpty()) { // no moves
 			return false;
