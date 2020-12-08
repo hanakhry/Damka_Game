@@ -2,6 +2,8 @@ package Model;
 
 import Controller.RandomEvents;
 import Utils.Constants;
+import View.HamkaBoard;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,7 +96,6 @@ public class Game {
 		if (start == null || end == null) {
 			return false;
 		}
-
 		return move(Board.toIndex(start), Board.toIndex(end));
 	}
 	

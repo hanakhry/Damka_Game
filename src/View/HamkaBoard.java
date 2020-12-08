@@ -54,6 +54,8 @@ public class HamkaBoard extends JButton {
 
 	private static Point redSquare;
 
+	private static boolean colorChange = true;
+
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game(), null, null);
@@ -93,7 +95,6 @@ public class HamkaBoard extends JButton {
 		yellowSquare = game.colors.get("yellow");
 		if(!game.colors.get("red").isEmpty()) {
 			redSquare = game.colors.get("red").get(game.colors.get("red").size() -1);
-			System.out.println(redSquare);
 		}
 		repaint();
 	}
@@ -180,7 +181,7 @@ public class HamkaBoard extends JButton {
 
 
 		// Highlight the selected tile if valid
-		if (Board.isValidPoint(selected)) {
+		if (Board.isValidPoint(selected) && colorChange) {
 			g.setColor(selectionValid? Color.GREEN : Color.RED);
 			g.drawRect(OFFSET_X + selected.x * BOX_SIZE - 1 , OFFSET_Y + selected.y * BOX_SIZE - 1 , BOX_SIZE +2, BOX_SIZE +2);
 
@@ -352,9 +353,7 @@ public class HamkaBoard extends JButton {
 	 * Parameter x the x-coordinate of the click on this component.
 	 * Parameter y the y-coordinate of the click on this component.
 	 */
-	public void handleClick(int x, int y) {
-
-
+	public void handleClick(int x, int y, int changeColor) {
 		if (isGameOver) {
 			return;
 		}
@@ -375,6 +374,10 @@ public class HamkaBoard extends JButton {
 			boolean change = copy.isP1Turn();
 			String expected = copy.getGameState();
 			boolean move = copy.move(selected, sel);
+			if(changeColor == 2)
+				colorChange = true;
+			else
+				colorChange = false;
 			boolean updated = (move? setGameState(true, copy.getGameState(), expected) : false);
 			selected.setLocation(0, 0);
 			change = (copy.isP1Turn() != change);
@@ -386,18 +389,9 @@ public class HamkaBoard extends JButton {
 		// Check if the selection is valid
 		this.selectionValid = isValidSelection(
 				copy.getBoard(), copy.isP1Turn(), selected);
-
-
 		update();
 	}
 
-	public static void click(int x, int y) throws AWTException{
-		Robot bot = new Robot();
-		bot.mouseMove(x, y);
-		bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-		bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-	}
-	
 	/**
 	 * Checks if a selected point is valid in the context of the current
 	 * player's turn.
@@ -443,9 +437,8 @@ public class HamkaBoard extends JButton {
 			// Get the new mouse coordinates and handle the click
 			Point m = HamkaBoard.this.getMousePosition();
 			if (m != null) {
-				handleClick(m.x, m.y);
-				/*Point p = Board.toPoint(Board.toIndex(0,0));
-				handleClick(p.x, p.y);*/
+				handleClick(m.x, m.y, 1);
+				handleClick(m.x, m.y, 2);
 			}
 		}
 	}
