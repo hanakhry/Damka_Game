@@ -211,7 +211,7 @@ public class HamkaBoard extends JButton {
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
 				if (!greenSquare.equals(new Point(0, 0))) {
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+2, OFFSET_Y + greenSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
 				}
 			}
 
@@ -220,6 +220,8 @@ public class HamkaBoard extends JButton {
 		if (this.game.isOrange) {
 			try {
 				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+				RandomEvents rnd = new RandomEvents(this.game.getBoard().find(0));
+				orangeSquare = rnd.orangeEvents(this.game, this.game.getBoard().find(0));
 			} catch (NullPointerException e) {
 				orangeSquare = HamkaWindow.getStartingOrange();
 				System.out.println(orangeSquare);
