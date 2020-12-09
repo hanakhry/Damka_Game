@@ -87,6 +87,7 @@ public class Game {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
+		colors.remove("orange");
 		colors.put("orange", this.orangeSquares);
 		Game g = new Game();
 		g.board = board.copy();
@@ -271,7 +272,10 @@ public class Game {
 	}
 
 	public HashMap<String, List<Point>> getColors(){ return colors; }
-	public void setColors(HashMap<String, List<Point>> colors){ this.colors = colors; }
+	public void setColors(HashMap<String, List<Point>> colors){
+		this.colors = colors;
+		refreshColors();
+	}
 	/**
 	 * Parses a string representing a game state that was generated from getGameState()
 	 * parameter state the game state.
@@ -305,6 +309,11 @@ public class Game {
 				this.skipIndex = -1;
 			}
 		}
+
+		refreshColors();
+	}
+
+	private void refreshColors(){
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
 		Point redPoint = random.redEvents(this ,isP1Turn, this.getBoard().find(0));
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
@@ -327,6 +336,5 @@ public class Game {
 
 		yellowSquares = random.yellowEvents();
 	}
-
 
 }

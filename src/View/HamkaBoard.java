@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -98,17 +100,27 @@ public class HamkaBoard extends JButton {
 	/**
 	 * Checks if the game is over and redraws the component graphics.
 	 */
-	public void update() {
-		this.isGameOver = game.isGameOver();
-		yellowSquare = game.colors.get("yellow");
-		if(!game.colors.get("red").isEmpty()) {
-			redSquare = game.colors.get("red").get(game.colors.get("red").size() -1);
-		}
-		if(!game.colors.get("green").isEmpty()) {
-			greenSquare = game.colors.get("green").get(game.colors.get("green").size() -1);
-		}
-		if(!game.colors.get("orange").isEmpty()) {
-			orangeSquare = game.colors.get("orange");
+	public void update(boolean flag) {
+		if(!flag) {
+			this.isGameOver = game.isGameOver();
+			yellowSquare = game.colors.get("yellow");
+			if (!game.colors.get("red").isEmpty()) {
+				redSquare = game.colors.get("red").get(game.colors.get("red").size() - 1);
+			}
+			if (!game.colors.get("green").isEmpty()) {
+				greenSquare = game.colors.get("green").get(game.colors.get("green").size() - 1);
+			}
+			if (!game.colors.get("orange").isEmpty()) {
+				orangeSquare = game.colors.get("orange");
+			}
+		} else{
+			HashMap<String, List<Point>> colors = new HashMap<String, List<Point>>();
+			colors.put("green", new ArrayList<>());
+			colors.put("red", new ArrayList<>());
+			colors.put("orange", new ArrayList<>());
+			colors.put("yellow", new ArrayList<>());
+			game.setColors(colors);
+			System.out.println(colors);
 		}
 
 		repaint();
@@ -407,7 +419,7 @@ public class HamkaBoard extends JButton {
 		// Check if the selection is valid
 		this.selectionValid = isValidSelection(
 				copy.getBoard(), copy.isP1Turn(), selected);
-		update();
+		update(false);
 	}
 
 	/**

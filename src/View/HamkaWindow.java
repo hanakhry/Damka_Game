@@ -38,8 +38,6 @@ public class HamkaWindow extends JFrame {
 	private HamkaOptionPanel opts;
 
 
-
-
 	public HamkaWindow(String user1,String user2) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE,user1,user2);
 	}
@@ -89,7 +87,7 @@ public class HamkaWindow extends JFrame {
 
 	public void restart() {
 		this.board.getGame().restart();
-		this.board.update();
+		this.board.update(true);
 		//to reset colors on board after restarting (clicking white tile)
 		this.board.handleClick(0,0, 1);
 
