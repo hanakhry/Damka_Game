@@ -217,11 +217,13 @@ public class HamkaBoard extends JButton {
 
 		}
 
+		//orange squares
 		if (this.game.isOrange) {
 			try {
-				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 				RandomEvents rnd = new RandomEvents(this.game.getBoard().find(0));
 				orangeSquare = rnd.orangeEvents(this.game, this.game.getBoard().find(0));
+				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+
 			} catch (NullPointerException e) {
 				orangeSquare = HamkaWindow.getStartingOrange();
 				System.out.println(orangeSquare);
