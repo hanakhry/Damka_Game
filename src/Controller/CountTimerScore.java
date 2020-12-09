@@ -42,7 +42,7 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 30){
+                if(count > 5){
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                     hamkaOptionPanel.getWindow().getBoard().update();
 
@@ -69,7 +69,7 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 30){
+                if(count > 5){
                     //green
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                     hamkaOptionPanel.getWindow().getBoard().update();

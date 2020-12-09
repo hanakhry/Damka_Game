@@ -54,6 +54,8 @@ public class HamkaBoard extends JButton {
 
 	private static boolean colorChange = true;
 
+	private static List<Point> orangeSquare;
+
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
@@ -83,7 +85,16 @@ public class HamkaBoard extends JButton {
 			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
 		}
 	}
-	
+
+
+	private void updateOrange(Graphics g, List<Point> orangeSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
+		for (int i = 0; i < orangeSquare.size(); i++) {
+			Point orangePoint = orangeSquare.get(i);
+			g.setColor(Color.orange);
+			g.fillRect(OFFSET_X + orangePoint.x * BOX_SIZE +2, OFFSET_Y + orangePoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
+		}
+	}
+
 	/**
 	 * Checks if the game is over and redraws the component graphics.
 	 */
@@ -96,6 +107,10 @@ public class HamkaBoard extends JButton {
 		if(!game.colors.get("green").isEmpty()) {
 			greenSquare = game.colors.get("green").get(game.colors.get("green").size() -1);
 		}
+		if(!game.colors.get("orange").isEmpty()) {
+			orangeSquare = game.colors.get("orange");
+		}
+
 		repaint();
 	}
 	
@@ -106,6 +121,7 @@ public class HamkaBoard extends JButton {
 		yellowSquare = random.yellowEvents();
 		redSquare = random.redEvents(this.game, this.game.isP1Turn(), this.game.getBoard().find(0));
 		greenSquare = random.greenEvents(this.game, this.game.getBoard().find(0), redSquare);
+		orangeSquare = random.orangeEvents(this.game, this.game.getBoard().find(0));
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -130,22 +146,22 @@ public class HamkaBoard extends JButton {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Game game = this.game.copy();
-		
+
 		// Perform calculations
 		final int BOX_PADDING = 4;
 		final int W = getWidth(), H = getHeight();
-		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
+		final int DIM = W < H ? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
 		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
 		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
 		final int SOLDIER_SIZE = Math.max(0, BOX_SIZE - 2 * BOX_PADDING);
-		
+
 		// Draw Hamka board
 		g.setColor(Color.BLACK);
 		g.drawRect(OFFSET_X - 1, OFFSET_Y - 1, BOX_SIZE * 8 + 1, BOX_SIZE * 8 + 1);
 		g.setColor(lightTile);
 		g.fillRect(OFFSET_X, OFFSET_Y, BOX_SIZE * 8, BOX_SIZE * 8);
 		g.setColor(darkTile);
-		for (int y = 0; y < 8; y ++) {
+		for (int y = 0; y < 8; y++) {
 			for (int x = (y + 1) % 2; x < 8; x += 2) {
 				g.fillRect(OFFSET_X + x * BOX_SIZE, OFFSET_Y + y * BOX_SIZE,
 						BOX_SIZE, BOX_SIZE);
@@ -156,32 +172,30 @@ public class HamkaBoard extends JButton {
 		try {
 			updateYellow(g, yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 
-		} catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			yellowSquare = HamkaWindow.getStartingSquares();
-			updateYellow(g,yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+			updateYellow(g, yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 		}
 
 		//draw red square
 
 		try {
-			if(!redSquare.equals(new Point(0, 0))) {
+			if (!redSquare.equals(new Point(0, 0))) {
 				g.setColor(Color.red);
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE+2, OFFSET_Y + redSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 2, OFFSET_Y + redSquare.y * BOX_SIZE + 2, BOX_SIZE - 4, BOX_SIZE - 4);
 			}
 		} catch (NullPointerException e) {
 			redSquare = HamkaWindow.getStartingRed();
-			if(!redSquare.equals(new Point(0, 0))) {
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE +2, OFFSET_Y + redSquare.y * BOX_SIZE +2, BOX_SIZE - 4, BOX_SIZE - 4);
+			if (!redSquare.equals(new Point(0, 0))) {
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 2, OFFSET_Y + redSquare.y * BOX_SIZE + 2, BOX_SIZE - 4, BOX_SIZE - 4);
 			}
 		}
 
 		//green square
-		if(this.game.isGreen) {
+		if (this.game.isGreen) {
 			try {
-				if (!greenSquare.equals(new Point(0, 0))) {
-					g.setColor(Color.green);
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+2, OFFSET_Y + greenSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
-				}
+				g.setColor(Color.green);
+				g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE + 2, OFFSET_Y + greenSquare.y * BOX_SIZE + 2, BOX_SIZE - 4, BOX_SIZE - 4);
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
 				if (!greenSquare.equals(new Point(0, 0))) {
@@ -190,6 +204,18 @@ public class HamkaBoard extends JButton {
 			}
 
 		}
+
+		if (this.game.isOrange) {
+			try {
+				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+			} catch (NullPointerException e) {
+				orangeSquare = HamkaWindow.getStartingOrange();
+				System.out.println(orangeSquare);
+				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
+			}
+		}
+
+
 
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected) && colorChange) {
