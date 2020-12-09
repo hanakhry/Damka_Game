@@ -48,8 +48,6 @@ public class HamkaBoard extends JButton {
 
 	private static List<Point> yellowSquare;
 
-	private static List<Point> orangeSquare;
-
 	private static Point redSquare;
 
 	public static Point greenSquare;
@@ -85,14 +83,6 @@ public class HamkaBoard extends JButton {
 			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
 		}
 	}
-
-	private void updateOrange(Graphics g, List<Point> orangeSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
-		for (int i = 0; i < orangeSquare.size(); i++) {
-			Point orangePoint = orangeSquare.get(i);
-			g.setColor(Color.orange);
-			g.fillRect(OFFSET_X + orangePoint.x * BOX_SIZE +2, OFFSET_Y + orangePoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
-		}
-	}
 	
 	/**
 	 * Checks if the game is over and redraws the component graphics.
@@ -106,9 +96,6 @@ public class HamkaBoard extends JButton {
 		if(!game.colors.get("green").isEmpty()) {
 			greenSquare = game.colors.get("green").get(game.colors.get("green").size() -1);
 		}
-		if(!game.colors.get("orange").isEmpty()) {
-			orangeSquare = game.colors.get("orange");
-		}
 		repaint();
 	}
 	
@@ -119,7 +106,6 @@ public class HamkaBoard extends JButton {
 		yellowSquare = random.yellowEvents();
 		redSquare = random.redEvents(this.game, this.game.isP1Turn(), this.game.getBoard().find(0));
 		greenSquare = random.greenEvents(this.game, this.game.getBoard().find(0), redSquare);
-		orangeSquare = random.orangeEvents(this.game, this.game.getBoard().find(0));
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -192,24 +178,15 @@ public class HamkaBoard extends JButton {
 		//green square
 		if(this.game.isGreen) {
 			try {
+				if (!greenSquare.equals(new Point(0, 0))) {
 					g.setColor(Color.green);
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+2, OFFSET_Y + greenSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
+				}
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
 				if (!greenSquare.equals(new Point(0, 0))) {
 					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
 				}
-			}
-
-		}
-
-		if(this.game.isOrange){
-			try {
-				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
-			} catch (NullPointerException e) {
-				orangeSquare = HamkaWindow.getStartingOrange();
-				System.out.println(orangeSquare);
-				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 			}
 
 		}
@@ -389,13 +366,10 @@ public class HamkaBoard extends JButton {
 			boolean change = copy.isP1Turn();
 			String expected = copy.getGameState();
 			boolean move = copy.move(selected, sel);
-
-			//handles double click for colors
 			if(changeColor == 2)
 				colorChange = true;
 			else
 				colorChange = false;
-
 			boolean updated = (move? setGameState(true, copy.getGameState(), expected) : false);
 			selected.setLocation(0, 0);
 			change = (copy.isP1Turn() != change);
@@ -425,8 +399,13 @@ public class HamkaBoard extends JButton {
 		} else if(isP1Turn ^ (id == Constants.BLACK_SOLDIER ||
 				id == Constants.BLACK_QUEEN)) { // wrong soldier
 			return false;
-		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available
-
+		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available + add points to skip (player must skip)
+			if(isP1Turn){
+				game.getBlack1Player().setpScore(game.getBlack1Player().getpScore()+50);
+			}
+			if(!isP1Turn){
+				game.getWhite2Player().setpScore(game.getWhite2Player().getpScore()+50);
+			}
 			return true;
 		} else if (MoveLogic.getMoves(b, i).isEmpty()) { // no moves
 			return false;

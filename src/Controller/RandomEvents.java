@@ -14,8 +14,7 @@ import java.util.Random;
 
 public class RandomEvents {
     static List<Point> emptyBlackCells;
-    static boolean flag1=false;
-    static boolean flag2=false;
+
     public RandomEvents(List<Point> emptyBlackCells){
         this.emptyBlackCells = emptyBlackCells;
     }
@@ -109,9 +108,6 @@ public class RandomEvents {
 
         for(Point p : troops){
            if(!MoveLogic.isSafe(g.getBoard(), p)) {
-               if(turn) flag1=true;
-
-               if(!turn) flag2=true;
 
                //current player is eligible to eat
                System.out.println("not safe");
@@ -120,10 +116,8 @@ public class RandomEvents {
 
 
         }
-        if(flag1)g.getBlack1Player().setpScore(g.getBlack1Player().getpScore()+100);
-        if(flag2)g.getWhite2Player().setpScore(g.getWhite2Player().getpScore()+100);
-        flag1=false;
-        flag2=false;
+
+
 
 
         for(int i = 0; i < secondaryTroops.size(); i++)
