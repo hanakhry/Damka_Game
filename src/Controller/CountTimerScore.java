@@ -44,14 +44,14 @@ public class CountTimerScore {
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
                 if(count > 5){
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
-                    hamkaOptionPanel.getWindow().getBoard().update();
+                    hamkaOptionPanel.getWindow().getBoard().update(false);
 
                 }
                 if(count > 10){
                     //orange
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
                     hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
-                    hamkaOptionPanel.getWindow().getBoard().update();
+                    hamkaOptionPanel.getWindow().getBoard().update(false);
                 }
             }
         }
@@ -72,13 +72,13 @@ public class CountTimerScore {
                 if(count > 5){
                     //green
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
-                    hamkaOptionPanel.getWindow().getBoard().update();
+                    hamkaOptionPanel.getWindow().getBoard().update(false);
                 }
                 if(count > 10){
                     //orange
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
                     hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
-                    hamkaOptionPanel.getWindow().getBoard().update();
+                    hamkaOptionPanel.getWindow().getBoard().update(false);
                 }
             }
         }
