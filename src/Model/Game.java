@@ -33,8 +33,11 @@ public class Game {
 	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	public List<Point> greenSquare;
+	public List<Point> orangeSquares;
 
 	public boolean isGreen = false;
+
+	public boolean isOrange = false;
 
 	public Game() {
 		this.black1Player=new Player("",0);
@@ -42,6 +45,7 @@ public class Game {
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
+		this.orangeSquares = new ArrayList<>();
 		restart();
 	}
 
@@ -57,6 +61,7 @@ public class Game {
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
+		this.orangeSquares = new ArrayList<>();
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 	}
@@ -65,6 +70,7 @@ public class Game {
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
+		this.orangeSquares = new ArrayList<>();
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
@@ -81,6 +87,7 @@ public class Game {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
+		colors.put("orange", this.orangeSquares);
 		Game g = new Game();
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
@@ -97,6 +104,7 @@ public class Game {
 		this.isP1Turn = false;
 		this.skipIndex = -1;
 		this.isGreen = false;
+		this.isOrange = false;
 	}
 
 	/**
@@ -110,6 +118,7 @@ public class Game {
 			return false;
 		}
 		this.isGreen = false;
+		this.isOrange = false;
 		return move(Board.toIndex(start), Board.toIndex(end));
 	}
 
@@ -215,6 +224,14 @@ public class Game {
 		this.isGreen = flag;
 	}
 
+	public boolean isOrange(){
+		return isOrange;
+	}
+
+	public void setOrange(boolean flag){
+		this.isOrange = flag;
+	}
+
 	public void setP1Turn(boolean isP1Turn) {
 		this.isP1Turn = isP1Turn;
 	}
@@ -291,15 +308,23 @@ public class Game {
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
 		Point redPoint = random.redEvents(this ,isP1Turn, this.getBoard().find(0));
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
+		List<Point> orangePoints = random.orangeEvents(this, this.getBoard().find(0));
+
 		if(redPoint != null)
 			redSquare.add(redPoint);
-		else{
+		else
 			redSquare.add(new Point(0, 0));
-		}
+
 		if(greenPoint != null)
 			greenSquare.add(greenPoint);
 		else
 			greenSquare.add(new Point(0, 0));
+
+		if(orangePoints != null)
+			orangeSquares.addAll(orangePoints);
+		else
+			orangeSquares.add(new Point(0, 0));
+
 		yellowSquares = random.yellowEvents();
 	}
 

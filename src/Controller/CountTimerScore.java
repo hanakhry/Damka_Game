@@ -47,6 +47,12 @@ public class CountTimerScore {
                     hamkaOptionPanel.getWindow().getBoard().update();
 
                 }
+                if(count > 10){
+                    //orange
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
+                    hamkaOptionPanel.getWindow().getBoard().update();
+                }
             }
         }
         if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
@@ -69,8 +75,11 @@ public class CountTimerScore {
                     hamkaOptionPanel.getWindow().getBoard().update();
 
                 }
-                if(count > 90){
-                    //red
+                if(count > 10){
+                    //orange
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
+                    hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
+                    hamkaOptionPanel.getWindow().getBoard().update();
                 }
             }
         }

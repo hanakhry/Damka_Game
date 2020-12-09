@@ -29,6 +29,7 @@ public class HamkaWindow extends JFrame {
 	public static List<Point>  yellowSquare = random.yellowEvents();
 	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn() ,new Game().getBoard().find(0));
 	public static Point greenSquare = random.greenEvents(new Game(), new Game().getBoard().find(0), redSquare);
+	public static List<Point>  orangeSquares = random.orangeEvents(new Game(), new Game().getBoard().find(0));
 
 
 	/** The checker board component playing the updatable game. */
@@ -76,6 +77,7 @@ public class HamkaWindow extends JFrame {
 	public static Point getStartingGreen(){
 		return greenSquare;
 	}
+	public static List<Point> getStartingOrange(){ return orangeSquares; }
 	public HamkaBoard getBoard() {
 		return board;
 	}
