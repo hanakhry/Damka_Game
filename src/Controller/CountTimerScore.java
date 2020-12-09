@@ -2,7 +2,7 @@ package Controller;
 
 import View.HamkaBoard;
 import View.HamkaOptionPanel;
-import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 5){
+                if(count > 30){
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                     hamkaOptionPanel.getWindow().getBoard().update();
 
@@ -63,11 +63,10 @@ public class CountTimerScore {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
                 if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 5){
+                if(count > 30){
                     //green
                     hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                     hamkaOptionPanel.getWindow().getBoard().update();
-
                 }
                 if(count > 90){
                     //red
@@ -88,11 +87,7 @@ public class CountTimerScore {
             if (isTimerActive) {
                 count++;
                 setTimerText(cntL, TimeFormat(count));
-
                 }
-                if(count > 8){
-
-            }
         }
     }
 

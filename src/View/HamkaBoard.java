@@ -180,7 +180,7 @@ public class HamkaBoard extends JButton {
 			try {
 				if (!greenSquare.equals(new Point(0, 0))) {
 					g.setColor(Color.green);
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE, OFFSET_Y + greenSquare.y * BOX_SIZE, BOX_SIZE - 1, BOX_SIZE - 1);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+2, OFFSET_Y + greenSquare.y * BOX_SIZE+2, BOX_SIZE - 4, BOX_SIZE - 4);
 				}
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
@@ -399,8 +399,13 @@ public class HamkaBoard extends JButton {
 		} else if(isP1Turn ^ (id == Constants.BLACK_SOLDIER ||
 				id == Constants.BLACK_QUEEN)) { // wrong soldier
 			return false;
-		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available
-
+		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available + add points to skip (player must skip)
+			if(isP1Turn){
+				game.getBlack1Player().setpScore(game.getBlack1Player().getpScore()+50);
+			}
+			if(!isP1Turn){
+				game.getWhite2Player().setpScore(game.getWhite2Player().getpScore()+50);
+			}
 			return true;
 		} else if (MoveLogic.getMoves(b, i).isEmpty()) { // no moves
 			return false;
