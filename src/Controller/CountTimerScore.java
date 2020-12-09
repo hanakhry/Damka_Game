@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 
 public class CountTimerScore {
 
-    private static final int ONE_SECOND = 800;
+    private static final int ONE_SECOND = 1000;
     private final HamkaOptionPanel hamkaOptionPanel;
     private int count;
     private HamkaBoard h;
