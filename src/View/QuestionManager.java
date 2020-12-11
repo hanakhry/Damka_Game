@@ -33,6 +33,7 @@ public class QuestionManager extends JFrame{
         setTitle("Question Manager");
         setLayout(new FlowLayout());
         setSize(400,500);
+        setLocationRelativeTo(null);
         questionList = new JList(questions.toArray());
         questionList.setVisibleRowCount(questions.size());
         add(new JScrollPane(questionList));

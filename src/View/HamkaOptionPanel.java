@@ -1,6 +1,7 @@
 package View;
 
 import Controller.CountTimerScore;
+import Model.SysData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,8 @@ public class HamkaOptionPanel extends JPanel {
 
 	/** The checkers window to update when an option is changed. */
 	private HamkaWindow window;
-	
+
+	private JButton showQuestion=new JButton("Question");;
 	/** The button that when clicked, restarts the game. */
 	private JButton restartBtn;
 	/** The button that when clicked, saves the game. */
@@ -55,6 +57,7 @@ public class HamkaOptionPanel extends JPanel {
 		this.restartBtn = new JButton("Restart");
 		this.saveBtn = new JButton("Save");
 		this.quitBtn = new JButton("Quit Game");
+		this.showQuestion.addActionListener(new HamkaOptionListener());
 		this.restartBtn.addActionListener(new HamkaOptionListener());
 		this.pauseBtn.addActionListener(new HamkaOptionListener());
 		this.resumeBtn.addActionListener(new HamkaOptionListener());
@@ -77,6 +80,7 @@ public class HamkaOptionPanel extends JPanel {
 		top2.add(timeLabel3);
 		cntd3.start();
 
+		top.add(showQuestion);
 		top.add(pauseBtn);
 		top.add(resumeBtn);
 		top.add(saveBtn);
@@ -133,6 +137,21 @@ public class HamkaOptionPanel extends JPanel {
 			}
 			Object src = e.getSource();
 			// Handle the user action
+			if (src == showQuestion) {
+				SysData sysData = new SysData();
+				String wholeQ=sysData.randomQuestionFromJSON("JSON/questions.JSON");
+				String q=wholeQ.substring(wholeQ.indexOf("question=")+9,wholeQ.indexOf(","));
+				String a=wholeQ.substring(wholeQ.indexOf("answers=[")+9,wholeQ.indexOf("]"));
+				String l=wholeQ.substring(wholeQ.indexOf("level=")+6,wholeQ.indexOf(", answers"));
+				String c=wholeQ.substring(wholeQ.indexOf("correct_ans=")+12,wholeQ.indexOf("}"));
+				String[] sArray=a.split(", ");
+				JList list = new JList(sArray);
+				HamkaQuestion dialog = new HamkaQuestion("Random From JSON: "+q, list);
+				dialog.show();
+				System.out.println(list.getSelectedValue());
+
+
+			}
 			if (src == restartBtn) {
 				scoreLabel.setText("0");
 				scoreLabel2.setText("0");

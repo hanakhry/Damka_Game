@@ -9,7 +9,7 @@ import java.util.*;
 public final class SysData {
     private static SysData instance;
     //HashMap key: question difficulty level, value: all questions of such difficulty
-    private final HashMap<Level, ArrayList<Question>> questions = new HashMap();
+    public final HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
 
 
@@ -26,8 +26,14 @@ public final class SysData {
     }
 
 
-    public HashMap<Level, ArrayList<Question>> getQuestions() { return this.questions; }
+
+
+    public HashMap<Level, ArrayList<Question>> getQuestions() {
+        return this.questions;
+    }
+
     public HashMap<Integer, Game> games() { return this.games; }
+
 
     public void importQuestionsFromJSON(String path) {
         try (FileReader reader = new FileReader(new File(path))) {
@@ -292,5 +298,20 @@ public final class SysData {
 
     }
 
+    public String randomQuestionFromJSON(String path) {
+        try (FileReader reader = new FileReader(new File(path))) {
+            JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
+            JsonArray questionObj = (JsonArray) doc.get("questions");
+            System.out.println(questionObj.size());
+            Random r = new Random();
+            int index = r.nextInt(questionObj.size()) ;
 
+            return questionObj.get(index).toString();
+
+        } catch (IOException | DeserializationException e) {
+            e.printStackTrace();
+            return "Error";
+        }
+
+    }
 }

@@ -1,14 +1,14 @@
-import javax.swing.*;
-import net.miginfocom.swing.*;
+
+//import net.miginfocom.swing.*;
 /*
  * Created by JFormDesigner on Thu Dec 10 15:18:36 IST 2020
  */
 
 
 
-/**
+
  * @author unknown
- */
+
 public class ManageQuestion extends JFrame {
     public ManageQuestion() {
         initComponents();
