@@ -120,7 +120,6 @@ public class HamkaBoard extends JButton {
 			colors.put("orange", new ArrayList<>());
 			colors.put("yellow", new ArrayList<>());
 			game.setColors(colors);
-			System.out.println(colors);
 		}
 
 		repaint();
@@ -131,7 +130,7 @@ public class HamkaBoard extends JButton {
 	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
 		RandomEvents random = new RandomEvents(this.game.getBoard().find(0));
 		yellowSquare = random.yellowEvents();
-		redSquare = random.redEvents(this.game, this.game.isP1Turn(), this.game.getBoard().find(0));
+		redSquare = random.redEvents(this.game, this.game.isP1Turn(), yellowSquare);
 		greenSquare = random.greenEvents(this.game, this.game.getBoard().find(0), redSquare);
 		orangeSquare = random.orangeEvents(this.game, this.game.getBoard().find(0));
 		// Test the value if requested

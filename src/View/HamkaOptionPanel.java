@@ -143,7 +143,9 @@ public class HamkaOptionPanel extends JPanel {
 
 			}
 				if(src==quitBtn){
+					window.restart();
 					window.dispose();
+					window = null;
 					MainMenu window = new MainMenu();
 					window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
 					window.setVisible(true);

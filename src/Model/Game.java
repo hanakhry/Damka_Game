@@ -315,7 +315,8 @@ public class Game {
 
 	private void refreshColors(){
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
-		Point redPoint = random.redEvents(this ,isP1Turn, this.getBoard().find(0));
+		yellowSquares = random.yellowEvents();
+		Point redPoint = random.redEvents(this ,isP1Turn, yellowSquares);
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
 		List<Point> orangePoints = random.orangeEvents(this, this.getBoard().find(0));
 
@@ -334,7 +335,7 @@ public class Game {
 		else
 			orangeSquares.add(new Point(0, 0));
 
-		yellowSquares = random.yellowEvents();
+
 	}
 
 }

@@ -36,68 +36,71 @@ public class CountTimerScore {
 
    // @Override
     public void actionPerformed(ActionEvent e) {
+       try{
+            if (pTime == 1 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
+                if (isTimerActive) {
+                    count++;
+                    setTimerText(cntL, TimeFormat(count));
+                    if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
+                    if (count > 10) {
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
 
-        if (pTime == 1 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (isTimerActive) {
-                count++;
-                setTimerText(cntL, TimeFormat(count));
-                if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 10){
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
-                    hamkaOptionPanel.getWindow().getBoard().update(false);
-
-                }
-                if(count > 20){
-                    //orange
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
-                    hamkaOptionPanel.getWindow().getBoard().update(false);
-                }
-            }
-        }
-        if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (count != 0)
-                hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore() + (60 - count));
-            count = 0;
-
-            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore()));
-            setTimerText(cntL, TimeFormat(count));
-            setTimerColor(cntL, Color.GREEN.darker());
-        }
-        if (pTime == 2 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (isTimerActive) {
-                count++;
-                setTimerText(cntL, TimeFormat(count));
-                if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                if(count > 10){
-                    //green
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
-                    hamkaOptionPanel.getWindow().getBoard().update(false);
-                }
-                if(count > 20){
-                    //orange
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
-                    hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
-                    hamkaOptionPanel.getWindow().getBoard().update(false);
+                    }
+                    if (count > 20) {
+                        //orange
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
+                    }
                 }
             }
-        }
-        if (pTime == 2 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
-            if (count != 0 )
-                hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore() + (60 - count));
-            count = 0;
+            if (pTime == 1 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
+                if (count != 0)
+                    hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore() + (60 - count));
+                count = 0;
 
-            cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore()));
-            setTimerText(cntL, TimeFormat(count));
-            setTimerColor(cntL, Color.GREEN.darker());
-        }
-
-        if (pTime == 3) {
-            if (isTimerActive) {
-                count++;
+                cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getBlack1Player().getpScore()));
                 setTimerText(cntL, TimeFormat(count));
+                setTimerColor(cntL, Color.GREEN.darker());
+            }
+            if (pTime == 2 && !hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
+                if (isTimerActive) {
+                    count++;
+                    setTimerText(cntL, TimeFormat(count));
+                    if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
+                    if (count > 10) {
+                        //green
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
+                    }
+                    if (count > 20) {
+                        //orange
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
+                    }
                 }
-        }
+            }
+            if (pTime == 2 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
+                if (count != 0)
+                    hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().setpScore(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore() + (60 - count));
+                count = 0;
+
+                cnsL.setText(String.valueOf(hamkaOptionPanel.getWindow().getBoard().getGame().getWhite2Player().getpScore()));
+                setTimerText(cntL, TimeFormat(count));
+                setTimerColor(cntL, Color.GREEN.darker());
+            }
+
+            if (pTime == 3) {
+                if (isTimerActive) {
+                    count++;
+                    setTimerText(cntL, TimeFormat(count));
+                }
+            }
+        } catch(NullPointerException nEx){
+           
+       }
     }
 
     public void start() {

@@ -1,5 +1,8 @@
 package View;
 
+import Model.Board;
+import Model.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -59,6 +62,8 @@ public class MainMenu extends JFrame {
         this.ExitGame = new JButton("Exit");
         this.NewGame.addActionListener(new MMOptionListener());
         this.ExitGame.addActionListener(new MMOptionListener());
+        this.Questions.addActionListener(new MMOptionListener());
+
         Font font1 = new Font(Font.DIALOG_INPUT ,  Font.ITALIC, 12);
         user1.setLocation(5, 5);
         user1.setSize(150,20);
@@ -91,22 +96,27 @@ public class MainMenu extends JFrame {
 
             Object src = e.getSource();
             // Handle the user action
-            if (src== NewGame) {
-
-                    dispose();
-                    HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
-
-
-                    window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
-                    window.setVisible(true);
-                }
-                if(src==ExitGame){
-                    dispose();
-                }
+            if (src == NewGame) {
+                dispose();
+                HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
+                window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+                window.setVisible(true);
+                window.restart();
             }
-
+            if(src == ExitGame){
+                dispose();
+            }
+            if(src == Questions){
+                dispose();
+                QuestionManager window = new QuestionManager();
+                window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+                window.setVisible(true);
+            }
         }
+
     }
+}
+
 
 
 

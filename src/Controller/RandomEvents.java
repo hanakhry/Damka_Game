@@ -23,14 +23,14 @@ public class RandomEvents {
      * returns 3 random points
      * points must be empty and black
      */
-    public static List<Point> yellowEvents() {
+    public List<Point> yellowEvents() {
         Point point;
         List<Point> yellowSquares = new ArrayList<>();
         for (int i = 0; i <3; i++){
             Random rand = new Random();
             point = emptyBlackCells.get(rand.nextInt(emptyBlackCells.size()));
             yellowSquares.add(point);
-            emptyBlackCells.remove(point);
+            this.emptyBlackCells.remove(point);
         }
 
         return yellowSquares;
@@ -95,7 +95,7 @@ public class RandomEvents {
     }
 
     //triggers red square
-    public static Point redEvents(Game g, boolean turn, List<Point> emptyBlackCells){
+    public Point redEvents(Game g, boolean turn, List<Point> yellowPoints){
         List<Point> validMoves = new ArrayList<>();
         List<Point> troops = new ArrayList<>();
 
@@ -116,12 +116,13 @@ public class RandomEvents {
 
 
         }
-
-
-
-
+        for(int i = 0; i < 3; i++) {
+           if( emptyBlackCells.contains(yellowPoints.get(i))) {
+               emptyBlackCells.remove(yellowPoints.get(i));
+            }
+        }
         for(int i = 0; i < secondaryTroops.size(); i++)
-            validMoves.addAll(allValidMoves(secondaryTroops.get(i), emptyBlackCells, g));
+            validMoves.addAll(allValidMoves(secondaryTroops.get(i), this.emptyBlackCells, g));
         return randomRedPoint(validMoves);
     }
 

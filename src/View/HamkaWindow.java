@@ -27,7 +27,7 @@ public class HamkaWindow extends JFrame {
 
 	static RandomEvents random = new RandomEvents(new Game().getBoard().find(0));
 	public static List<Point>  yellowSquare = random.yellowEvents();
-	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn() ,new Game().getBoard().find(0));
+	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn(), yellowSquare);
 	public static Point greenSquare = random.greenEvents(new Game(), new Game().getBoard().find(0), redSquare);
 	public static List<Point>  orangeSquares = random.orangeEvents(new Game(), new Game().getBoard().find(0));
 

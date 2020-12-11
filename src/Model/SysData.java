@@ -27,7 +27,7 @@ public final class SysData {
 
 
     public HashMap<Level, ArrayList<Question>> getQuestions() { return this.questions; }
-    public  HashMap<Integer, Game> games() { return this.games; }
+    public HashMap<Integer, Game> games() { return this.games; }
 
     public void importQuestionsFromJSON(String path) {
         try (FileReader reader = new FileReader(new File(path))) {
