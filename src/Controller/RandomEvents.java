@@ -110,7 +110,7 @@ public class RandomEvents {
            if(!MoveLogic.isSafe(g.getBoard(), p)) {
 
                //current player is eligible to eat
-               System.out.println("not safe");
+
                return null;
            }
 
