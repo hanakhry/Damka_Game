@@ -108,7 +108,11 @@ public class MainMenu extends JFrame {
                 dispose();
                 HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
                 HamkaHistory history = new HamkaHistory();
-                String a=String.valueOf(history.getFinalTiles());
+                String a = String.valueOf(history.getFinalTiles());
+                a = a.replace(",","");
+                a = a.replace(" ","");
+                a = a.replace("[","");
+                a = a.replace("]","");
                 System.out.println(a);
                 window.setGameState(a);
                 window.setDefaultCloseOperation(HamkaHistory.EXIT_ON_CLOSE);
