@@ -1,7 +1,11 @@
 package Model;
 
+import Utils.Constants;
 import Utils.Level;
+import View.HamkaQuestion;
 import org.json.simple.*;
+
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -298,19 +302,42 @@ public final class SysData {
 
     }
 
-    public String randomQuestionFromJSON(String path) {
+    public int randomQuestionFromJSON(String path) {
         try (FileReader reader = new FileReader(new File(path))) {
             JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
             JsonArray questionObj = (JsonArray) doc.get("questions");
-            System.out.println(questionObj.size());
             Random r = new Random();
             int index = r.nextInt(questionObj.size()) ;
+            String wholeQ=questionObj.get(index).toString();
+            String q=wholeQ.substring(wholeQ.indexOf("question=")+9,wholeQ.indexOf(","));
+            String a=wholeQ.substring(wholeQ.indexOf("answers=[")+9,wholeQ.indexOf("]"));
+            String l=wholeQ.substring(wholeQ.indexOf("level=")+6,wholeQ.indexOf(", a"));
+            String c=wholeQ.substring(wholeQ.indexOf("correct_ans=")+12,wholeQ.indexOf("}"));
+            int ind=Integer.parseInt(c)-1;
+            int lev=Integer.parseInt(l);
+            String[] sArray=a.split(", ");
+            JList list = new JList(sArray);
+            HamkaQuestion dialog = new HamkaQuestion("Question: "+q, list);
+            dialog.show();
 
-            return questionObj.get(index).toString();
+            if(list.getSelectedIndex()==-1) return 0;
+            if(list.getSelectedIndex()==ind){
+                if(lev==1)return Constants.trueEasy;
+                if(lev==2)return Constants.trueMedium;
+                if(lev==3)return Constants.trueHard;
+            }
+            if(list.getSelectedIndex()!=ind){
+                if(lev==1)return Constants.falseEasy;
+                if(lev==2)return Constants.falseMedium;
+                if(lev==3)return Constants.falseHard;
+            }
+
+
+           return 0;
 
         } catch (IOException | DeserializationException e) {
             e.printStackTrace();
-            return "Error";
+            return 0;
         }
 
     }

@@ -139,16 +139,8 @@ public class HamkaOptionPanel extends JPanel {
 			// Handle the user action
 			if (src == showQuestion) {
 				SysData sysData = new SysData();
-				String wholeQ=sysData.randomQuestionFromJSON("JSON/questions.JSON");
-				String q=wholeQ.substring(wholeQ.indexOf("question=")+9,wholeQ.indexOf(","));
-				String a=wholeQ.substring(wholeQ.indexOf("answers=[")+9,wholeQ.indexOf("]"));
-				String l=wholeQ.substring(wholeQ.indexOf("level=")+6,wholeQ.indexOf(", answers"));
-				String c=wholeQ.substring(wholeQ.indexOf("correct_ans=")+12,wholeQ.indexOf("}"));
-				String[] sArray=a.split(", ");
-				JList list = new JList(sArray);
-				HamkaQuestion dialog = new HamkaQuestion("Random From JSON: "+q, list);
-				dialog.show();
-				System.out.println(list.getSelectedValue());
+				System.out.println("\n Points Gained from Question: "+sysData.randomQuestionFromJSON("JSON/questions.JSON"));
+
 
 
 			}

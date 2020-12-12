@@ -3,6 +3,14 @@ package Utils;
 public final class Constants {
     /** The number of pixels of padding between this component's border and the
      * actual Hamka board that is drawn. */
+    public static final int trueEasy=100;
+    public static final int trueMedium=200;
+    public static final int trueHard=500;
+
+    public static final int falseEasy=-250;
+    public static final int falseMedium=-100;
+    public static final int falseHard=-50;
+
     public static final int PADDING = 16;
     public static final int pointsAddedEasyQ=100;
     public static final int pointsAddedMediumQ=200;

@@ -4,7 +4,7 @@
  * Created by JFormDesigner on Thu Dec 10 15:18:36 IST 2020
  */
 
-
+/**
 
 
  * @author unknown
@@ -38,3 +38,4 @@ public class ManageQuestion extends JFrame {
     // Generated using JFormDesigner Evaluation license - unknown
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
+*/
