@@ -158,7 +158,7 @@ public final class SysData {
     }
 
 
-    public int deleteQeustionFromJSON(String path, Question question){
+    public int deleteQuestionFromJSON(String path, Question question){
         boolean flag = false;
         //array that holds all of the existing questions
         ArrayList<Question> appendList = new ArrayList<Question>();

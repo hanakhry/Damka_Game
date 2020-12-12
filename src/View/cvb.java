@@ -1,16 +1,17 @@
-
-//import net.miginfocom.swing.*;
 /*
- * Created by JFormDesigner on Thu Dec 10 15:18:36 IST 2020
+ * Created by JFormDesigner on Sat Dec 12 14:56:10 IST 2020
  */
 
+package View;
+
+import javax.swing.*;
+import net.miginfocom.swing.*;
+
 /**
-
-
  * @author unknown
-
-public class ManageQuestion extends JFrame {
-    public ManageQuestion() {
+ */
+public class cvb extends JFrame {
+    public cvb() {
         initComponents();
     }
 
@@ -38,4 +39,3 @@ public class ManageQuestion extends JFrame {
     // Generated using JFormDesigner Evaluation license - unknown
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
-*/

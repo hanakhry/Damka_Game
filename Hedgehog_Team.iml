@@ -13,5 +13,6 @@
     <orderEntry type="library" name="seaglasslookandfeel-0.1.5" level="project" />
     <orderEntry type="library" name="pgslookandfeel-1.1.2" level="project" />
     <orderEntry type="library" name="MigLayout" level="project" />
+    <orderEntry type="library" name="miglayout-3.5.5-ideutil-java14" level="project" />
   </component>
 </module>

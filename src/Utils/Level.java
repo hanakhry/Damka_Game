@@ -14,7 +14,7 @@ public enum Level {
         return level;
     }
 
-    public static Level getLevelbyNumber(int lev) {
+    public static Level getLevelByNumber(int lev) {
         if(lev ==1) return EASY;
         if(lev ==2) return MEDIUM;
         return HARD;
