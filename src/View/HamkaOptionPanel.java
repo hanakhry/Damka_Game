@@ -58,6 +58,7 @@ public class HamkaOptionPanel extends JPanel {
 		this.saveBtn = new JButton("Save");
 		this.quitBtn = new JButton("Quit Game");
 		this.showQuestion.addActionListener(new HamkaOptionListener());
+		this.saveBtn.addActionListener(new HamkaOptionListener());
 		this.restartBtn.addActionListener(new HamkaOptionListener());
 		this.pauseBtn.addActionListener(new HamkaOptionListener());
 		this.resumeBtn.addActionListener(new HamkaOptionListener());
@@ -162,7 +163,40 @@ public class HamkaOptionPanel extends JPanel {
 				window.restart();
 
 			}
-				if(src==quitBtn){
+			/**
+			if(src==saveBtn){
+				ArrayList<Integer> tiles=new ArrayList<>();
+				SysData data=new SysData();
+				HamkaBoard state=window.getBoard();
+				for(int i=0;i<33;i++){
+					int a=(state.getGame().getGameState().charAt(i));
+					if(a== '6') a=2;
+					if(a=='0') a=0;
+					if(a=='4'||a=='1') a=1;
+					if(a=='7') a=22;
+					if(a=='5') a=11;
+
+					tiles.add(i,a);
+				}
+				System.out.println("Test: ");
+				for (int number : tiles) {
+					System.out.print(number+" ");
+				}
+				System.out.println("Test: ");
+			//	System.out.println(tiles.get(1));
+				System.out.println("GameID:"+state.getGame().getId());
+				Game game=new Game(state.getGame().getId(),tiles,state.getGame().isP1Turn());
+				try {
+					data.addGameToJSON("JSON/games.JSON",game);
+
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+
+			}
+
+            */
+			if(src==quitBtn){
 					window.restart();
 					window.dispose();
 					window = null;

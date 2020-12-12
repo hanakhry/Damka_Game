@@ -177,7 +177,7 @@ public class Game {
 
 				SysData sysData = new SysData();
 				int result=sysData.randomQuestionFromJSON("JSON/questions.JSON");
-				System.out.println("\n Points Gained from Question: "+result);
+				
 				if(result>0)JOptionPane.showMessageDialog(null,
 						"Correct Answer! You won "+result+" points.","Correct",
 						JOptionPane.INFORMATION_MESSAGE,
