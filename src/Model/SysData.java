@@ -320,13 +320,12 @@ public final class SysData {
             HamkaQuestion dialog = new HamkaQuestion("Question: "+q, list);
             dialog.show();
 
-            if(list.getSelectedIndex()==-1) return 0;
             if(list.getSelectedIndex()==ind){
                 if(lev==1)return Constants.trueEasy;
                 if(lev==2)return Constants.trueMedium;
                 if(lev==3)return Constants.trueHard;
             }
-            if(list.getSelectedIndex()!=ind){
+            if(list.getSelectedIndex()==-1 || list.getSelectedIndex()!=ind){
                 if(lev==1)return Constants.falseEasy;
                 if(lev==2)return Constants.falseMedium;
                 if(lev==3)return Constants.falseHard;

@@ -163,6 +163,7 @@ public class Game {
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
+
 		if (switchTurn) {
 			this.isP1Turn = !isP1Turn;
 

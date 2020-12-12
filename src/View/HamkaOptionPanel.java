@@ -138,10 +138,19 @@ public class HamkaOptionPanel extends JPanel {
 			Object src = e.getSource();
 			// Handle the user action
 			if (src == showQuestion) {
+				final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+
 				SysData sysData = new SysData();
-				System.out.println("\n Points Gained from Question: "+sysData.randomQuestionFromJSON("JSON/questions.JSON"));
-
-
+				int result=sysData.randomQuestionFromJSON("JSON/questions.JSON");
+				System.out.println("\n Points Gained from Question: "+result);
+                if(result>0)JOptionPane.showMessageDialog(null,
+						"Correct Answer! You won "+result+" points.","Correct",
+						JOptionPane.INFORMATION_MESSAGE,
+						icon);
+				else JOptionPane.showMessageDialog(null,
+						"Wrong Answer! You lost "+result*-1+" points.",
+						"Wrong",
+						JOptionPane.ERROR_MESSAGE);
 
 			}
 			if (src == restartBtn) {
