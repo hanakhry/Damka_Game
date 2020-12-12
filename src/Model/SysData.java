@@ -15,6 +15,15 @@ public final class SysData {
     //HashMap key: question difficulty level, value: all questions of such difficulty
     public final HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
+    ArrayList<Integer> tiles;
+    public ArrayList<Integer> getTiles() {
+        return tiles;
+    }
+
+    public void setTiles(ArrayList<Integer> tiles) {
+        this.tiles = tiles;
+    }
+
 
 
     public SysData(){
@@ -230,7 +239,7 @@ public final class SysData {
             while (iterator.hasNext()) {
                 JsonObject obj = (JsonObject) iterator.next();
                 int id = Integer.parseInt((String) obj.get("Id"));
-                ArrayList<Integer> tiles = (ArrayList<Integer>) obj.get("Tiles");
+               tiles = (ArrayList<Integer>) obj.get("Tiles");
                 String turn = (String) obj.get("Turn");
                 Boolean isTurn = false;
                 if(turn.equals("B")){
