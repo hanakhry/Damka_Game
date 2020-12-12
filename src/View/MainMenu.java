@@ -61,6 +61,7 @@ public class MainMenu extends JFrame {
         this.LeaderBoard = new JButton("Leader Board");
         this.ExitGame = new JButton("Exit");
         this.NewGame.addActionListener(new MMOptionListener());
+        this.LoadGame.addActionListener(new MMOptionListener());
         this.ExitGame.addActionListener(new MMOptionListener());
         this.Questions.addActionListener(new MMOptionListener());
 
@@ -102,6 +103,17 @@ public class MainMenu extends JFrame {
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
                 window.restart();
+            }
+            if(src==LoadGame){
+                dispose();
+                HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
+                HamkaHistory history = new HamkaHistory();
+                String a=String.valueOf(history.getFinalTiles());
+                System.out.println(a);
+                window.setGameState(a);
+                window.setDefaultCloseOperation(HamkaHistory.EXIT_ON_CLOSE);
+
+                window.setVisible(true);
             }
             if(src == ExitGame){
                 dispose();
