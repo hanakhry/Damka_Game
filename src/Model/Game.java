@@ -98,6 +98,8 @@ public class Game {
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
+		g.white2Player=white2Player;
+		g.black1Player=black1Player;
 		return g;
 	}
 
@@ -169,7 +171,7 @@ public class Game {
 			switchTurn = true;
 		}
 
-		//handle question on yellow
+		//handle question on yellow before switching player
 		for(Point p : tempYellow){
 			int onYellow = Board.toIndex(p.x, p.y);
 			if(endIndex == onYellow){
@@ -177,7 +179,8 @@ public class Game {
 
 				SysData sysData = new SysData();
 				int result=sysData.randomQuestionFromJSON("JSON/questions.JSON");
-				
+				if(isP1Turn)this.black1Player.setpScore(this.black1Player.getpScore()+result);
+				if(!isP1Turn)this.white2Player.setpScore(this.white2Player.getpScore()+result);
 				if(result>0)JOptionPane.showMessageDialog(null,
 						"Correct Answer! You won "+result+" points.","Correct",
 						JOptionPane.INFORMATION_MESSAGE,
