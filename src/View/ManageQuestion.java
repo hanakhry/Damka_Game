@@ -14,6 +14,9 @@ import java.util.Map;
 
 
 public class ManageQuestion extends JFrame {
+    public static final int DEFAULT_WIDTH = 700;
+
+    public static final int DEFAULT_HEIGHT = 750;
 
     ArrayList<Question> questions = questionList();
     DefaultListModel Model1 = new DefaultListModel();
@@ -24,7 +27,9 @@ public class ManageQuestion extends JFrame {
 
     public ManageQuestion() {
         initComponents();
-
+        super.setTitle("Question Manager");
+        super.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        super.setLocationRelativeTo(null);
         //allows only 1 radiobutton selection
         editGroup.add(editChoice1);
         editGroup.add(editChoice2);
@@ -121,6 +126,16 @@ public class ManageQuestion extends JFrame {
             }
         });
 
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                MainMenu window = new MainMenu();
+                window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
+                window.setVisible(true);
+            }
+        });
+
         //add a new question
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -161,7 +176,7 @@ public class ManageQuestion extends JFrame {
     
     }
 
-    public static ArrayList<Question> questionList(){
+    public ArrayList<Question> questionList(){
         sysData.importQuestionsFromJSON("JSON/questions.JSON");
         ArrayList<Question> questions = new ArrayList<>();
         for(Map.Entry<Level, ArrayList<Question>> entry : sysData.getQuestions().entrySet()){
@@ -172,6 +187,10 @@ public class ManageQuestion extends JFrame {
 
         return questions;
 
+    }
+
+    private void deleteActionPerformed(ActionEvent e) {
+        // TODO add your code here
     }
 
 
@@ -211,9 +230,10 @@ public class ManageQuestion extends JFrame {
         addChoice4 = new JRadioButton();
         addAnswer4 = new JTextField();
         addChoice2 = new JRadioButton();
-        deleteButton = new JButton();
+        backButton = new JButton();
         editSelectedQuestionButton = new JButton();
         saveButton = new JButton();
+        deleteButton = new JButton();
         addButton = new JButton();
 
         //======== this ========
@@ -221,6 +241,12 @@ public class ManageQuestion extends JFrame {
         contentPane.setLayout(new MigLayout(
             "hidemode 3",
             // columns
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
             "[fill]" +
             "[fill]" +
             "[fill]" +
@@ -274,16 +300,16 @@ public class ManageQuestion extends JFrame {
         {
             scrollPane3.setViewportView(selectQuestionList);
         }
-        contentPane.add(scrollPane3, "cell 0 0 6 9");
+        contentPane.add(scrollPane3, "cell 0 0 7 9");
 
         //======== selectPanel ========
         {
             selectPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax
+            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
             . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 ), java. awt
+            .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
             . Color. red) ,selectPanel. getBorder( )) ); selectPanel. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .
+            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
             equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
             selectPanel.setLayout(new MigLayout(
                 "hidemode 3",
@@ -333,13 +359,20 @@ public class ManageQuestion extends JFrame {
             selectPanel.add(editAnswer4, "cell 2 7 8 1");
             selectPanel.add(editChoice4, "cell 10 7");
         }
-        contentPane.add(selectPanel, "cell 7 1 12 8");
+        contentPane.add(selectPanel, "cell 9 1 14 8");
 
         //======== panel1 ========
         {
             panel1.setLayout(new MigLayout(
                 "hidemode 3",
                 // columns
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
                 "[fill]" +
                 "[fill]" +
                 "[fill]" +
@@ -384,48 +417,54 @@ public class ManageQuestion extends JFrame {
                 "[]" +
                 "[]" +
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- question2 ----
             question2.setText("Question");
-            panel1.add(question2, "cell 0 1");
-            panel1.add(addQuestion, "cell 2 1 20 1");
+            panel1.add(question2, "cell 0 3");
+            panel1.add(addQuestion, "cell 1 3 30 1");
 
             //---- difficulty2 ----
             difficulty2.setText("Difficulty");
-            panel1.add(difficulty2, "cell 0 4");
-            panel1.add(comboBox2, "cell 2 4 20 1");
+            panel1.add(difficulty2, "cell 0 5");
+            panel1.add(comboBox2, "cell 2 5 21 1");
 
             //---- answer2 ----
             answer2.setText("Answers");
-            panel1.add(answer2, "cell 0 10");
-            panel1.add(addAnswer1, "cell 4 10 17 1");
-            panel1.add(addChoice1, "cell 21 10");
-            panel1.add(addAnswer2, "cell 4 12 17 1");
-            panel1.add(addChoice3, "cell 21 12");
-            panel1.add(addAnswer3, "cell 4 14 17 1");
-            panel1.add(addChoice4, "cell 21 14");
-            panel1.add(addAnswer4, "cell 4 16 17 1");
-            panel1.add(addChoice2, "cell 21 16");
+            panel1.add(answer2, "cell 0 11");
+            panel1.add(addAnswer1, "cell 4 11 18 1");
+            panel1.add(addChoice1, "cell 22 11");
+            panel1.add(addAnswer2, "cell 4 13 18 1");
+            panel1.add(addChoice3, "cell 22 13");
+            panel1.add(addAnswer3, "cell 4 15 18 1");
+            panel1.add(addChoice4, "cell 22 15");
+            panel1.add(addAnswer4, "cell 4 17 18 1");
+            panel1.add(addChoice2, "cell 22 17");
         }
-        contentPane.add(panel1, "cell 20 0 15 9");
+        contentPane.add(panel1, "cell 24 0 17 9");
 
-        //---- deleteButton ----
-        deleteButton.setText("Delete");
-        contentPane.add(deleteButton, "cell 1 10");
+        //---- backButton ----
+        backButton.setText("Back");
+        contentPane.add(backButton, "cell 3 10");
 
         //---- editSelectedQuestionButton ----
         editSelectedQuestionButton.setText("Edit");
-        contentPane.add(editSelectedQuestionButton, "cell 5 10");
+        contentPane.add(editSelectedQuestionButton, "cell 12 10");
 
         //---- saveButton ----
-        saveButton.setText("Save");
-        contentPane.add(saveButton, "cell 17 10");
+        saveButton.setText("Save Edit");
+        contentPane.add(saveButton, "cell 21 10");
+
+        //---- deleteButton ----
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(e -> deleteActionPerformed(e));
+        contentPane.add(deleteButton, "cell 25 10");
 
         //---- addButton ----
         addButton.setText("Add");
-        contentPane.add(addButton, "cell 24 10");
-        pack();
+        contentPane.add(addButton, "cell 29 10");
+        setSize(960, 700);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -462,9 +501,10 @@ public class ManageQuestion extends JFrame {
     private JRadioButton addChoice4;
     private JTextField addAnswer4;
     private JRadioButton addChoice2;
-    private JButton deleteButton;
+    private JButton backButton;
     private JButton editSelectedQuestionButton;
     private JButton saveButton;
+    private JButton deleteButton;
     private JButton addButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

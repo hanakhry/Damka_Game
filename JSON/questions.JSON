@@ -1,7 +1,8 @@
 {
 	"questions":[
 		{
-			"question":"ًWhat's the capital of France?",
+
+			"question":"What's the capital of France?",
 			"level":"1",
 			"answers":[
 				"Berlin",

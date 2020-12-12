@@ -3,6 +3,7 @@ package Model;
 import Controller.RandomEvents;
 import Utils.Constants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class Game {
 	private Player white2Player;
 
 	public List<Point> yellowSquares;
+	private List<Point> tempYellow;
 	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	public List<Point> greenSquare;
@@ -43,7 +45,9 @@ public class Game {
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 		this.colors = new HashMap<>();
+		this.yellowSquares = new ArrayList<>();
 		this.redSquare = new ArrayList<>();
+		this.tempYellow = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		restart();
@@ -83,13 +87,14 @@ public class Game {
 	 * not made to the other.
 	 * return an exact copy of this game.
 	 */
-	public Game copy() {
+	public Game copy(List<Point> yellowTemp) {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
 		colors.remove("orange");
 		colors.put("orange", this.orangeSquares);
 		Game g = new Game();
+		g.tempYellow = yellowTemp;
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
@@ -163,6 +168,27 @@ public class Game {
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
+
+		//handle question on yellow
+		for(Point p : tempYellow){
+			int onYellow = Board.toIndex(p.x, p.y);
+			if(endIndex == onYellow){
+				final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+
+				SysData sysData = new SysData();
+				int result=sysData.randomQuestionFromJSON("JSON/questions.JSON");
+				System.out.println("\n Points Gained from Question: "+result);
+				if(result>0)JOptionPane.showMessageDialog(null,
+						"Correct Answer! You won "+result+" points.","Correct",
+						JOptionPane.INFORMATION_MESSAGE,
+						icon);
+				else JOptionPane.showMessageDialog(null,
+						"Wrong Answer! You lost "+result*-1+" points.",
+						"Wrong",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
 
 		if (switchTurn) {
 			this.isP1Turn = !isP1Turn;
@@ -317,6 +343,7 @@ public class Game {
 	private void refreshColors(){
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
 		yellowSquares = random.yellowEvents();
+
 		Point redPoint = random.redEvents(this ,isP1Turn, yellowSquares);
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
 		List<Point> orangePoints = random.orangeEvents(this, this.getBoard().find(0));
