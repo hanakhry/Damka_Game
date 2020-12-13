@@ -7,7 +7,7 @@ import Utils.Constants;
 import javax.swing.*;
 import java.util.*;
 
-public class HamkaHistory extends JFrame
+public class HamkaGameHistory extends JFrame
 {
 
     ArrayList<Integer>finalTiles=new ArrayList<>();
@@ -22,7 +22,7 @@ public class HamkaHistory extends JFrame
         return al;
     }
 
-    public HamkaHistory() {
+    public HamkaGameHistory() {
         ArrayList<Integer> tiles1;
         Game game;
 

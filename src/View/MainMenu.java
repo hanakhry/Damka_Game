@@ -1,8 +1,5 @@
 package View;
 
-import Model.Board;
-import Model.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -107,7 +104,7 @@ public class MainMenu extends JFrame {
             if(src==LoadGame){
                 dispose();
                 HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
-                HamkaHistory history = new HamkaHistory();
+                HamkaGameHistory history = new HamkaGameHistory();
                 String a = String.valueOf(history.getFinalTiles());
                 a = a.replace(",","");
                 a = a.replace(" ","");
@@ -115,9 +112,13 @@ public class MainMenu extends JFrame {
                 a = a.replace("]","");
                 System.out.println(a);
                 window.setGameState(a);
-                window.setDefaultCloseOperation(HamkaHistory.EXIT_ON_CLOSE);
-
+                window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
+                final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+                JOptionPane.showMessageDialog(null,
+                        "Game Loaded Successfully!","Load game",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        icon);
             }
             if(src == ExitGame){
                 dispose();

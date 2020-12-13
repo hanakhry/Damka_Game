@@ -1,7 +1,6 @@
 package View;
 
 import Controller.CountTimerScore;
-import Model.SysData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,7 @@ public class HamkaOptionPanel extends JPanel {
 	/** The checkers window to update when an option is changed. */
 	private HamkaWindow window;
 
-	private JButton showQuestion=new JButton("Question");;
+	//private JButton showQuestion;
 	/** The button that when clicked, restarts the game. */
 	private JButton restartBtn;
 	/** The button that when clicked, saves the game. */
@@ -51,13 +50,13 @@ public class HamkaOptionPanel extends JPanel {
 		this.window = window;
 		
 		// Initialize the components & Add listeners to them
-
+		//this.showQuestion=new JButton("Question");
 		this.pauseBtn = new JButton("Pause");
 		this.resumeBtn = new JButton("Resume");
 		this.restartBtn = new JButton("Restart");
 		this.saveBtn = new JButton("Save");
 		this.quitBtn = new JButton("Quit Game");
-		this.showQuestion.addActionListener(new HamkaOptionListener());
+		//this.showQuestion.addActionListener(new HamkaOptionListener());
 		this.saveBtn.addActionListener(new HamkaOptionListener());
 		this.restartBtn.addActionListener(new HamkaOptionListener());
 		this.pauseBtn.addActionListener(new HamkaOptionListener());
@@ -81,7 +80,7 @@ public class HamkaOptionPanel extends JPanel {
 		top2.add(timeLabel3);
 		cntd3.start();
 
-		top.add(showQuestion);
+		//top.add(showQuestion);
 		top.add(pauseBtn);
 		top.add(resumeBtn);
 		top.add(saveBtn);
@@ -138,6 +137,7 @@ public class HamkaOptionPanel extends JPanel {
 			}
 			Object src = e.getSource();
 			// Handle the user action
+			/**
 			if (src == showQuestion) {
 				final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
 
@@ -154,6 +154,7 @@ public class HamkaOptionPanel extends JPanel {
 						JOptionPane.ERROR_MESSAGE);
 
 			}
+			 */
 			if (src == restartBtn) {
 				scoreLabel.setText("0");
 				scoreLabel2.setText("0");
