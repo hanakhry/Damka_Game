@@ -47,7 +47,7 @@ public class ManageQuestion extends JFrame {
                     selectedIndexList = selectQuestionList.getSelectedIndex();
                     Question q = questions.get(selectQuestionList.getSelectedIndex());
                     questionField.setText((String) q.getQuestion());
-                    comboBox1.setSelectedIndex(q.getLevel().getLevel());
+                    comboBox1.setSelectedIndex(q.getLevel().getLevel()-1);
                     answer1.setText((String) q.getAnswers().get(0));
                     answer2.setText((String) q.getAnswers().get(1));
                     answer3.setText((String) q.getAnswers().get(2));
