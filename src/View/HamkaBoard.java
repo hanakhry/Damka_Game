@@ -84,7 +84,7 @@ public class HamkaBoard extends JButton {
 		for (int i = 0; i < 3; i++) {
 			Point yellowPoint = yellowSquare.get(i);
 			g.setColor(Color.yellow);
-			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +2, OFFSET_Y + yellowPoint.y * BOX_SIZE +2 , BOX_SIZE-4, BOX_SIZE-4);
+			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +1, OFFSET_Y + yellowPoint.y * BOX_SIZE +1 , BOX_SIZE-2, BOX_SIZE-2);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class HamkaBoard extends JButton {
 		for (int i = 0; i < orangeSquare.size(); i++) {
 			Point orangePoint = orangeSquare.get(i);
 			g.setColor(Color.orange);
-			g.fillRect(OFFSET_X + orangePoint.x * BOX_SIZE +3, OFFSET_Y + orangePoint.y * BOX_SIZE +4 , BOX_SIZE-6, BOX_SIZE-8);
+			g.fillRect(OFFSET_X + orangePoint.x * BOX_SIZE +3, OFFSET_Y + orangePoint.y * BOX_SIZE +3 , BOX_SIZE-6, BOX_SIZE-6);
 		}
 	}
 
@@ -156,7 +156,7 @@ public class HamkaBoard extends JButton {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Game game = this.game.copy(yellowSquare,greenSquare,this.game.isOrange);
+		Game game = this.game.copy(yellowSquare,greenSquare,this.game.isGreen);
 
 
 		// Perform calculations
@@ -194,12 +194,12 @@ public class HamkaBoard extends JButton {
 		try {
 			if (!redSquare.equals(new Point(0, 0))) {
 				g.setColor(Color.red);
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 2, OFFSET_Y + redSquare.y * BOX_SIZE + 2, BOX_SIZE - 4, BOX_SIZE - 4);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 1, OFFSET_Y + redSquare.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
 			}
 		} catch (NullPointerException e) {
 			redSquare = HamkaWindow.getStartingRed();
 			if (!redSquare.equals(new Point(0, 0))) {
-				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 2, OFFSET_Y + redSquare.y * BOX_SIZE + 2, BOX_SIZE - 4, BOX_SIZE - 4);
+				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 1, OFFSET_Y + redSquare.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
 			}
 		}
 
@@ -207,11 +207,11 @@ public class HamkaBoard extends JButton {
 		if (this.game.isGreen) {
 			try {
 				g.setColor(Color.green);
-				g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE + 3, OFFSET_Y + greenSquare.y * BOX_SIZE + 4, BOX_SIZE - 6, BOX_SIZE - 8);
+				g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE + 3, OFFSET_Y + greenSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
 				if (!greenSquare.equals(new Point(0, 0))) {
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+ 3, OFFSET_Y + greenSquare.y * BOX_SIZE+4, BOX_SIZE - 6, BOX_SIZE - 8);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+ 3, OFFSET_Y + greenSquare.y * BOX_SIZE+3, BOX_SIZE - 6, BOX_SIZE - 6);
 				}
 			}
 
@@ -392,7 +392,7 @@ public class HamkaBoard extends JButton {
 			return;
 		}
 		
-		Game copy = game.copy(yellowSquare,greenSquare,game.isOrange);
+		Game copy = game.copy(yellowSquare,greenSquare,game.isGreen);
 		
 		// Determine what square (if any) was selected
 		final int W = getWidth(), H = getHeight();
