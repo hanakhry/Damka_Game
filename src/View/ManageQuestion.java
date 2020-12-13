@@ -6,6 +6,9 @@ import Utils.Level;
 import net.miginfocom.swing.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -19,27 +22,63 @@ public class ManageQuestion extends JFrame {
     public static final int DEFAULT_HEIGHT = 750;
 
     ArrayList<Question> questions = questionList();
-    DefaultListModel Model1 = new DefaultListModel();
     final static SysData sysData = SysData.getInstance();
-    final DefaultListModel<String> model = new DefaultListModel();
+    DefaultListModel<String> model = new DefaultListModel();
     ButtonGroup editGroup = new ButtonGroup();
-    ButtonGroup addGroup = new ButtonGroup();
+    int selectedIndexList;
 
     public ManageQuestion() {
         initComponents();
         super.setTitle("Question Manager");
         super.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         super.setLocationRelativeTo(null);
-        //allows only 1 radiobutton selection
-        editGroup.add(editChoice1);
-        editGroup.add(editChoice2);
-        editGroup.add(editChoice3);
-        editGroup.add(editChoice4);
 
-        addGroup.add(addChoice1);
-        addGroup.add(addChoice2);
-        addGroup.add(addChoice3);
-        addGroup.add(addChoice4);
+
+        this.choice1.addActionListener(new radioButtonListener());
+        this.choice2.addActionListener(new radioButtonListener());
+        this.choice3.addActionListener(new radioButtonListener());
+        this.choice4.addActionListener(new radioButtonListener());
+
+        //display selected item in list for editing
+        selectQuestionList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(selectQuestionList.getSelectedIndex() > -1) {
+                    selectedIndexList = selectQuestionList.getSelectedIndex();
+                    Question q = questions.get(selectQuestionList.getSelectedIndex());
+                    questionField.setText((String) q.getQuestion());
+                    comboBox1.setSelectedIndex(q.getLevel().getLevel());
+                    answer1.setText((String) q.getAnswers().get(0));
+                    answer2.setText((String) q.getAnswers().get(1));
+                    answer3.setText((String) q.getAnswers().get(2));
+                    answer4.setText((String) q.getAnswers().get(3));
+                    int correctAnswer = q.getIndexOfCorrectAnswer();
+                    if (correctAnswer == 1) {
+                        choice1.setSelected(true);
+                        textFieldColor(answer1);
+                    }
+                    else if (correctAnswer == 2) {
+                        choice2.setSelected(true);
+                        textFieldColor(answer2);
+                    }
+                    else if (correctAnswer == 3) {
+                        choice3.setSelected(true);
+                        textFieldColor(answer3);
+                    }
+                    else {
+                        choice4.setSelected(true);
+                        textFieldColor(answer4);
+                    }
+                }
+            }
+        });
+       
+        //allows only 1 radiobutton selection
+        editGroup.add(choice1);
+        editGroup.add(choice2);
+        editGroup.add(choice3);
+        editGroup.add(choice4);
+
 
         setTitle("Question Manager");
 
@@ -47,9 +86,6 @@ public class ManageQuestion extends JFrame {
         comboBox1.addItem(Level.EASY);
         comboBox1.addItem(Level.MEDIUM);
         comboBox1.addItem(Level.HARD);
-        comboBox2.addItem(Level.EASY);
-        comboBox2.addItem(Level.MEDIUM);
-        comboBox2.addItem(Level.HARD);
 
         //add questions to list
         for(int i = 0; i < questions.size(); i++)
@@ -57,40 +93,18 @@ public class ManageQuestion extends JFrame {
         selectQuestionList.setModel(model);
 
 
-        //display selected question for editing
-        editSelectedQuestionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Model1.removeAllElements();
-                Question q = questions.get(selectQuestionList.getSelectedIndex());
-                questionField.setText((String) q.getQuestion());
-                comboBox1.setSelectedIndex(q.getLevel().getLevel());
-                editAnswer1.setText((String) q.getAnswers().get(0));
-                editAnswer2.setText((String) q.getAnswers().get(1));
-                editAnswer3.setText((String) q.getAnswers().get(2));
-                editAnswer4.setText((String) q.getAnswers().get(3));
-                int correctAnswer = q.getIndexOfCorrectAnswer();
-                if(correctAnswer == 1)
-                    editChoice1.setSelected(true);
-                else if(correctAnswer == 2)
-                    editChoice2.setSelected(true);
-                else if(correctAnswer == 3)
-                    editChoice3.setSelected(true);
-                else
-                    editChoice4.setSelected(true);
-            }
-        });
-
-
         //delete selected question
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Question q = questions.get(selectQuestionList.getSelectedIndex());
-                //System.out.println(q);
-                sysData.deleteQuestionFromJSON("JSON/questions.JSON", q);
-                int index = selectQuestionList.getSelectedIndex();
-                ((DefaultListModel) selectQuestionList.getModel()).remove(index);
+                if (!selectQuestionList.isSelectionEmpty()) {
+                    Question q = questions.get(selectQuestionList.getSelectedIndex());
+                    System.out.println(q);
+                    sysData.deleteQuestionFromJSON("JSON/questions.JSON", q);
+                    int index = selectQuestionList.getSelectedIndex();
+                    ((DefaultListModel) selectQuestionList.getModel()).remove(index);
+                } else
+                    JOptionPane.showMessageDialog(null, "Select from the list first.");
             }
         });
 
@@ -98,32 +112,43 @@ public class ManageQuestion extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String question = questionField.getText();
-                int level = comboBox1.getSelectedIndex();
-                int answer;
-                String answer1 = editAnswer1.getText();
-                String answer2 = editAnswer2.getText();
-                String answer3 = editAnswer3.getText();
-                String answer4 = editAnswer4.getText();
-                ArrayList<String> answers = new ArrayList<>();
-                answers.add(answer1);
-                answers.add(answer2);
-                answers.add(answer3);
-                answers.add(answer4);
+                if (checkFields()) {
+                    String question = questionField.getText();
+                    int level = comboBox1.getSelectedIndex();
+                    int answer;
+                    String ans1 = answer1.getText();
+                    String ans2 = answer2.getText();
+                    String ans3 = answer3.getText();
+                    String ans4 = answer4.getText();
+                    ArrayList<String> answers = new ArrayList<>();
+                    answers.add(ans1);
+                    answers.add(ans2);
+                    answers.add(ans3);
+                    answers.add(ans4);
 
-                if(editChoice1.isSelected()){
-                    answer = 1;
-                }
-                else if(editChoice2.isSelected()){
-                    answer = 2;
-                }
-                else if(editChoice3.isSelected()){
-                    answer = 3;
+                    if (choice1.isSelected()) {
+                        answer = 1;
+                    } else if (choice2.isSelected()) {
+                        answer = 2;
+                    } else if (choice3.isSelected()) {
+                        answer = 3;
+                    } else
+                        answer = 4;
+                    Question q = new Question(question, answers, answer, Level.getLevelByNumber(level), "");
+                    sysData.editQuestion("JSON/questions.JSON", questions.get(selectedIndexList), q);
+                    sysData.importQuestionsFromJSON("JSON/questions.JSON");
+                    questions = questionList();
+                    DefaultListModel listModel = (DefaultListModel) selectQuestionList.getModel();
+                    listModel.removeAllElements();
+                    model.clear();
+                    for (int i = 0; i < questions.size(); i++)
+                        model.add(i, questions.get(i).getQuestion().toString());
+                    selectQuestionList.setModel(model);
+
                 } else
-                    answer = 4;
-                Question q = new Question(question, answers, answer, Level.getLevelByNumber(level), "");
-                sysData.editQuestion("JSON/questions.JSON", questions.get(selectQuestionList.getSelectedIndex()), q);
+                    JOptionPane.showMessageDialog(null, "At least one field is empty.");
             }
+
         });
 
         backButton.addActionListener(new ActionListener() {
@@ -141,57 +166,129 @@ public class ManageQuestion extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String question = addQuestion.getText();
-                int level = comboBox2.getSelectedIndex();
+                String question = questionField.getText();
+                int level = comboBox1.getSelectedIndex();
                 int answer;
-                String answer1 = addAnswer1.getText();
-                String answer2 = addAnswer2.getText();
-                String answer3 = addAnswer3.getText();
-                String answer4 = addAnswer4.getText();
+                String ans1 = answer1.getText();
+                String ans2 = answer2.getText();
+                String ans3 = answer3.getText();
+                String ans4 = answer4.getText();
                 ArrayList<String> answers = new ArrayList<>();
-                answers.add(answer1);
-                answers.add(answer2);
-                answers.add(answer3);
-                answers.add(answer4);
+                answers.add(ans1);
+                answers.add(ans2);
+                answers.add(ans3);
+                answers.add(ans4);
 
-                if(addChoice1.isSelected()){
+                if(choice1.isSelected()){
                     answer = 1;
                 }
-                else if(addChoice2.isSelected()){
+                else if(choice2.isSelected()){
                     answer = 2;
                 }
-                else if(addChoice3.isSelected()){
+                else if(choice3.isSelected()){
                     answer = 3;
                 } else
                     answer = 4;
                 Question q = new Question(question, answers, answer, Level.getLevelByNumber(level), "");
                 try {
                     sysData.addQuestionToJSON("JSON/questions.JSON",  q);
-                    ((DefaultListModel) selectQuestionList.getModel()).addElement(q.getQuestion().toString());
+                    sysData.importQuestionsFromJSON("JSON/questions.JSON");
                     questions = questionList();
+                    DefaultListModel listModel = (DefaultListModel) selectQuestionList.getModel();
+                    listModel.removeAllElements();
+                    model.clear();
+                    for (int i = 0; i < questions.size(); i++)
+                        model.add(i, questions.get(i).getQuestion().toString());
+                    selectQuestionList.setModel(model);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+                clearFields();
             }
         });
+
     
     }
 
+    public void clearFields(){
+        questionField.setText("");
+        comboBox1.setSelectedIndex(0);
+        answer1.setText("");
+        answer2.setText("");
+        answer3.setText("");
+        answer4.setText("");
+        choice1.setSelected(false);
+        choice2.setSelected(false);
+        choice3.setSelected(false);
+        choice4.setSelected(false);
+        answer1.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer2.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer3.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer4.setBorder(BorderFactory.createLineBorder(Color.gray));
+    }
+
+    public boolean checkFields(){
+        if(answer1.getText().isEmpty()){
+            answer1.setBorder(BorderFactory.createLineBorder(Color.red));
+            return false;
+        }
+        if(answer2.getText().isEmpty()){
+            answer2.setBorder(BorderFactory.createLineBorder(Color.red));
+            return false;
+        }
+        if(answer3.getText().isEmpty()){
+            answer3.setBorder(BorderFactory.createLineBorder(Color.red));
+            return false;
+        }
+        if(answer4.getText().isEmpty()){
+            answer4.setBorder(BorderFactory.createLineBorder(Color.red));
+            return false;
+        }
+        if(questionField.getText().isEmpty()){
+            questionField.setBorder(BorderFactory.createLineBorder(Color.red));
+            return false;
+        }
+        return true;
+    }
+
     public ArrayList<Question> questionList(){
-        sysData.importQuestionsFromJSON("JSON/questions.JSON");
+        if(sysData.getQuestions().entrySet().isEmpty())
+            sysData.importQuestionsFromJSON("JSON/questions.JSON");
         ArrayList<Question> questions = new ArrayList<>();
         for(Map.Entry<Level, ArrayList<Question>> entry : sysData.getQuestions().entrySet()){
             for(Question question : entry.getValue()){
                 questions.add(question);
             }
         }
-
         return questions;
-
     }
 
-    private void deleteActionPerformed(ActionEvent e) {
-        // TODO add your code here
+
+    public void textFieldColor(JTextField field){
+        answer1.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer2.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer3.setBorder(BorderFactory.createLineBorder(Color.gray));
+        answer4.setBorder(BorderFactory.createLineBorder(Color.gray));
+        field.setBorder(BorderFactory.createLineBorder(Color.green));
+    }
+
+   public class radioButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            Object src = e.getSource();
+            if(src == choice1){
+                textFieldColor(answer1);
+            }
+            if(src == choice2){
+                textFieldColor(answer2);
+            }
+            if(src == choice3){
+                textFieldColor(answer3);
+            }
+            if(src == choice4){
+                textFieldColor(answer4);
+            }
+        }
     }
 
 
@@ -209,30 +306,15 @@ public class ManageQuestion extends JFrame {
         difficulty = new JLabel();
         comboBox1 = new JComboBox();
         answer = new JLabel();
-        editAnswer1 = new JTextField();
-        editChoice1 = new JRadioButton();
-        editAnswer2 = new JTextField();
-        editChoice2 = new JRadioButton();
-        editAnswer3 = new JTextField();
-        editChoice3 = new JRadioButton();
-        editAnswer4 = new JTextField();
-        editChoice4 = new JRadioButton();
-        panel1 = new JPanel();
-        question2 = new JLabel();
-        addQuestion = new JTextField();
-        difficulty2 = new JLabel();
-        comboBox2 = new JComboBox();
-        answer2 = new JLabel();
-        addAnswer1 = new JTextField();
-        addChoice1 = new JRadioButton();
-        addAnswer2 = new JTextField();
-        addChoice3 = new JRadioButton();
-        addAnswer3 = new JTextField();
-        addChoice4 = new JRadioButton();
-        addAnswer4 = new JTextField();
-        addChoice2 = new JRadioButton();
+        answer1 = new JTextField();
+        choice1 = new JRadioButton();
+        answer2 = new JTextField();
+        choice2 = new JRadioButton();
+        answer3 = new JTextField();
+        choice3 = new JRadioButton();
+        answer4 = new JTextField();
+        choice4 = new JRadioButton();
         backButton = new JButton();
-        editSelectedQuestionButton = new JButton();
         saveButton = new JButton();
         deleteButton = new JButton();
         addButton = new JButton();
@@ -242,6 +324,9 @@ public class ManageQuestion extends JFrame {
         contentPane.setLayout(new MigLayout(
             "hidemode 3",
             // columns
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
             "[fill]" +
             "[fill]" +
             "[fill]" +
@@ -295,26 +380,60 @@ public class ManageQuestion extends JFrame {
             "[]" +
             "[]" +
             "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
+            "[]" +
             "[]"));
 
         //======== scrollPane3 ========
         {
             scrollPane3.setViewportView(selectQuestionList);
         }
-        contentPane.add(scrollPane3, "cell 0 0 7 9");
+        contentPane.add(scrollPane3, "cell 3 0 41 9");
 
         //======== selectPanel ========
         {
-            selectPanel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,selectPanel. getBorder( )) ); selectPanel. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            selectPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
+            swing.border.EmptyBorder(0,0,0,0), "",javax.swing.border
+            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
+            ,java.awt.Font.BOLD,12),java.awt.Color.red),selectPanel. getBorder
+            ()));selectPanel. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
+            .beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
+            ();}});
             selectPanel.setLayout(new MigLayout(
                 "hidemode 3",
                 // columns
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
+                "[fill]" +
                 "[fill]" +
                 "[fill]" +
                 "[fill]" +
@@ -341,131 +460,43 @@ public class ManageQuestion extends JFrame {
             //---- question ----
             question.setText("Question");
             selectPanel.add(question, "cell 0 0");
-            selectPanel.add(questionField, "cell 2 0 10 1");
+            selectPanel.add(questionField, "cell 2 0 31 1");
 
             //---- difficulty ----
             difficulty.setText("Difficulty");
             selectPanel.add(difficulty, "cell 0 2");
-            selectPanel.add(comboBox1, "cell 2 2 10 1");
+            selectPanel.add(comboBox1, "cell 2 2 31 1");
 
             //---- answer ----
             answer.setText("Answers");
             selectPanel.add(answer, "cell 0 4");
-            selectPanel.add(editAnswer1, "cell 2 4 8 1");
-            selectPanel.add(editChoice1, "cell 10 4");
-            selectPanel.add(editAnswer2, "cell 2 5 8 1");
-            selectPanel.add(editChoice2, "cell 10 5");
-            selectPanel.add(editAnswer3, "cell 2 6 8 1");
-            selectPanel.add(editChoice3, "cell 10 6");
-            selectPanel.add(editAnswer4, "cell 2 7 8 1");
-            selectPanel.add(editChoice4, "cell 10 7");
+            selectPanel.add(answer1, "cell 2 4 30 1");
+            selectPanel.add(choice1, "cell 32 4");
+            selectPanel.add(answer2, "cell 2 5 30 1");
+            selectPanel.add(choice2, "cell 32 5");
+            selectPanel.add(answer3, "cell 2 6 30 1");
+            selectPanel.add(choice3, "cell 32 6");
+            selectPanel.add(answer4, "cell 2 7 30 1");
+            selectPanel.add(choice4, "cell 32 7");
         }
-        contentPane.add(selectPanel, "cell 9 1 14 8");
-
-        //======== panel1 ========
-        {
-            panel1.setLayout(new MigLayout(
-                "hidemode 3",
-                // columns
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]" +
-                "[fill]",
-                // rows
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]"));
-
-            //---- question2 ----
-            question2.setText("Question");
-            panel1.add(question2, "cell 0 3");
-            panel1.add(addQuestion, "cell 1 3 30 1");
-
-            //---- difficulty2 ----
-            difficulty2.setText("Difficulty");
-            panel1.add(difficulty2, "cell 0 5");
-            panel1.add(comboBox2, "cell 2 5 21 1");
-
-            //---- answer2 ----
-            answer2.setText("Answers");
-            panel1.add(answer2, "cell 0 11");
-            panel1.add(addAnswer1, "cell 4 11 18 1");
-            panel1.add(addChoice1, "cell 22 11");
-            panel1.add(addAnswer2, "cell 4 13 18 1");
-            panel1.add(addChoice3, "cell 22 13");
-            panel1.add(addAnswer3, "cell 4 15 18 1");
-            panel1.add(addChoice4, "cell 22 15");
-            panel1.add(addAnswer4, "cell 4 17 18 1");
-            panel1.add(addChoice2, "cell 22 17");
-        }
-        contentPane.add(panel1, "cell 24 0 17 9");
+        contentPane.add(selectPanel, "cell 3 9 34 8");
 
         //---- backButton ----
         backButton.setText("Back");
-        contentPane.add(backButton, "cell 3 10");
-
-        //---- editSelectedQuestionButton ----
-        editSelectedQuestionButton.setText("Edit");
-        contentPane.add(editSelectedQuestionButton, "cell 12 10");
+        contentPane.add(backButton, "cell 3 18");
 
         //---- saveButton ----
         saveButton.setText("Save Edit");
-        contentPane.add(saveButton, "cell 21 10");
+        contentPane.add(saveButton, "cell 6 18");
 
         //---- deleteButton ----
         deleteButton.setText("Delete");
-        deleteButton.addActionListener(e -> deleteActionPerformed(e));
-        contentPane.add(deleteButton, "cell 25 10");
+        contentPane.add(deleteButton, "cell 9 18");
 
         //---- addButton ----
         addButton.setText("Add");
-        contentPane.add(addButton, "cell 29 10");
-        setSize(960, 700);
+        contentPane.add(addButton, "cell 12 18");
+        setSize(1150, 1055);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -480,30 +511,15 @@ public class ManageQuestion extends JFrame {
     private JLabel difficulty;
     private JComboBox comboBox1;
     private JLabel answer;
-    private JTextField editAnswer1;
-    private JRadioButton editChoice1;
-    private JTextField editAnswer2;
-    private JRadioButton editChoice2;
-    private JTextField editAnswer3;
-    private JRadioButton editChoice3;
-    private JTextField editAnswer4;
-    private JRadioButton editChoice4;
-    private JPanel panel1;
-    private JLabel question2;
-    private JTextField addQuestion;
-    private JLabel difficulty2;
-    private JComboBox comboBox2;
-    private JLabel answer2;
-    private JTextField addAnswer1;
-    private JRadioButton addChoice1;
-    private JTextField addAnswer2;
-    private JRadioButton addChoice3;
-    private JTextField addAnswer3;
-    private JRadioButton addChoice4;
-    private JTextField addAnswer4;
-    private JRadioButton addChoice2;
+    private JTextField answer1;
+    private JRadioButton choice1;
+    private JTextField answer2;
+    private JRadioButton choice2;
+    private JTextField answer3;
+    private JRadioButton choice3;
+    private JTextField answer4;
+    private JRadioButton choice4;
     private JButton backButton;
-    private JButton editSelectedQuestionButton;
     private JButton saveButton;
     private JButton deleteButton;
     private JButton addButton;

@@ -1,20 +1,20 @@
 {
 	"questions":[
 		{
-			"question":"What's the capital of Romania?",
-			"level":"2",
+			"question":"What's the capital of U",
+			"level":"1",
 			"answers":[
 				"Berlin",
-				"Madrid",
-				"Bucharest",
-				"Budapest"
+				"Rome",
+				"London",
+				"Madrid"
 			],
-			"team":"hedgehog",
+			"team":"",
 			"correct_ans":"3"
 		},
 		{
 			"question":"What's the capital of France?",
-			"level":"2",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
@@ -26,7 +26,7 @@
 		},
 		{
 			"question":"What's the capital of Spain?",
-			"level":"3",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
@@ -50,7 +50,7 @@
 		},
 		{
 			"question":"What's the capital of Italy?",
-			"level":"2",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",

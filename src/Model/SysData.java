@@ -13,7 +13,7 @@ import java.util.*;
 public final class SysData {
     private static SysData instance;
     //HashMap key: question difficulty level, value: all questions of such difficulty
-    public final HashMap<Level, ArrayList<Question>> questions = new HashMap();
+    public HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
     ArrayList<Integer> tiles;
     public ArrayList<Integer> getTiles() {
@@ -49,6 +49,7 @@ public final class SysData {
 
 
     public void importQuestionsFromJSON(String path) {
+        questions = new HashMap();
         try (FileReader reader = new FileReader(new File(path))) {
             JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
             JsonArray questionObj = (JsonArray) doc.get("questions");
