@@ -128,7 +128,7 @@ public class MainMenu extends JFrame {
             }
             if(src == Questions){
                 dispose();
-                ManageQuestion window = new ManageQuestion();
+                LogIn window = new LogIn();
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
             }
