@@ -129,6 +129,7 @@ public class ManageQuestion extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                model.clear();
                 dispose();
                 MainMenu window = new MainMenu();
                 window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);

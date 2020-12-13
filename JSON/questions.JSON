@@ -1,7 +1,66 @@
 {
 	"questions":[
 		{
-
+			"question":"What's the capital of Romania?",
+			"level":"3",
+			"answers":[
+				"Berlin",
+				"Madrid",
+				"Bucharest",
+				"Budapest"
+			],
+			"team":"",
+			"correct_ans":"4"
+		},
+		{
+			"question":"What's the capital of France?",
+			"level":"1",
+			"answers":[
+				"Berlin",
+				"Rome",
+				"Paris",
+				"Madrid"
+			],
+			"team":"hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"What's the capital of Spain?",
+			"level":"1",
+			"answers":[
+				"Berlin",
+				"Rome",
+				"Paris",
+				"Madrid"
+			],
+			"team":"hedgehog",
+			"correct_ans":"4"
+		},
+		{
+			"question":"What's the capital of Germany?",
+			"level":"1",
+			"answers":[
+				"Berlin",
+				"Rome",
+				"Paris",
+				"Madrid"
+			],
+			"team":"animal",
+			"correct_ans":"1"
+		},
+		{
+			"question":"What's the capital of Italy?",
+			"level":"1",
+			"answers":[
+				"Berlin",
+				"Rome",
+				"London",
+				"Madrid"
+			],
+			"team":"hedgehog",
+			"correct_ans":"2"
+		},
+		{
 			"question":"What's the capital of France?",
 			"level":"1",
 			"answers":[

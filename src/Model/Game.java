@@ -31,10 +31,11 @@ public class Game {
 	private Player white2Player;
 
 	public List<Point> yellowSquares;
-	private List<Point> tempYellow;
-	public HashMap<String, List<Point>> colors;
-	public List<Point> redSquare;
 	public List<Point> greenSquare;
+	public static List<Point> tempYellow;
+	public static Point tempGreen;
+ 	public HashMap<String, List<Point>> colors;
+	public List<Point> redSquare;
 	public List<Point> orangeSquares;
 
 	public boolean isGreen = false;
@@ -47,6 +48,7 @@ public class Game {
 		this.colors = new HashMap<>();
 		this.yellowSquares = new ArrayList<>();
 		this.redSquare = new ArrayList<>();
+		this.tempGreen=new Point();
 		this.tempYellow = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
@@ -66,6 +68,9 @@ public class Game {
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
+		this.yellowSquares = new ArrayList<>();
+		this.tempGreen=new Point();
+		this.tempYellow = new ArrayList<>();
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 	}
@@ -75,6 +80,9 @@ public class Game {
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
+		this.yellowSquares = new ArrayList<>();
+		this.tempGreen=new Point();
+		this.tempYellow = new ArrayList<>();
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
@@ -87,14 +95,15 @@ public class Game {
 	 * not made to the other.
 	 * return an exact copy of this game.
 	 */
-	public Game copy(List<Point> yellowTemp) {
+	public Game copy(List<Point> yellowTemp,Point greenTemp) {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
 		colors.remove("orange");
 		colors.put("orange", this.orangeSquares);
 		Game g = new Game();
-		g.tempYellow = yellowTemp;
+		g.tempGreen=greenTemp;
+		g.tempYellow=yellowTemp;
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
@@ -170,6 +179,19 @@ public class Game {
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
+		// give 50 for stepping on green
+			int onGreen = Board.toIndex(tempGreen.x, tempGreen.y);
+			if(endIndex==onGreen) {
+					if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + 50);
+					if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + 50);
+					final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+					JOptionPane.showMessageDialog(null,
+							"You got 50 points for stepping on Green!", "Green",
+							JOptionPane.INFORMATION_MESSAGE,
+							icon);
+				}
+
+
 
 		//handle question on yellow before switching player
 		for(Point p : tempYellow){
@@ -344,7 +366,7 @@ public class Game {
 		refreshColors();
 	}
 
-	private void refreshColors(){
+	public void refreshColors(){
 		RandomEvents random = new RandomEvents(this.getBoard().find(0));
 		yellowSquares = random.yellowEvents();
 

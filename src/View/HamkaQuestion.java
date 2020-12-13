@@ -29,7 +29,7 @@ public class HamkaQuestion {
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
-        dialog = optionPane.createDialog("Yellow Square Question!");
+        dialog = optionPane.createDialog("Yellow Square Question");
     }
 
     private void setupButtons(){

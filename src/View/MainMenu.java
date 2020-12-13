@@ -114,6 +114,9 @@ public class MainMenu extends JFrame {
                 window.setGameState(a);
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
+                window.getBoard().getGame().refreshColors();
+                window.getBoard().handleClick(0, 0, 2);
+
                 final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
                 JOptionPane.showMessageDialog(null,
                         "Game Loaded Successfully!","Load game",
