@@ -34,13 +34,13 @@ public class Game {
 	public List<Point> greenSquare;
 	public static List<Point> tempYellow;
 	public static Point tempGreen;
+	public static boolean tempIsOrange;
  	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	public List<Point> orangeSquares;
 
-	public boolean isGreen = false;
-
-	public boolean isOrange = false;
+	public boolean isGreen;
+	public boolean isOrange;
 
 	public Game() {
 		this.black1Player=new Player("",0);
@@ -50,6 +50,9 @@ public class Game {
 		this.redSquare = new ArrayList<>();
 		this.tempGreen=new Point();
 		this.tempYellow = new ArrayList<>();
+		this.isOrange=false;
+		this.isGreen=false;
+		this.tempIsOrange=false;
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		restart();
@@ -71,6 +74,7 @@ public class Game {
 		this.yellowSquares = new ArrayList<>();
 		this.tempGreen=new Point();
 		this.tempYellow = new ArrayList<>();
+		this.tempIsOrange=false;
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
 	}
@@ -83,6 +87,7 @@ public class Game {
 		this.yellowSquares = new ArrayList<>();
 		this.tempGreen=new Point();
 		this.tempYellow = new ArrayList<>();
+		this.tempIsOrange=false;
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
@@ -95,7 +100,7 @@ public class Game {
 	 * not made to the other.
 	 * return an exact copy of this game.
 	 */
-	public Game copy(List<Point> yellowTemp,Point greenTemp) {
+	public Game copy(List<Point> yellowTemp,Point greenTemp,boolean isOrangeTemp) {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
@@ -104,6 +109,7 @@ public class Game {
 		Game g = new Game();
 		g.tempGreen=greenTemp;
 		g.tempYellow=yellowTemp;
+		g.tempIsOrange=isOrangeTemp;
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
@@ -181,7 +187,7 @@ public class Game {
 		}
 		// give 50 for stepping on green
 			int onGreen = Board.toIndex(tempGreen.x, tempGreen.y);
-			if(endIndex==onGreen) {
+			if(endIndex==onGreen && !this.tempIsOrange) {
 					if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + 50);
 					if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + 50);
 					final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));

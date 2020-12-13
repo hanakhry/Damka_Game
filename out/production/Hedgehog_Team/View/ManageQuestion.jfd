@@ -1,0 +1,211 @@
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "hidemode 3"
+			"$columnConstraints": "[fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill]"
+			"$rowConstraints": "[][][][][][][][][][][][]"
+		} ) {
+			name: "this"
+			"$sizePolicy": 1
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane3"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "selectQuestionList"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 7 9"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill]"
+				"$rowConstraints": "[][][][][][][][][]"
+			} ) {
+				name: "selectPanel"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "question"
+					"text": "Question"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "questionField"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0 10 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "difficulty"
+					"text": "Difficulty"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 2"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBox1"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 2 10 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "answer"
+					"text": "Answers"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 4"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "editAnswer1"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 4 8 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "editChoice1"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 10 4"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "editAnswer2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 5 8 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "editChoice2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 10 5"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "editAnswer3"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 6 8 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "editChoice3"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 10 6"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "editAnswer4"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 7 8 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "editChoice4"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 10 7"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 9 1 14 8"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill][fill]"
+				"$rowConstraints": "[][][][][][][][][][][][][][][][][][][][][]"
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "question2"
+					"text": "Question"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 3"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "addQuestion"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 3 30 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "difficulty2"
+					"text": "Difficulty"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 5"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBox2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 5 21 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "answer2"
+					"text": "Answers"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 11"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "addAnswer1"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 4 11 18 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "addChoice1"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 22 11"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "addAnswer2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 4 13 18 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "addChoice3"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 22 13"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "addAnswer3"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 4 15 18 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "addChoice4"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 22 15"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "addAnswer4"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 4 17 18 1"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "addChoice2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 22 17"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 24 0 17 9"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "backButton"
+				"text": "Back"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 10"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "editSelectedQuestionButton"
+				"text": "Edit"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 12 10"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "saveButton"
+				"text": "Save Edit"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 21 10"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "deleteButton"
+				"text": "Delete"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "deleteActionPerformed", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 25 10"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "addButton"
+				"text": "Add"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 29 10"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 960, 700 )
+		} )
+	}
+}
