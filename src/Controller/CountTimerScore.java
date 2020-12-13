@@ -42,12 +42,12 @@ public class CountTimerScore {
                     count++;
                     setTimerText(cntL, TimeFormat(count));
                     if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                    if (count > 10) {
+                    if (count > 30) {
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                         hamkaOptionPanel.getWindow().getBoard().update(false);
 
                     }
-                    if (count > 20) {
+                    if (count > 90) {
                         //orange
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
                         hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;
@@ -69,12 +69,12 @@ public class CountTimerScore {
                     count++;
                     setTimerText(cntL, TimeFormat(count));
                     if (count > 60 && (pTime == 1 || pTime == 2)) setTimerColor(cntL, Color.RED.darker());
-                    if (count > 10) {
+                    if (count > 30) {
                         //green
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                         hamkaOptionPanel.getWindow().getBoard().update(false);
                     }
-                    if (count > 20) {
+                    if (count > 90) {
                         //orange
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = false;
                         hamkaOptionPanel.getWindow().getBoard().getGame().isOrange = true;

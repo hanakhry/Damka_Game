@@ -343,7 +343,7 @@ public class Game {
 	 * parameter state the game state.
 	 */
 	public void setGameState(String state) {
-		System.out.println(state);
+	//	System.out.println(state);
 
 		restart();
 
@@ -360,7 +360,7 @@ public class Game {
 				this.board.set(i, id);
 			} catch (NumberFormatException e) {}
 		}
-		System.out.println("\n"+this.board);
+	//	System.out.println("\n"+this.board);
 		// Update the other info
 		if (n > 32) {
 			this.isP1Turn = (state.charAt(32) == '1');

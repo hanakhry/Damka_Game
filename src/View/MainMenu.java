@@ -110,7 +110,7 @@ public class MainMenu extends JFrame {
                 a = a.replace(" ","");
                 a = a.replace("[","");
                 a = a.replace("]","");
-                System.out.println(a);
+               // System.out.println(a);
                 window.setGameState(a);
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);

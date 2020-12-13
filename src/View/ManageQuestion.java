@@ -87,7 +87,7 @@ public class ManageQuestion extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Question q = questions.get(selectQuestionList.getSelectedIndex());
-                System.out.println(q);
+                //System.out.println(q);
                 sysData.deleteQuestionFromJSON("JSON/questions.JSON", q);
                 int index = selectQuestionList.getSelectedIndex();
                 ((DefaultListModel) selectQuestionList.getModel()).remove(index);

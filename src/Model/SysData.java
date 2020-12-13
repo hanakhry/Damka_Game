@@ -93,7 +93,7 @@ public final class SysData {
 
             writer.write(Jsoner.prettyPrint(doc.toJson()));
             writer.flush();
-            System.out.println("Changes were executed successfully");
+       //     System.out.println("Changes were executed successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,7 +172,7 @@ public final class SysData {
         //array that holds all of the existing questions
         ArrayList<Question> appendList = new ArrayList<Question>();
         if(questions.isEmpty()){
-            System.out.println("Questions file is empty");
+         //   System.out.println("Questions file is empty");
             return 0;
         }
 
@@ -191,7 +191,7 @@ public final class SysData {
             counter++;
         }
         if(!flag){
-            System.out.println("Question was not found");
+         //   System.out.println("Question was not found");
             return 0;
         }
 
@@ -203,7 +203,7 @@ public final class SysData {
         boolean flag = false;
         ArrayList<Question> appendList = new ArrayList<Question>();
         if(questions.isEmpty()){
-            System.out.println("Questions file is empty");
+        //    System.out.println("Questions file is empty");
             return 0;
         }
         for (Map.Entry<Level, ArrayList<Question>> entry : questions.entrySet()) {
@@ -222,7 +222,7 @@ public final class SysData {
             counter++;
         }
         if(!flag){
-            System.out.println("Question was not found");
+         //   System.out.println("Question was not found");
             return 0;
         }
         prepareToWriteToFile(appendList, path);

@@ -226,7 +226,6 @@ public class HamkaBoard extends JButton {
 
 			} catch (NullPointerException e) {
 				orangeSquare = HamkaWindow.getStartingOrange();
-				System.out.println(orangeSquare);
 				updateOrange(g, orangeSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 			}
 		}
