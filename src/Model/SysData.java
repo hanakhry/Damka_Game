@@ -250,38 +250,39 @@ public final class SysData {
 
     //import all games from JSON
     public void importGamesFromJSON(String path) {
-        List<String> list=new ArrayList<>();
-        ArrayList<String> StringTiles = new ArrayList<>();
-        int j=0;
-        try {
-            File myObj = new File("GamesHistory.txt");
-            Scanner myReader = new Scanner(myObj);
-          while (myReader.hasNextLine()) {
-
-                list.add(myReader.nextLine());}
-
-                for (int i=2;i<list.size()-1;i++){
-
-                        StringTiles.add(j,list.get(i));
-                        j++;
-
-
-
-
-
-//                System.out.println(myReader.nextLine().trim());
-//                String data = myReader.nextLine();
-//               System.out.println(myReader.nextLine());
-           }System.out.println(StringTiles);
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        if(list.contains("B"))
-            System.out.println("id");
-        else
-            System.out.println("not found");
+//        List<String> list=new ArrayList<>();
+//        ArrayList<String> StringTiles = new ArrayList<>();
+//        int j=0;
+//        try {
+//            File myObj = new File("GamesHistory.txt");
+//            Scanner myReader = new Scanner(myObj);
+//          while (myReader.hasNextLine()) {
+//
+//                list.add(myReader.nextLine());}
+//
+//                for (int i=2;i<list.size()-1;i++){
+//
+//                        StringTiles.add(j,list.get(i));
+//                        j++;
+//
+//
+//
+//
+//
+////                System.out.println(myReader.nextLine().trim());
+////                String data = myReader.nextLine();
+////               System.out.println(myReader.nextLine());
+//           }
+//                System.out.println(StringTiles.get(0));
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+//        if(list.contains("B"))
+//            System.out.println("id");
+//        else
+//            System.out.println("not found");
 
         try (FileReader reader = new FileReader(new File(path))) {
             JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
@@ -289,7 +290,8 @@ public final class SysData {
             Iterator<Object> iterator = gameObj.iterator();
             while (iterator.hasNext()) {
                 JsonObject obj = (JsonObject) iterator.next();
-                int id = list.indexOf(1);
+                int id = Integer.parseInt((String) obj.get("Id"));
+
                tiles = (ArrayList<Integer>) obj.get("Tiles");
                 String turn = (String) obj.get("Turn");
                 Boolean isTurn = false;
