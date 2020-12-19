@@ -4,7 +4,6 @@ import Utils.Constants;
 import Utils.Level;
 import View.HamkaQuestion;
 import org.json.simple.*;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
