@@ -1,11 +1,15 @@
 package View;
 
 import Controller.CountTimerScore;
+import Model.Game;
+import Model.SysData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class provides a user interface component to control
@@ -19,7 +23,7 @@ public class HamkaOptionPanel extends JPanel {
 	/** The checkers window to update when an option is changed. */
 	private HamkaWindow window;
 
-	//private JButton showQuestion;
+	private JButton showQuestion=new JButton("Question");;
 	/** The button that when clicked, restarts the game. */
 	private JButton restartBtn;
 	/** The button that when clicked, saves the game. */
@@ -164,39 +168,42 @@ public class HamkaOptionPanel extends JPanel {
 				window.restart();
 
 			}
-			/**
-			if(src==saveBtn){
-				ArrayList<Integer> tiles=new ArrayList<>();
-				SysData data=new SysData();
-				HamkaBoard state=window.getBoard();
-				for(int i=0;i<33;i++){
-					int a=(state.getGame().getGameState().charAt(i));
-					if(a== '6') a=2;
-					if(a=='0') a=0;
-					if(a=='4'||a=='1') a=1;
-					if(a=='7') a=22;
-					if(a=='5') a=11;
 
-					tiles.add(i,a);
-				}
-				System.out.println("Test: ");
-				for (int number : tiles) {
-					System.out.print(number+" ");
-				}
-				System.out.println("Test: ");
-			//	System.out.println(tiles.get(1));
-				System.out.println("GameID:"+state.getGame().getId());
-				Game game=new Game(state.getGame().getId(),tiles,state.getGame().isP1Turn());
-				try {
-					data.addGameToJSON("JSON/games.JSON",game);
+//			if(src==saveBtn){
+//				ArrayList<Integer> tiles=new ArrayList<>();
+//				SysData data=new SysData();
+//				HamkaBoard state=window.getBoard();
+//				for(int i=0;i<33;i++){
+//					int a=(state.getGame().getGameState().charAt(i));
+//					if(a== '6') a=2;
+//					if(a=='0') a=0;
+//					if(a=='4'||a=='1') a=1;
+//					if(a=='7') a=22;
+//					if(a=='5') a=11;
+//
+//					tiles.add(i,a);
+//				}
+////				System.out.println("Test: ");
+////				for (int number : tiles) {
+////					System.out.print(number+" ");
+////				}
+////				System.out.println("Test: ");
+//			//	System.out.println(tiles.get(1));
+////				System.out.println("GameID:"+state.getGame().getId());
+//				Game game=new Game(state.getGame().getId(),tiles,state.getGame().isP1Turn());
+//				System.out.println("Test2 "+tiles);
+//
+//				try {
+//
+//					data.addGameToJSON("JSON/games.JSON",game);
+//				} catch (IOException ioException) {
+//					ioException.printStackTrace();
+//				}
+//
+//
+//			}
 
-				} catch (IOException ioException) {
-					ioException.printStackTrace();
-				}
 
-			}
-
-            */
 			if(src==quitBtn){
 					window.restart();
 					window.dispose();

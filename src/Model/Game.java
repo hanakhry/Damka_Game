@@ -307,12 +307,13 @@ public class Game {
 	 * Gets the current game state as a string of data that can be parsed by setGameState(String)
 	 * return a string representing the current game state.
 	 */
+
 	public String getGameState() {
 
 		// Add the game board
 		String state = "";
 		for (int i = 0; i < 32; i ++) {
-			state += "" + board.get(i);
+			state += ("" + board.get(i));
 		}
 		// Add the other info
 		state += (isP1Turn? "1" : "0");

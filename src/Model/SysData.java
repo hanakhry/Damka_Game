@@ -7,6 +7,10 @@ import org.json.simple.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 
 
 public final class SysData {
@@ -46,7 +50,20 @@ public final class SysData {
 
     public HashMap<Integer, Game> games() { return this.games; }
 
-
+    public void importFile() {
+        try {
+            File myObj = new File("GamesHistory.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
     public void importQuestionsFromJSON(String path) {
         questions = new HashMap();
         try (FileReader reader = new FileReader(new File(path))) {
@@ -232,6 +249,40 @@ public final class SysData {
 
     //import all games from JSON
     public void importGamesFromJSON(String path) {
+//        List<String> list=new ArrayList<>();
+//        ArrayList<String> StringTiles = new ArrayList<>();
+//        int j=0;
+//        try {
+//            File myObj = new File("GamesHistory.txt");
+//            Scanner myReader = new Scanner(myObj);
+//          while (myReader.hasNextLine()) {
+//
+//                list.add(myReader.nextLine());}
+//
+//                for (int i=2;i<list.size()-1;i++){
+//
+//                        StringTiles.add(j,list.get(i));
+//                        j++;
+//
+//
+//
+//
+//
+////                System.out.println(myReader.nextLine().trim());
+////                String data = myReader.nextLine();
+////               System.out.println(myReader.nextLine());
+//           }
+//                System.out.println(StringTiles.get(0));
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+//        if(list.contains("B"))
+//            System.out.println("id");
+//        else
+//            System.out.println("not found");
+
         try (FileReader reader = new FileReader(new File(path))) {
             JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
             JsonArray gameObj = (JsonArray) doc.get("games");
@@ -239,6 +290,7 @@ public final class SysData {
             while (iterator.hasNext()) {
                 JsonObject obj = (JsonObject) iterator.next();
                 int id = Integer.parseInt((String) obj.get("Id"));
+
                tiles = (ArrayList<Integer>) obj.get("Tiles");
                 String turn = (String) obj.get("Turn");
                 Boolean isTurn = false;
@@ -258,7 +310,9 @@ public final class SysData {
 
     //add game to json(Save)
     public void addGameToJSON(String path, Game game) throws IOException {
-        //array that holds all of the existing questions
+
+
+        //array that holds all of the existing games
         ArrayList<Game> appendList = new ArrayList<>();
         ArrayList<Integer> tiles = new ArrayList<Integer>();
         if(games.isEmpty()){
@@ -269,16 +323,17 @@ public final class SysData {
             appendList.add(entry.getValue());
         }
         try {
-            //new array to hold the questions
+            //new array to hold the games
             JsonArray games = new JsonArray();
 
-            //add the question to array
+            //add the game to array
             JsonObject jsonObject = new JsonObject();
             //~~~~~~
             jsonObject.put("Id", game.getId());
             //game -> get tiles
             //get ->(boolean)turn -> B/W
-            jsonObject.put("Tiles", game.getBoard());
+            System.out.println("sssss"+game.getGameState());
+//            jsonObject.put("Tiles", game.getGameState());
             String turn;
             boolean isP1Turn=game.isP1Turn();
             if(isP1Turn==true)
@@ -292,7 +347,7 @@ public final class SysData {
                 jsonObject.put("Id", game.getId());
                 //game -> get tiles
                 //get ->(boolean)turn -> B/W
-                jsonObject.put("Tiles", game.getBoard());
+//                jsonObject.put("Tiles", game.getBoard());
                 String turn1;
                 boolean isP1Turn1=game.isP1Turn();
                 if(isP1Turn1==true)
@@ -349,4 +404,7 @@ public final class SysData {
         }
 
     }
+
+
+
 }

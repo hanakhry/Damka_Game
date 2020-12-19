@@ -1,5 +1,7 @@
 package View;
 
+import Model.SysData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -122,6 +124,8 @@ public class MainMenu extends JFrame {
                         "Game Loaded Successfully!","Load game",
                         JOptionPane.INFORMATION_MESSAGE,
                         icon);
+
+
             }
             if(src == ExitGame){
                 dispose();
