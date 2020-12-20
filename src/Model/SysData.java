@@ -16,14 +16,16 @@ public final class SysData {
     //HashMap key: question difficulty level, value: all questions of such difficulty
     public HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
-    ArrayList<Integer> tiles;
-    public ArrayList<Integer> getTiles() {
+
+    public List getTiles() {
         return tiles;
     }
 
-    public void setTiles(ArrayList<Integer> tiles) {
+    public void setTiles(List tiles) {
         this.tiles = tiles;
     }
+
+    List tiles;
 
 
 
@@ -246,60 +248,29 @@ public final class SysData {
     }
 
     //import all games from JSON
-    public void importGamesFromJSON(String path) {
-//        List<String> list=new ArrayList<>();
-//        ArrayList<String> StringTiles = new ArrayList<>();
-//        int j=0;
-//        try {
-//            File myObj = new File("GamesHistory.txt");
-//            Scanner myReader = new Scanner(myObj);
-//          while (myReader.hasNextLine()) {
-//
-//                list.add(myReader.nextLine());}
-//
-//                for (int i=2;i<list.size()-1;i++){
-//
-//                        StringTiles.add(j,list.get(i));
-//                        j++;
-//
-//
-//
-//
-//
-////                System.out.println(myReader.nextLine().trim());
-////                String data = myReader.nextLine();
-////               System.out.println(myReader.nextLine());
-//           }
-//                System.out.println(StringTiles.get(0));
-//            myReader.close();
-//        } catch (FileNotFoundException e) {
-//            System.out.println("An error occurred.");
-//            e.printStackTrace();
-//        }
-//        if(list.contains("B"))
-//            System.out.println("id");
-//        else
-//            System.out.println("not found");
-
-        try (FileReader reader = new FileReader(new File(path))) {
-            JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
-            JsonArray gameObj = (JsonArray) doc.get("games");
-            Iterator<Object> iterator = gameObj.iterator();
-            while (iterator.hasNext()) {
-                JsonObject obj = (JsonObject) iterator.next();
-                int id = Integer.parseInt((String) obj.get("Id"));
-
-               tiles = (ArrayList<Integer>) obj.get("Tiles");
-                String turn = (String) obj.get("Turn");
+    public void importGamesFromTxtFile(String path) {
+         ArrayList<String> copy =new ArrayList<>();
+        try {
+            File myObj = new File(path);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String turn=String.valueOf(data.charAt(data.length()-1));
                 Boolean isTurn = false;
                 if(turn.equals("B")){
                     isTurn = true;
                 }
+                int id=Integer.valueOf(data.charAt(0));
+                int ID=id-48;
+                 tiles=Arrays.asList(data);
+
                 Game newGame = new Game(id, tiles, isTurn);
                 games.put(id, newGame);
             }
 
-        } catch (IOException | DeserializationException e) {
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -314,7 +285,7 @@ public final class SysData {
         ArrayList<Game> appendList = new ArrayList<>();
         ArrayList<Integer> tiles = new ArrayList<Integer>();
         if(games.isEmpty()){
-            importGamesFromJSON("JSON/games.JSON");
+            importGamesFromTxtFile("GamesHistory.txt");
         }
 
         for (Map.Entry<Integer, Game> entry : games.entrySet()) {
@@ -435,6 +406,11 @@ public final class SysData {
         } catch (DeserializationException | IOException e) {
             e.printStackTrace();
         }
+
+
+
+
+
     }
 
 

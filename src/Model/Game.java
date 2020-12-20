@@ -88,7 +88,7 @@ public class Game {
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
 	}
-	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
+	public Game(int id, List tiles, boolean isP1Turn) {
 		this.id = id;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();

@@ -23,23 +23,24 @@ public class HamkaGameHistory extends JFrame
     }
 
     public HamkaGameHistory() {
-        ArrayList<Integer> tiles1;
-        Game game;
+        List tiles1;
+        String tiles2[] = {null};
 
         SysData sysData = new SysData();
-        sysData.importGamesFromJSON("JSON/games.JSON");
+        sysData.importGamesFromTxtFile("GamesHistory.txt");
         tiles1=sysData.getTiles();
-        HashMap<Integer, Game> hm = sysData.games();
-        for(Map.Entry<Integer, Game> g : hm.entrySet()) {
-            game = g.getValue();
 
             //convert json to array with value from Constants
             String a = String.valueOf(tiles1);
             String numTiles = a;
             String str[] = numTiles.split("[\\, \\]\\[]");
-
+            //this parameter save the first value in the array(id)
+            String old=str[1];
+            //delete the first value Id-->get the tiles
+           str[1]= str[1].replace(old,"");
             al = Arrays.asList(str);
             for (String s : al) {
+
                 //if 0-> Contstans.black
                 if(s.equals("0"))
                     finalTiles.add(Constants.EMPTY);
@@ -52,9 +53,7 @@ public class HamkaGameHistory extends JFrame
                 if (s.equals(" 22") || s.equals("22") || s.equals("22 "))
                     finalTiles.add(Constants.BLACK_QUEEN);
             }
-            String finalTilesS = String.valueOf(finalTiles);
-
-        }}
+         }
 
 
 

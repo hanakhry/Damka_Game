@@ -35,7 +35,7 @@ public class Board {
 	 * Constructs a new Hamka game board, pre-filled with a new game state.
 	 */
 
-	public  Board(ArrayList<Integer> tiles){
+	public  Board(List tiles){
 		//TODO
 //		ArrayList<String>tile=new ArrayList<>();
 //		int counter=0;
