@@ -158,7 +158,7 @@ public class HamkaBoard extends JButton {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Game game = this.game.copy(yellowSquare,greenSquare,this.game.isGreen);
+		Game game = this.game.copy(yellowSquare, greenSquare, this.game.isGreen, redSquare);
 
 
 		// Perform calculations
@@ -400,7 +400,7 @@ public class HamkaBoard extends JButton {
 			return;
 		}
 		
-		Game copy = game.copy(yellowSquare,greenSquare,game.isGreen);
+		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare);
 		
 		// Determine what square (if any) was selected
 		final int W = getWidth(), H = getHeight();

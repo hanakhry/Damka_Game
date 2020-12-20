@@ -25,21 +25,26 @@ public class Game {
 	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
 
-
 	/** Players **/
 	private Player black1Player;
 	private Player white2Player;
 
+	/** used to create event squares **/
 	public List<Point> yellowSquares;
 	public List<Point> greenSquare;
-	public static List<Point> tempYellow;
-	public static Point tempGreen;
-	public static boolean tempIsOrange;
-	public static boolean tempIsGreen;
- 	public HashMap<String, List<Point>> colors;
+	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	public List<Point> orangeSquares;
 
+	/** used to check if the players has stepped on an event square **/
+	public static List<Point> tempYellow;
+	public static Point tempGreen;
+	public static Point tempRed;
+	public boolean redSwitch = false;
+	public static boolean tempIsOrange;
+	public static boolean tempIsGreen;
+
+	/** keep track of timer to display **/
 	public boolean isGreen;
 	public boolean isOrange;
 
@@ -49,8 +54,9 @@ public class Game {
 		this.colors = new HashMap<>();
 		this.yellowSquares = new ArrayList<>();
 		this.redSquare = new ArrayList<>();
-		this.tempGreen=new Point();
+		this.tempGreen = new Point();
 		this.tempYellow = new ArrayList<>();
+		this.tempRed = new Point();
 		this.isOrange=false;
 		this.isGreen=false;
 		this.tempIsGreen=false;
@@ -74,12 +80,13 @@ public class Game {
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		this.yellowSquares = new ArrayList<>();
-		this.tempGreen=new Point();
+		this.tempGreen = new Point();
+		this.tempRed = new Point();
 		this.tempYellow = new ArrayList<>();
-		this.tempIsOrange=false;
-		this.tempIsGreen=false;
-		this.black1Player=new Player("",0);
-		this.white2Player=new Player("",0);
+		this.tempIsOrange = false;
+		this.tempIsGreen = false;
+		this.black1Player = new Player("",0);
+		this.white2Player = new Player("",0);
 	}
 	public Game(int id, ArrayList<Integer> tiles, boolean isP1Turn) {
 		this.id = id;
@@ -88,15 +95,16 @@ public class Game {
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		this.yellowSquares = new ArrayList<>();
-		this.tempGreen=new Point();
+		this.tempGreen = new Point();
+		this.tempRed = new Point();
 		this.tempYellow = new ArrayList<>();
-		this.tempIsOrange=false;
-		this.tempIsGreen=false;
+		this.tempIsOrange = false;
+		this.tempIsGreen = false;
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
-		this.black1Player=new Player("",0);
-		this.white2Player=new Player("",0);
+		this.black1Player = new Player("",0);
+		this.white2Player = new Player("",0);
 	}
 
 	/**
@@ -104,16 +112,17 @@ public class Game {
 	 * not made to the other.
 	 * return an exact copy of this game.
 	 */
-	public Game copy(List<Point> yellowTemp,Point greenTemp,boolean isGreenTemp) {
+	public Game copy(List<Point> yellowTemp, Point greenTemp, boolean isGreenTemp, Point redTemp) {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
 		colors.remove("orange");
 		colors.put("orange", this.orangeSquares);
 		Game g = new Game();
-		g.tempGreen=greenTemp;
-		g.tempYellow=yellowTemp;
-		g.tempIsGreen=isGreenTemp;
+		g.tempGreen = greenTemp;
+		g.tempYellow = yellowTemp;
+		g.tempIsGreen = isGreenTemp;
+		g.tempRed = redTemp;
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
@@ -141,12 +150,15 @@ public class Game {
 	 * return true if and only if an update was made to the game state.
 	 */
 	public boolean move(Point start, Point end) {
-		if (start == null || end == null) {
-			return false;
-		}
-		this.isGreen = false;
-		this.isOrange = false;
-		return move(Board.toIndex(start), Board.toIndex(end));
+	    if(!this.redSwitch) {
+            if (start == null || end == null) {
+                return false;
+            }
+            this.isGreen = false;
+            this.isOrange = false;
+            return move(Board.toIndex(start), Board.toIndex(end));
+        }
+	    return false;
 	}
 
 	/**
@@ -189,17 +201,23 @@ public class Game {
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
+
 		// give 50 for stepping on green
-			int onGreen = Board.toIndex(tempGreen.x, tempGreen.y);
-			if(endIndex==onGreen && this.tempIsGreen) {
-					if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + 50);
-					if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + 50);
-					final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
-					JOptionPane.showMessageDialog(null,
-							"You got 50 points for stepping on Green!", "Green",
-							JOptionPane.INFORMATION_MESSAGE,
-							icon);
-				}
+		int onGreen = Board.toIndex(tempGreen.x, tempGreen.y);
+		if(endIndex == onGreen && this.tempIsGreen) {
+			if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + 50);
+			if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + 50);
+			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+			JOptionPane.showMessageDialog(null,
+					"You got 50 points for stepping on Green!", "Green",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
+		}
+
+		int onRed = Board.toIndex(tempRed.x, tempRed.y);
+		if(onRed == endIndex){
+			redSwitch = true;
+		}
 
 
 
@@ -225,9 +243,8 @@ public class Game {
 		}
 
 
-		if (switchTurn) {
+		if (switchTurn && !redSwitch) {
 			this.isP1Turn = !isP1Turn;
-
 			this.skipIndex = -1;
 		}
 
