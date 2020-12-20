@@ -1,15 +1,11 @@
 package View;
 
 import Controller.CountTimerScore;
-import Model.Game;
-import Model.SysData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * This class provides a user interface component to control
@@ -160,6 +156,15 @@ public class HamkaOptionPanel extends JPanel {
 			}
 			 */
 			if (src == restartBtn) {
+				if(window.getBoard().getGame().isGameOver()){
+					String user1=window.getBoard().getGame().getBlack1Player().getpUsername();
+					String user2=window.getBoard().getGame().getWhite2Player().getpUsername();
+					window.dispose();
+					HamkaWindow window = new HamkaWindow(user1,user2);
+					window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+					window.setVisible(true);
+					window.restart();
+				}
 				scoreLabel.setText("0");
 				scoreLabel2.setText("0");
 				cntd.reset();

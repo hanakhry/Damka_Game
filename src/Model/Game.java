@@ -217,6 +217,11 @@ public class Game {
 		int onRed = Board.toIndex(tempRed.x, tempRed.y);
 		if(onRed == endIndex){
 			redSwitch = true;
+			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+			JOptionPane.showMessageDialog(null,
+					"You got extra Move!", "Red",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
 		}
 
 
