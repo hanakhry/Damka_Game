@@ -4,12 +4,10 @@ import Utils.Constants;
 import Utils.Level;
 import View.HamkaQuestion;
 import org.json.simple.*;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 
 
@@ -405,6 +403,39 @@ public final class SysData {
 
     }
 
+    public void writeLeaderToFile(String path,String username,int score) throws FileNotFoundException {
+        JsonObject userScore = new JsonObject();
+        userScore.put("username", username);
+        userScore.put("score", score);
+        int tempI;
+        String tempS;
+        boolean flag=false;
+        try {
+            FileReader reader = new FileReader(path);
+            JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
+            JsonArray jsnArray = (JsonArray) doc.get("leaders");
+                for (int i = 0; i < jsnArray.size(); i++) {
+                    tempS = jsnArray.get(i).toString();
+                    tempI=Integer.parseInt(tempS.substring(tempS.indexOf("score=")+6,tempS.indexOf(", user")));
+                    if (tempS.contains(username)){
+                        if(tempI<=score)jsnArray.remove(i);
+                        else flag=true;
+                    }
+
+                }
+                if(!flag)
+                jsnArray.add(userScore);
+
+
+            FileWriter file = new FileWriter(path);
+            file.write("{\n" +
+                    "\t\"leaders\":"+jsnArray.toJson()+"\n}");
+            file.flush();
+            file.close();
+        } catch (DeserializationException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

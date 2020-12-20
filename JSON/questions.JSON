@@ -13,6 +13,18 @@
 			"correct_ans":"4"
 		},
 		{
+			"question":"What's the capital of Germany?",
+			"level":"1",
+			"answers":[
+				"Berlin",
+				"Rome",
+				"Paris",
+				"Madrid"
+			],
+			"team":"animal",
+			"correct_ans":"1"
+		},
+		{
 			"question":"What's the capital of UK?",
 			"level":"2",
 			"answers":[
@@ -33,31 +45,19 @@
 				"Bucharest",
 				"Budapest"
 			],
-			"team":"hedgehog",
+			"team":"",
 			"correct_ans":"3"
 		},
 		{
-			"question":"What's the capital of Germany?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"team":"animal",
-			"correct_ans":"1"
-		},
-		{
 			"question":"What's the capital of France?",
-			"level":"2",
+			"level":"3",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"Paris",
 				"Madrid"
 			],
-			"team":"hedgehog",
+			"team":"",
 			"correct_ans":"3"
 		},
 		{
@@ -69,7 +69,7 @@
 				"London",
 				"Copenhagen"
 			],
-			"team":"hedgehog",
+			"team":"",
 			"correct_ans":"2"
 		}
 	]

@@ -31,7 +31,6 @@ public class Board {
 
 
 
-
 	/**
 	 * Constructs a new Hamka game board, pre-filled with a new game state.
 	 */

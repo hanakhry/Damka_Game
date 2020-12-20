@@ -5,12 +5,14 @@ import Controller.RandomEvents;
 import Model.Board;
 import Model.Game;
 import Model.MoveLogic;
+import Model.SysData;
 import Utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -329,6 +331,13 @@ public class HamkaBoard extends JButton {
 		
 		// Draw a game over sign
 		if (isGameOver) {
+			SysData sysdata=new SysData();
+			try {
+				sysdata.writeLeaderToFile("JSON/leaderhistory.JSON",getGame().getBlack1Player().getpUsername(),getGame().getBlack1Player().getpScore());
+				sysdata.writeLeaderToFile("JSON/leaderhistory.JSON",getGame().getWhite2Player().getpUsername(),getGame().getWhite2Player().getpScore());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 			getWindow().getOpts().cntd.pause();
 			getWindow().getOpts().cntd2.pause();
 			getWindow().getOpts().cntd3.pause();
