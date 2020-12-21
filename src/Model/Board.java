@@ -81,6 +81,7 @@ public class Board {
 			set(31 - i, Constants.WHITE_SOLDIER);
 		}
 	}
+
 	
 	/**
 	 * Searches through the Hamka board and finds black tiles that match the

@@ -35,6 +35,7 @@ public class Game {
 	public HashMap<String, List<Point>> colors;
 	public List<Point> redSquare;
 	public List<Point> orangeSquares;
+	public List<Point> blueSquare;
 
 	/** used to check if the players has stepped on an event square **/
 	public static List<Point> tempYellow;
@@ -43,6 +44,10 @@ public class Game {
 	public boolean redSwitch = false;
 	public static boolean tempIsOrange;
 	public static boolean tempIsGreen;
+	public static Point tempBlue;
+	public static boolean isChangeBlue;
+	public static Point afterRed;
+
 
 	/** keep track of timer to display **/
 	public boolean isGreen;
@@ -53,18 +58,21 @@ public class Game {
 	/** **/
 
 	public Game() {
-		this.black1Player=new Player("",0);
-		this.white2Player=new Player("",0);
+		this.black1Player = new Player("",0);
+		this.white2Player = new Player("",0);
 		this.colors = new HashMap<>();
 		this.yellowSquares = new ArrayList<>();
 		this.redSquare = new ArrayList<>();
+		this.blueSquare = new ArrayList<>();
 		this.tempGreen = new Point();
 		this.tempYellow = new ArrayList<>();
 		this.tempRed = new Point();
-		this.isOrange=false;
-		this.isGreen=false;
-		this.tempIsGreen=false;
-		this.tempIsOrange=false;
+		this.tempBlue = new Point();
+		this.isOrange = false;
+		this.isGreen = false;
+		this.tempIsGreen = false;
+		this.tempIsOrange = false;
+		this.isChangeBlue = false;
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		restart();
@@ -81,13 +89,17 @@ public class Game {
 		this.skipIndex = skipIndex;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
+		this.blueSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		this.yellowSquares = new ArrayList<>();
+		this.blueSquare = new ArrayList<>();
 		this.tempGreen = new Point();
 		this.tempRed = new Point();
+		this.tempBlue = new Point();
 		this.tempYellow = new ArrayList<>();
 		this.tempIsOrange = false;
+		this.isChangeBlue = false;
 		this.tempIsGreen = false;
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
@@ -103,9 +115,11 @@ public class Game {
 		this.isGreen=false;
 		this.tempGreen = new Point();
 		this.tempRed = new Point();
+		this.tempBlue = new Point();
 		this.tempYellow = new ArrayList<>();
 		this.tempIsOrange = false;
 		this.tempIsGreen = false;
+		this.isChangeBlue = false;
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		isP1Turn = turn;
@@ -119,17 +133,19 @@ public class Game {
 	 * not made to the other.
 	 * return an exact copy of this game.
 	 */
-	public Game copy(List<Point> yellowTemp, Point greenTemp, boolean isGreenTemp, Point redTemp) {
+	public Game copy(List<Point> yellowTemp, Point greenTemp, boolean isGreenTemp, Point redTemp, Point tempBlue) {
 		colors.put("yellow", this.yellowSquares);
 		colors.put("red", this.redSquare);
 		colors.put("green", this.greenSquare);
 		colors.remove("orange");
 		colors.put("orange", this.orangeSquares);
+		colors.put("blue", this.blueSquare);
 		Game g = new Game();
 		g.tempGreen = greenTemp;
 		g.tempYellow = yellowTemp;
 		g.tempIsGreen = isGreenTemp;
 		g.tempRed = redTemp;
+		g.tempBlue = tempBlue;
 		g.board = board.copy();
 		g.isP1Turn = isP1Turn;
 		g.skipIndex = skipIndex;
@@ -156,16 +172,34 @@ public class Game {
 	 * parameter end, the end point for the move.
 	 * return true if and only if an update was made to the game state.
 	 */
-	public boolean move(Point start, Point end) {
+	public boolean[] move(Point start, Point end) {
+		boolean ret[] = new boolean[2];
 	    if(!this.redSwitch) {
             if (start == null || end == null) {
-                return false;
+            	ret[0] = false;
+                return ret;
             }
             this.isGreen = false;
             this.isOrange = false;
-            return move(Board.toIndex(start), Board.toIndex(end));
+			ret = move(Board.toIndex(start), Board.toIndex(end));
+            return ret;
         }
-	    return false;
+	  /*  if(force) {
+			System.out.println("ss");
+			if (start.equals(afterRed)) {
+				if (start == null || end == null) {
+					return false;
+				}
+				this.isGreen = false;
+				this.isOrange = false;
+				return move(Board.toIndex(start), Board.toIndex(end));
+			}
+			else{
+				return false;
+			}
+		}*/
+		ret[0] = false;
+		return ret;
 	}
 
 	/**
@@ -174,10 +208,12 @@ public class Game {
 	 * endIndex the end index of the move.
 	 * return true if and only if an update was made to the game state.
 	 */
-	public boolean move(int startIndex, int endIndex) {
+	public boolean[] move(int startIndex, int endIndex) {
+		boolean ret[] = new boolean[2];
 		// Validate the move
 		if (!MoveLogic.isValidMove(this, startIndex, endIndex)) {
-			return false;
+			ret[0] = false;
+			return ret;
 		}
 
 		// Make the move
@@ -221,6 +257,7 @@ public class Game {
 					icon);
 		}
 
+		//handle stepping on red square
 		int onRed = Board.toIndex(tempRed.x, tempRed.y);
 		if(onRed == endIndex){
 			redSwitch = true;
@@ -231,6 +268,11 @@ public class Game {
 					icon);
 		}
 
+		//handle stepping on blue square
+		int onBlue = Board.toIndex(tempBlue.x, tempBlue.y);
+		if(onBlue == endIndex){
+			isChangeBlue = true;
+		}
 
 
 		//handle question on yellow before switching player
@@ -259,9 +301,10 @@ public class Game {
 			this.isP1Turn = !isP1Turn;
 			this.skipIndex = -1;
 		}
-
-
-		return true;
+		ret[0] = true;
+		if(redSwitch)
+			ret[1] = true;
+		return ret;
 	}
 
 	/**
@@ -340,7 +383,6 @@ public class Game {
 	 */
 
 	public String getGameState() {
-
 		// Add the game board
 		String state = "";
 		for (int i = 0; i < 32; i ++) {
@@ -375,8 +417,6 @@ public class Game {
 	 * parameter state the game state.
 	 */
 	public void setGameState(String state) {
-	//	System.out.println(state);
-
 		restart();
 
 		// Trivial cases
@@ -415,6 +455,11 @@ public class Game {
 		Point redPoint = random.redEvents(this ,isP1Turn, yellowSquares);
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
 		List<Point> orangePoints = random.orangeEvents(this, this.getBoard().find(0));
+		List<Point> availableBlocks = this.getBoard().find(0);
+		availableBlocks.remove(yellowSquares);
+		availableBlocks.remove(redPoint);
+		Point bluePoint;
+		bluePoint = random.blueEvents(this, availableBlocks);
 
 		if(redPoint != null)
 			redSquare.add(redPoint);
@@ -431,6 +476,10 @@ public class Game {
 		else
 			orangeSquares.add(new Point(0, 0));
 
+		if(bluePoint != null)
+			blueSquare.add(bluePoint);
+		else
+			blueSquare.add(new Point(35, 35));
 
 	}
 
