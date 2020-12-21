@@ -108,6 +108,8 @@ public class Game {
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		this.yellowSquares = new ArrayList<>();
+		this.isOrange=false;
+		this.isGreen=false;
 		this.tempGreen = new Point();
 		this.tempRed = new Point();
 		this.tempYellow = new ArrayList<>();
@@ -316,11 +318,10 @@ public class Game {
 	}
 
 	public boolean isP1Turn() {
-
 		if(getFlag()=="black")
-	return !isP1Turn;
-else
-	return isP1Turn;
+			return isP1Turn;
+        else
+	        return !isP1Turn;
 
 
 	}

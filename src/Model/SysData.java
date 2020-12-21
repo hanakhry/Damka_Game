@@ -346,6 +346,7 @@ public final class SysData {
             Random r = new Random();
             int index = r.nextInt(questionObj.size()) ;
             String wholeQ=questionObj.get(index).toString();
+            System.out.println(wholeQ);
             String q=wholeQ.substring(wholeQ.indexOf("question=")+9,wholeQ.indexOf(","));
             String a=wholeQ.substring(wholeQ.indexOf("answers=[")+9,wholeQ.indexOf("]"));
             String l=wholeQ.substring(wholeQ.indexOf("level=")+6,wholeQ.indexOf(", a"));
