@@ -418,7 +418,6 @@ public class Game {
 	 */
 	public void setGameState(String state) {
 		restart();
-
 		// Trivial cases
 		if (state == null || state.isEmpty()) {
 			return;

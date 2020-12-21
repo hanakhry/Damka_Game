@@ -66,6 +66,7 @@ public class HamkaBoard extends JButton {
 
 	private Point checkPoint = new Point(35, 35);
 
+	private Point preserved;
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
@@ -411,6 +412,16 @@ public class HamkaBoard extends JButton {
 		this.darkTile = (darkTile == null)? Color.BLACK : darkTile;
 	}
 
+	private Point getPoint(int x, int y){
+		final int W = getWidth(), H = getHeight();
+		final int DIM = W < H ? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
+		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
+		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
+		x = (x - OFFSET_X) / BOX_SIZE;
+		y = (y - OFFSET_Y) / BOX_SIZE;
+		return new Point(x, y);
+	}
+
 	/**
 	 * Handles a click on this component at the specified point.
 	 * Parameter x the x-coordinate of the click on this component.
@@ -424,14 +435,7 @@ public class HamkaBoard extends JButton {
 		Point check = new Point(0, 0);
 		// Determine what square (if any) was selected
 		if(saveRed.equals(check)){
-			final int W = getWidth(), H = getHeight();
-			final int DIM = W < H ? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
-			final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
-			final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
-			x = (x - OFFSET_X) / BOX_SIZE;
-			y = (y - OFFSET_Y) / BOX_SIZE;
-			Point sel = new Point(x, y);
-
+			Point sel = getPoint(x, y);
 			// Determine if a move should be attempted
 			if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
 				boolean change = copy.isP1Turn();
@@ -439,6 +443,7 @@ public class HamkaBoard extends JButton {
 				boolean[] move = copy.move(selected, sel);
 				if (move[1]) {
 					saveRed = redSquare;
+					preserved = getPoint(x, y);
 				}
 				if (changeColor == 2)
 					colorChange = true;
@@ -453,15 +458,8 @@ public class HamkaBoard extends JButton {
 				this.selected = sel;
 			}
 		} else {
-			final int W = getWidth(), H = getHeight();
-			final int DIM = W < H ? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
-			final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
-			final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
-			x = (x - OFFSET_X) / BOX_SIZE;
-			y = (y - OFFSET_Y) / BOX_SIZE;
-			Point sel = new Point(x, y);
-			//TODO bug when selecting red then selecting a different cornered stone
-			if(!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(sel)).isEmpty()) {
+			Point sel = getPoint(x, y);
+			if (!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(preserved)).isEmpty()) {
 				if (selected != null && sel != null) {
 					if (selected.equals(saveRed) || sel.equals(saveRed)) {
 						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
@@ -482,10 +480,25 @@ public class HamkaBoard extends JButton {
 					}
 				}
 			} else {
+				if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+					boolean change = copy.isP1Turn();
+					String expected = copy.getGameState();
+					boolean[] move = copy.move(selected, sel);
+					if (move[0])
+						saveRed = new Point(0, 0);
+					if (changeColor == 2)
+						colorChange = true;
+					else
+						colorChange = false;
+					boolean updated = (move[0] ? setGameState(true, copy.getGameState(), expected) : false);
+					selected.setLocation(0, 0);
+					change = (copy.isP1Turn() != change);
+					this.selected = change ? null : sel;
+				}
 				JOptionPane.showMessageDialog(null, "Sadly your soldier can't move any further, turn skipped.");
 				saveRed = new Point(0, 0);
 				this.game.setP1Turn(!this.game.isP1Turn());
-				handleClick(0, 0, 1);
+				handleClick(0, 0, 0);
 			}
 		}
 
