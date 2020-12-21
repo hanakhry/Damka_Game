@@ -250,21 +250,25 @@ public final class SysData {
     //import all games from JSON
     public void importGamesFromTxtFile(String path) {
          ArrayList<String> copy =new ArrayList<>();
+         int id=0;
+         Boolean isTurn = false;
         try {
             File myObj = new File(path);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String turn=String.valueOf(data.charAt(data.length()-1));
-                Boolean isTurn = false;
+
                 if(turn.equals("B")){
                     isTurn = true;
+
                 }
-                int id=Integer.valueOf(data.charAt(0));
-                int ID=id-48;
+                System.out.println(isTurn);
+//                int id=Integer.valueOf(data.charAt(0));
+//                int ID=id-48;
                  tiles=Arrays.asList(data);
 
-                Game newGame = new Game(id, tiles, isTurn);
+                Game newGame = new Game(tiles, isTurn);
                 games.put(id, newGame);
             }
 

@@ -48,6 +48,19 @@ public class Game {
 	public boolean isGreen;
 	public boolean isOrange;
 
+
+
+	/** **/
+	private String flag="black";
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+
 	public Game() {
 		this.black1Player=new Player("",0);
 		this.white2Player=new Player("",0);
@@ -88,8 +101,8 @@ public class Game {
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
 	}
-	public Game(int id, List tiles, boolean isP1Turn) {
-		this.id = id;
+	public Game( List tiles, boolean isP1Turn) {
+		//this.id = id;
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
@@ -103,6 +116,11 @@ public class Game {
 		//TODO board cons from tiles
 		this.board = new Board(tiles);
 		this.isP1Turn = isP1Turn;
+		if(isP1Turn==true)
+			setFlag("black");
+		else setFlag("white");
+		System.out.println(getFlag());
+
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
 	}
@@ -298,7 +316,13 @@ public class Game {
 	}
 
 	public boolean isP1Turn() {
-		return isP1Turn;
+
+		if(getFlag()=="black")
+	return !isP1Turn;
+else
+	return isP1Turn;
+
+
 	}
 
 	public boolean isGreen(){

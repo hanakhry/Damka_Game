@@ -35,9 +35,6 @@ public class HamkaGameHistory extends JFrame
             String numTiles = a;
             String str[] = numTiles.split("[\\, \\]\\[]");
             //this parameter save the first value in the array(id)
-            String old=str[1];
-            //delete the first value Id-->get the tiles
-           str[1]= str[1].replace(old,"");
             al = Arrays.asList(str);
             for (String s : al) {
 
