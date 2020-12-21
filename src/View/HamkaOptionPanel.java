@@ -200,7 +200,6 @@ public class HamkaOptionPanel extends JPanel {
 //
 //				try {
 //
-//					data.addGameToJSON("JSON/games.JSON",game);
 //				} catch (IOException ioException) {
 //					ioException.printStackTrace();
 //				}

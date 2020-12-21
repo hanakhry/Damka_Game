@@ -52,7 +52,7 @@ public final class SysData {
 
     public void importFile() {
         try {
-            File myObj = new File("GamesHistory.txt");
+            File myObj = new File("TEXT/testLoad.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -248,7 +248,7 @@ public final class SysData {
     }
 
     //import all games from JSON
-    public void importGamesFromTxtFile(String path) {
+    public boolean importGamesFromTxtFile(String path) {
          ArrayList<String> copy =new ArrayList<>();
          int id=0;
          Boolean isTurn = false;
@@ -277,6 +277,7 @@ public final class SysData {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        return isTurn;
     }
 
 
@@ -289,7 +290,7 @@ public final class SysData {
         ArrayList<Game> appendList = new ArrayList<>();
         ArrayList<Integer> tiles = new ArrayList<Integer>();
         if(games.isEmpty()){
-            importGamesFromTxtFile("GamesHistory.txt");
+            importGamesFromTxtFile("TEXT/testLoad.txt");
         }
 
         for (Map.Entry<Integer, Game> entry : games.entrySet()) {

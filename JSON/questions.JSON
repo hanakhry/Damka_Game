@@ -2,75 +2,63 @@
 	"questions":[
 		{
 			"question":"What's the capital of Germany?",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"Paris",
 				"Madrid"
 			],
-			"correct_ans":"1",
-			"level":"1",
-			"team":"Hedgehog"
+			"team":"Hedgehog",
+			"correct_ans":"1"
 		},
 		{
 			"question":"What's the capital of Romania?",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"Bucharest",
 				"Budapest"
 			],
-			"correct_ans":"3",
-			"level":"1",
-			"team":"Hedgehog"
+			"team":"Hedgehog",
+			"correct_ans":"3"
 		},
 		{
 			"question":"What's the capital of Italy?",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"London",
 				"Copenhagen"
 			],
-			"correct_ans":"2",
-			"level":"1",
-			"team":"Hedgehog"
+			"team":"Hedgehog",
+			"correct_ans":"2"
 		},
 		{
 			"question":"What's the capital of France?",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"Paris",
 				"Madrid"
 			],
-			"correct_ans":"3",
-			"level":"1",
-			"team":"Hedgehog"
+			"team":"Hedgehog",
+			"correct_ans":"3"
 		},
 		{
 			"question":"What's the capital of UK?",
+			"level":"1",
 			"answers":[
 				"Berlin",
 				"Rome",
 				"London",
 				"Madrid"
 			],
-			"correct_ans":"3",
-			"level":"1",
-			"team":"Hedgehog"
-		},
-		{
-			"question":"What's the capital of Spain?",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"correct_ans":"4",
-			"level":"1",
-			"team":"Hedgehog"
+			"team":"Hedgehog",
+			"correct_ans":"3"
 		},
 		{
 			"question": "What is correct about maintenance costs?",
@@ -85,7 +73,7 @@
 			"team": "Hedgehog"
 		},
 		{
-			"question": "During the maintenance phase , the more changes there are.....?",
+			"question": "During the maintenance phase ; the more changes there are.....?",
 			"answers": [
 				"1.The more the product deviates from its original design",
 				"2.Regression testing files are up to date",
@@ -123,10 +111,10 @@
 		{
 			"question": "which answer is correct about requirements  ? ",
 			"answers": [
-				"1.System requirements are Statements in natural language plus diagrams when User requirements are descriptions of the system’s functions, services and operational constraints",
-				"2.A single non-functional requirement, such as a security requirement, may generate a number of related functional requirements that define system services that are required. ",
-				"3.Functional requirements define system properties and constraints e.g. reliability, response time and storage requirements when Non-functional requirements Describe functionality or system services.",
-				"4.In practice, it is possible to produce a complete and consistent requirements document."
+				"1.System requirements are Statements in natural language plus diagrams when User requirements are descriptions of the system’s functions; services and operational constraints",
+				"2.A single non-functional requirement ; such as a security requirement ; may generate a number of related functional requirements that define system services that are required. ",
+				"3.Functional requirements define system properties and constraints e.g. reliability ; response time and storage requirements when Non-functional requirements Describe functionality or system services.",
+				"4.In practice ;it is possible to produce a complete and consistent requirements document."
 			],
 			"correct_ans": "2",
 			"level": "3",
@@ -134,7 +122,7 @@
 
 		},
 		{
-			"question": "In other words Is the origin of the requirement clearly stated? is? ",
+			"question": "~Is the origin of the requirement clearly stated?~ ; this statment refer to ? ",
 			"answers": [
 				"1.Checking requirements verifiability ",
 				"2.Checking requirements comprehensibility  ",
@@ -182,7 +170,7 @@
 			"team": "Hedgehog"
 		},
 		{
-			"question": "Architectures may be documented from several different perspectives or views, Possible views dont include ?",
+			"question": "Architectures may be documented from several different perspectives or views. Possible views dont include ?",
 			"answers": [
 				"1.a conceptual view",
 				"2.a nonphysical view",
@@ -197,9 +185,9 @@
 			"question": "What is not Agile ?",
 			"answers": [
 				"1.Building software incrementally from the start of the project",
-				"2.Treats analysis, design, coding, and testing as discrete phases in a software project",
+				"2.Treats analysis; design; coding; and testing as discrete phases in a software project",
 				"3.Breaking projects down into little bits of user functionality",
-				"4.Prioritizing user stories, and then continuously delivering them in iterations"
+				"4.Prioritizing user stories; and then continuously delivering them in iterations"
 			],
 			"correct_ans": "2",
 			"level": "1",
@@ -208,10 +196,10 @@
 		{
 			"question": "choose the correct answer ?",
 			"answers": [
-				"1.In Waterfall , the testing starts from day one",
-				"2.In Agile , you don't even know if you are building the right until it's too late to make any changes.",
-				"3.In Waterfall , you are 1/2 way through the project when you have built 1/2 the features",
-				"4.In Agile , Customers are happy because they can make changes without paying exorbitant costs"
+				"1.In Waterfall ; the testing starts from day one",
+				"2.In Agile ; you don't even know if you are building the right until it's too late to make any changes.",
+				"3.In Waterfall ; you are 1/2 way through the project when you have built 1/2 the features",
+				"4.In Agile ; Customers are happy because they can make changes without paying exorbitant costs"
 			],
 			"correct_ans": "4",
 			"level": "2",
@@ -230,7 +218,7 @@
 			"team": "Hedgehog"
 		},
 		{
-			"question": "Embaded control system are? ",
+			"question": "Embaded control systems are? ",
 			"answers": [
 				"1.Application systems that run on local computer.",
 				"2.Applicaton that execute on a remote computer and are accessed by users from thier own pc .",
@@ -242,5 +230,4 @@
 			"team": "Hedgehog"
 		}
 	]
-
 }

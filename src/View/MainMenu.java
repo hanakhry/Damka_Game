@@ -1,7 +1,5 @@
 package View;
 
-import Model.SysData;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -114,6 +112,7 @@ public class MainMenu extends JFrame {
                 a = a.replace("]","");
                // System.out.println(a);
                 window.setGameState(a);
+                window.getBoard().getGame().setP1Turn(history.getTurn());
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
                 window.getBoard().getGame().refreshColors();

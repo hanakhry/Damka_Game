@@ -1,11 +1,12 @@
 package View;
 
-import Model.Game;
 import Model.SysData;
 import Utils.Constants;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HamkaGameHistory extends JFrame
 {
@@ -13,6 +14,11 @@ public class HamkaGameHistory extends JFrame
     ArrayList<Integer>finalTiles=new ArrayList<>();
     List<String> al = new ArrayList<String>();
 
+    public Boolean getTurn() {
+        return turn;
+    }
+
+    Boolean turn;
     public ArrayList<Integer> getFinalTiles() {
 
         return finalTiles;
@@ -27,7 +33,7 @@ public class HamkaGameHistory extends JFrame
         String tiles2[] = {null};
 
         SysData sysData = new SysData();
-        sysData.importGamesFromTxtFile("GamesHistory.txt");
+        turn=sysData.importGamesFromTxtFile("TEXT/testLoad.txt");
         tiles1=sysData.getTiles();
 
             //convert json to array with value from Constants
