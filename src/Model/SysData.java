@@ -269,7 +269,7 @@ public final class SysData {
 //                int ID=id-48;
                  tiles=Arrays.asList(data);
 
-                Game newGame = new Game(tiles, isTurn);
+                Game newGame = new Game(isTurn);
                 games.put(id, newGame);
             }
 

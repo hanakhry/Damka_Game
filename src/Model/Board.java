@@ -32,29 +32,6 @@ public class Board {
 
 
 	/**
-	 * Constructs a new Hamka game board, pre-filled with a new game state.
-	 */
-
-	public  Board(List tiles){
-		//TODO
-//		ArrayList<String>tile=new ArrayList<>();
-//		int counter=0;
-//		for(int i=0;i<72;i++){
-//			counter++;
-//			tile.add(0,"[");
-//			tile.add(72,"]");
-//			if(i%8==0){
-//				tile.add(i,"\n");
-//			}
-//			if(i%2==0){
-//				tile.add(i,",");
-//			}
-//			tile.add(i,String.valueOf( tiles.get(i)));
-//
-//		}
-
-	}
-	/**
 	 * Creates an exact copy of the board. Any changes made to the copy will
 	 * not affect the current object.
 	 * return a copy of this Hamka board.

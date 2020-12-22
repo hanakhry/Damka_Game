@@ -99,7 +99,6 @@ public class ManageQuestion extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!selectQuestionList.isSelectionEmpty()) {
                     Question q = questions.get(selectQuestionList.getSelectedIndex());
-                    System.out.println(q);
                     sysData.deleteQuestionFromJSON("JSON/questions.JSON", q);
                     int index = selectQuestionList.getSelectedIndex();
                     ((DefaultListModel) selectQuestionList.getModel()).remove(index);
