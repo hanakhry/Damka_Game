@@ -431,9 +431,29 @@ public class HamkaBoard extends JButton {
 		if (isGameOver) {
 			return;
 		};
+		Point p = getPoint(x, y);
+
 		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare, blueSquare);
+		if(copy.isChangeBlue){
+			if(this.game.getBoard().get(p.x, p.y) == 0){
+				//create new soldier when stepping on blue
+				String str = copy.getGameState();
+				String str1 = str.substring(0, copy.getBoard().toIndex(p));
+				String str2 = str.substring(copy.getBoard().toIndex(p)+1);
+				int turn = game.isP1Turn() ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+				str = str1+turn+str2;
+
+				game.setGameState(str);
+				update(false);
+				copy.isChangeBlue = false;
+				return;
+
+			}
+		}
 		Point check = new Point(0, 0);
 		// Determine what square (if any) was selected
+
+		//check if red has been stepped on last turn
 		if(saveRed.equals(check)){
 			Point sel = getPoint(x, y);
 			// Determine if a move should be attempted
@@ -501,6 +521,7 @@ public class HamkaBoard extends JButton {
 				handleClick(0, 0, 0);
 			}
 		}
+
 
 		// Check if the selection is valid
 		this.selectionValid = isValidSelection(

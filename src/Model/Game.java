@@ -46,7 +46,6 @@ public class Game {
 	public static boolean tempIsGreen;
 	public static Point tempBlue;
 	public static boolean isChangeBlue;
-	public static Point afterRed;
 
 
 	/** keep track of timer to display **/
@@ -72,7 +71,6 @@ public class Game {
 		this.isGreen = false;
 		this.tempIsGreen = false;
 		this.tempIsOrange = false;
-		this.isChangeBlue = false;
 		this.greenSquare = new ArrayList<>();
 		this.orangeSquares = new ArrayList<>();
 		restart();
@@ -99,13 +97,11 @@ public class Game {
 		this.tempBlue = new Point();
 		this.tempYellow = new ArrayList<>();
 		this.tempIsOrange = false;
-		this.isChangeBlue = false;
 		this.tempIsGreen = false;
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
 	}
-	public Game( List tiles, boolean turn) {
-
+	public Game(boolean turn) {
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
 		this.greenSquare = new ArrayList<>();
@@ -119,9 +115,6 @@ public class Game {
 		this.tempYellow = new ArrayList<>();
 		this.tempIsOrange = false;
 		this.tempIsGreen = false;
-		this.isChangeBlue = false;
-		//TODO board cons from tiles
-		this.board = new Board(tiles);
 		isP1Turn = turn;
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
@@ -184,20 +177,6 @@ public class Game {
 			ret = move(Board.toIndex(start), Board.toIndex(end));
             return ret;
         }
-	  /*  if(force) {
-			System.out.println("ss");
-			if (start.equals(afterRed)) {
-				if (start == null || end == null) {
-					return false;
-				}
-				this.isGreen = false;
-				this.isOrange = false;
-				return move(Board.toIndex(start), Board.toIndex(end));
-			}
-			else{
-				return false;
-			}
-		}*/
 		ret[0] = false;
 		return ret;
 	}
@@ -268,10 +247,16 @@ public class Game {
 					icon);
 		}
 
+
 		//handle stepping on blue square
 		int onBlue = Board.toIndex(tempBlue.x, tempBlue.y);
 		if(onBlue == endIndex){
 			isChangeBlue = true;
+			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+			JOptionPane.showMessageDialog(null,
+					"You get to revive a soldier!", "Blue",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
 		}
 
 
@@ -431,7 +416,6 @@ public class Game {
 				this.board.set(i, id);
 			} catch (NumberFormatException e) {}
 		}
-	//	System.out.println("\n"+this.board);
 		// Update the other info
 		if (n > 32) {
 			this.isP1Turn = (state.charAt(32) == '1');
@@ -455,7 +439,7 @@ public class Game {
 		Point greenPoint = random.greenEvents(this, this.getBoard().find(0), redPoint);
 		List<Point> orangePoints = random.orangeEvents(this, this.getBoard().find(0));
 		List<Point> availableBlocks = this.getBoard().find(0);
-		availableBlocks.remove(yellowSquares);
+		availableBlocks.removeAll(yellowSquares);
 		availableBlocks.remove(redPoint);
 		Point bluePoint;
 		bluePoint = random.blueEvents(this, availableBlocks);
