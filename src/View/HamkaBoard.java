@@ -33,7 +33,7 @@ public class HamkaBoard extends JButton {
 
 	
 	/** The last point that the current player selected on the Hamka board. */
-	private Point selected;
+	public Point selected;
 	
 	/** The flag to determine the colour of the selected tile. If the selection
 	 * is valid, a green colour is used to highlight the tile. Otherwise, a red
@@ -56,10 +56,17 @@ public class HamkaBoard extends JButton {
 
 	public static Point greenSquare;
 
+	public static Point blueSquare;
+
 	private static boolean colorChange = true;
 
 	private static List<Point> orangeSquare;
 
+	public static Point saveRed = new Point(0, 0);
+
+	private Point checkPoint = new Point(35, 35);
+
+	private Point preserved;
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
@@ -81,6 +88,8 @@ public class HamkaBoard extends JButton {
 		this.window = window;
 
 	}
+
+
 
 	private void updateYellow(Graphics g, List<Point> yellowSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
 		for (int i = 0; i < 3; i++) {
@@ -115,12 +124,16 @@ public class HamkaBoard extends JButton {
 			if (!game.colors.get("orange").isEmpty()) {
 				orangeSquare = game.colors.get("orange");
 			}
+			if(!game.colors.get("blue").isEmpty()){
+				blueSquare = game.colors.get("blue").get(game.colors.get("blue").size() - 1);
+			}
 		} else{
 			HashMap<String, List<Point>> colors = new HashMap<String, List<Point>>();
 			colors.put("green", new ArrayList<>());
 			colors.put("red", new ArrayList<>());
 			colors.put("orange", new ArrayList<>());
 			colors.put("yellow", new ArrayList<>());
+			colors.put("blue", new ArrayList<>());
 			game.setColors(colors);
 		}
 
@@ -135,6 +148,7 @@ public class HamkaBoard extends JButton {
 		redSquare = random.redEvents(this.game, this.game.isP1Turn(), yellowSquare);
 		greenSquare = random.greenEvents(this.game, this.game.getBoard().find(0), redSquare);
 		orangeSquare = random.orangeEvents(this.game, this.game.getBoard().find(0));
+
 		// Test the value if requested
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
@@ -158,7 +172,7 @@ public class HamkaBoard extends JButton {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Game game = this.game.copy(yellowSquare, greenSquare, this.game.isGreen, redSquare);
+		Game game = this.game.copy(yellowSquare, greenSquare, this.game.isGreen, redSquare, blueSquare);
 
 
 		// Perform calculations
@@ -232,7 +246,15 @@ public class HamkaBoard extends JButton {
 			}
 		}
 
+		//blue square
+		if(!blueSquare.equals(checkPoint)){
+			try {
+				g.setColor(Color.blue);
+				g.fillRect(OFFSET_X + blueSquare.x * BOX_SIZE + 3, OFFSET_Y + blueSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
+			} catch (NullPointerException e) {
 
+			}
+		}
 
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected) && colorChange) {
@@ -390,6 +412,16 @@ public class HamkaBoard extends JButton {
 		this.darkTile = (darkTile == null)? Color.BLACK : darkTile;
 	}
 
+	private Point getPoint(int x, int y){
+		final int W = getWidth(), H = getHeight();
+		final int DIM = W < H ? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
+		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
+		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
+		x = (x - OFFSET_X) / BOX_SIZE;
+		y = (y - OFFSET_Y) / BOX_SIZE;
+		return new Point(x, y);
+	}
+
 	/**
 	 * Handles a click on this component at the specified point.
 	 * Parameter x the x-coordinate of the click on this component.
@@ -398,36 +430,78 @@ public class HamkaBoard extends JButton {
 	public void handleClick(int x, int y, int changeColor) {
 		if (isGameOver) {
 			return;
-		}
-		
-		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare);
-		
+		};
+		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare, blueSquare);
+		Point check = new Point(0, 0);
 		// Determine what square (if any) was selected
-		final int W = getWidth(), H = getHeight();
-		final int DIM = W < H? W : H, BOX_SIZE = (DIM - 2 * Constants.PADDING) / 8;
-		final int OFFSET_X = (W - BOX_SIZE * 8) / 2;
-		final int OFFSET_Y = (H - BOX_SIZE * 8) / 2;
-		x = (x - OFFSET_X) / BOX_SIZE;
-		y = (y - OFFSET_Y) / BOX_SIZE;
-		Point sel = new Point(x, y);
-		
-		// Determine if a move should be attempted
-		if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
-			boolean change = copy.isP1Turn();
-			String expected = copy.getGameState();
-			boolean move = copy.move(selected, sel);
-			if(changeColor == 2)
-				colorChange = true;
-			else
-				colorChange = false;
-			boolean updated = (move? setGameState(true, copy.getGameState(), expected) : false);
-			selected.setLocation(0, 0);
-			change = (copy.isP1Turn() != change);
-			this.selected = change? null : sel;
+		if(saveRed.equals(check)){
+			Point sel = getPoint(x, y);
+			// Determine if a move should be attempted
+			if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+				boolean change = copy.isP1Turn();
+				String expected = copy.getGameState();
+				boolean[] move = copy.move(selected, sel);
+				if (move[1]) {
+					saveRed = redSquare;
+					preserved = getPoint(x, y);
+				}
+				if (changeColor == 2)
+					colorChange = true;
+				else
+					colorChange = false;
+				boolean updated = (move[0] ? setGameState(true, copy.getGameState(), expected) : false);
+				selected.setLocation(0, 0);
+				change = (copy.isP1Turn() != change);
+				this.selected = change ? null : sel;
+
+			} else {
+				this.selected = sel;
+			}
 		} else {
-			this.selected = sel;
+			Point sel = getPoint(x, y);
+			if (!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(preserved)).isEmpty()) {
+				if (selected != null && sel != null) {
+					if (selected.equals(saveRed) || sel.equals(saveRed)) {
+						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+							boolean change = copy.isP1Turn();
+							String expected = copy.getGameState();
+							boolean[] move = copy.move(selected, sel);
+							if (move[0])
+								saveRed = new Point(0, 0);
+							if (changeColor == 2)
+								colorChange = true;
+							else
+								colorChange = false;
+							boolean updated = (move[0] ? setGameState(true, copy.getGameState(), expected) : false);
+							selected.setLocation(0, 0);
+							change = (copy.isP1Turn() != change);
+							this.selected = change ? null : sel;
+						}
+					}
+				}
+			} else {
+				if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+					boolean change = copy.isP1Turn();
+					String expected = copy.getGameState();
+					boolean[] move = copy.move(selected, sel);
+					if (move[0])
+						saveRed = new Point(0, 0);
+					if (changeColor == 2)
+						colorChange = true;
+					else
+						colorChange = false;
+					boolean updated = (move[0] ? setGameState(true, copy.getGameState(), expected) : false);
+					selected.setLocation(0, 0);
+					change = (copy.isP1Turn() != change);
+					this.selected = change ? null : sel;
+				}
+				JOptionPane.showMessageDialog(null, "Sadly your soldier can't move any further, turn skipped.");
+				saveRed = new Point(0, 0);
+				this.game.setP1Turn(!this.game.isP1Turn());
+				handleClick(0, 0, 0);
+			}
 		}
-		
+
 		// Check if the selection is valid
 		this.selectionValid = isValidSelection(
 				copy.getBoard(), copy.isP1Turn(), selected);
@@ -473,7 +547,6 @@ public class HamkaBoard extends JButton {
 				return false;
 			}
 		}
-
 		return true;
 	}
 

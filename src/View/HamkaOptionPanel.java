@@ -165,6 +165,7 @@ public class HamkaOptionPanel extends JPanel {
 					window.setVisible(true);
 					window.restart();
 				}
+				HamkaBoard.saveRed = new Point(0, 0);
 				scoreLabel.setText("0");
 				scoreLabel2.setText("0");
 				cntd.reset();
@@ -200,6 +201,7 @@ public class HamkaOptionPanel extends JPanel {
 //
 //				try {
 //
+//					data.addGameToJSON("JSON/games.JSON",game);
 //				} catch (IOException ioException) {
 //					ioException.printStackTrace();
 //				}

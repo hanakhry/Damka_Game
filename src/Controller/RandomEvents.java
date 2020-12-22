@@ -9,6 +9,7 @@ import Utils.Constants;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -91,7 +92,7 @@ public class RandomEvents {
 
         for(int i = 0; i < troops.size(); i++)
             validMoves.addAll(allValidMoves(troops.get(i), emptyBlackCells, g));
-        return randomRedPoint(validMoves);
+        return randomPoint(validMoves);
     }
 
     //triggers red square
@@ -123,7 +124,7 @@ public class RandomEvents {
         }
         for(int i = 0; i < secondaryTroops.size(); i++)
             validMoves.addAll(allValidMoves(secondaryTroops.get(i), this.emptyBlackCells, g));
-        return randomRedPoint(validMoves);
+        return randomPoint(validMoves);
     }
 
     /**
@@ -131,11 +132,23 @@ public class RandomEvents {
      * @param p
      * @return
      */
-    private static Point randomRedPoint(List<Point> p){
+    private static Point randomPoint(List<Point> p){
         if(!p.isEmpty()) {
             int rnd = new Random().nextInt(p.size());
             return p.get(rnd);
         }
         return null;
+    }
+
+    public static Point blueEvents(Game g, List<Point> available){
+        int soldierColor = g.isP1Turn() ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
+        int queenColor = g.isP1Turn() ? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN;
+        Point blue = new Point(35, 35);
+        List<Point> soldiers = g.getBoard().find(soldierColor);
+        List<Point> queen = g.getBoard().find(queenColor);
+        if(soldiers.size() == 2 && queen.size() == 1){
+            blue = randomPoint(available);
+        }
+        return blue;
     }
 }
