@@ -16,6 +16,7 @@ public final class SysData {
     //HashMap key: question difficulty level, value: all questions of such difficulty
     public HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
+    public HashMap<String,Integer> leaderboard= new HashMap<>();
 
     public List getTiles() {
         return tiles;
@@ -384,7 +385,7 @@ public final class SysData {
     public void writeLeaderToFile(String path,String username,int score) throws FileNotFoundException {
         JsonObject userScore = new JsonObject();
         userScore.put("username", username);
-        userScore.put("score", score);
+        userScore.put("score", String.valueOf(score));
         int tempI;
         String tempS;
         boolean flag=false;
@@ -416,6 +417,24 @@ public final class SysData {
 
 
 
+
+
+    }
+    public void readLeaderFromFile(String path) {
+        try (FileReader reader = new FileReader(path)) {
+            JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
+            JsonArray leaders = (JsonArray) doc.get("leaders");
+            Iterator<Object> iterator = leaders.iterator();
+            while (iterator.hasNext()) {
+                JsonObject obj = (JsonObject) iterator.next();
+                String user = (String) obj.get("username");
+                Integer score = Integer.parseInt((String) obj.get("score"));
+                this.leaderboard.put(user,score);
+            }
+        } catch (IOException | DeserializationException e) {
+            e.printStackTrace();
+            return ;
+        }
 
 
     }
