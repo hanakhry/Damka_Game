@@ -12,7 +12,7 @@ public class LeaderBoard extends JFrame {
     private JTable jTable1;
     private JButton backBtn;
     public String[][] board;
-    public static final String DEFAULT_TITLE = "Hamka Leader Board";
+    public static final String DEFAULT_TITLE = "Hamka LeaderBoard! Highest User's Score";
     /**
      * Creates new form tabel
      */

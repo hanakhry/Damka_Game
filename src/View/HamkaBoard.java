@@ -209,7 +209,7 @@ public class HamkaBoard extends JButton {
 
 		try {
 			if (!redSquare.equals(new Point(0, 0))) {
-				g.setColor(Color.red);
+				g.setColor(new Color(220,17,17));
 				g.fillRect(OFFSET_X + redSquare.x * BOX_SIZE + 1, OFFSET_Y + redSquare.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
 			}
 		} catch (NullPointerException e) {
@@ -249,7 +249,7 @@ public class HamkaBoard extends JButton {
 		//blue square
 		if(!blueSquare.equals(checkPoint)){
 			try {
-				g.setColor(Color.blue);
+				g.setColor(new Color(30,144,255));
 				g.fillRect(OFFSET_X + blueSquare.x * BOX_SIZE + 3, OFFSET_Y + blueSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
 			} catch (NullPointerException e) {
 
