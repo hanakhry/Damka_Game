@@ -1,9 +1,12 @@
 package View;
 
+import Model.SysData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class MainMenu extends JFrame {
     /** The default width for the checkers window. */
@@ -58,6 +61,7 @@ public class MainMenu extends JFrame {
         this.LeaderBoard = new JButton("Leader Board");
         this.ExitGame = new JButton("Exit");
         this.NewGame.addActionListener(new MMOptionListener());
+        this.LeaderBoard.addActionListener(new MMOptionListener());
         this.LoadGame.addActionListener(new MMOptionListener());
         this.ExitGame.addActionListener(new MMOptionListener());
         this.Questions.addActionListener(new MMOptionListener());
@@ -125,6 +129,46 @@ public class MainMenu extends JFrame {
                         icon);
 
 
+            }
+            if(src==LeaderBoard){
+                dispose();
+                try {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if ("Windows".equals(info.getName())) {
+                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                SysData sysdata=new SysData();
+
+                sysdata.readLeaderFromFile("JSON/leaderhistory.JSON");
+                String[][] board=new String[25][2];
+                int i=0;
+                int j=0;
+
+              for (Map.Entry<String, Integer> en : sysdata.sortByValue(sysdata.leaderboard).entrySet()) {
+                    board[i][j]=en.getKey();
+                    j++;
+                    board[i][j]=Integer.toString(en.getValue());
+                    i++;
+                    j=0;
+                    if(i==25)break;
+                    System.out.println("Key = " + en.getKey() +
+                            ", Value = " + en.getValue());
+                }
+
+                LeaderBoard leaderB = new LeaderBoard(board);
+                leaderB.setDefaultCloseOperation(leaderB.EXIT_ON_CLOSE);
+                leaderB.setVisible(true);
             }
             if(src == ExitGame){
                 dispose();
