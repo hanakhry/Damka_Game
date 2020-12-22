@@ -132,22 +132,7 @@ public class MainMenu extends JFrame {
             }
             if(src==LeaderBoard){
                 dispose();
-                try {
-                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                        if ("Windows".equals(info.getName())) {
-                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                            break;
-                        }
-                    }
-                } catch (ClassNotFoundException ex) {
-                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                    java.util.logging.Logger.getLogger(LeaderBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
+
                 SysData sysdata=new SysData();
 
                 sysdata.readLeaderFromFile("JSON/leaderhistory.JSON");
@@ -162,8 +147,8 @@ public class MainMenu extends JFrame {
                     i++;
                     j=0;
                     if(i==25)break;
-                    System.out.println("Key = " + en.getKey() +
-                            ", Value = " + en.getValue());
+                   // System.out.println("Key = " + en.getKey() +
+                     //       ", Value = " + en.getValue());
                 }
 
                 LeaderBoard leaderB = new LeaderBoard(board);
