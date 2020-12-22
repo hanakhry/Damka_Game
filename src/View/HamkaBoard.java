@@ -68,6 +68,8 @@ public class HamkaBoard extends JButton {
 
 	private Point preserved;
 
+	private boolean showColor = true;
+
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
 	}
@@ -197,6 +199,7 @@ public class HamkaBoard extends JButton {
 		}
 
 		//draw yellow squares
+		if(showColor){
 		try {
 			updateYellow(g, yellowSquare, OFFSET_X, OFFSET_Y, BOX_SIZE);
 
@@ -227,7 +230,7 @@ public class HamkaBoard extends JButton {
 			} catch (NullPointerException e) {
 				greenSquare = HamkaWindow.getStartingGreen();
 				if (!greenSquare.equals(new Point(0, 0))) {
-					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE+ 3, OFFSET_Y + greenSquare.y * BOX_SIZE+3, BOX_SIZE - 6, BOX_SIZE - 6);
+					g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE + 3, OFFSET_Y + greenSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
 				}
 			}
 
@@ -247,7 +250,7 @@ public class HamkaBoard extends JButton {
 		}
 
 		//blue square
-		if(!blueSquare.equals(checkPoint)){
+		if (!blueSquare.equals(checkPoint)) {
 			try {
 				g.setColor(Color.blue);
 				g.fillRect(OFFSET_X + blueSquare.x * BOX_SIZE + 3, OFFSET_Y + blueSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
@@ -255,6 +258,7 @@ public class HamkaBoard extends JButton {
 
 			}
 		}
+	}
 
 		// Highlight the selected tile if valid
 		if (Board.isValidPoint(selected) && colorChange) {
@@ -422,6 +426,77 @@ public class HamkaBoard extends JButton {
 		return new Point(x, y);
 	}
 
+	//all 4 *possiple* points around a point
+	private List<Point> surround(Point p){
+		List<Point> points = new ArrayList<>();
+		Point p1 = new Point(p.x-1, p.y-1);
+		Point p2 = new Point(p.x-1, p.y+1);
+		Point p3 = new Point(p.x+1, p.y+1);
+		Point p4 = new Point(p.x+1, p.y-1);
+		points.add(p1);
+		points.add(p2);
+		points.add(p3);
+		points.add(p4);
+		return  points;
+	}
+
+	//checks that 4 points surrounding a point are safe
+	private boolean areaCheck(Point p, Game game){
+		int soldier = game.isP1Turn() ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
+		int queen = game.isP1Turn() ? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN;
+		int check;
+
+
+		List<Point> points = surround(p);
+		check = game.getBoard().get(points.get(0).x, points.get(0).y);
+		if(check == soldier || check == queen)
+			return false;
+
+		check = game.getBoard().get(points.get(1).x, points.get(1).y);
+		if(check == soldier || check == queen)
+			return false;
+
+		check = game.getBoard().get(points.get(2).x, points.get(2).y);
+		if(check == soldier || check == queen)
+			return false;
+
+		check = game.getBoard().get(points.get(3).x, points.get(3).y);
+		if(check == soldier || check == queen)
+			return false;
+
+		return true;
+	}
+
+	//new string to "create" game scenario
+	private String newString(Game game, Point p){
+		String str = game.getGameState();
+		String str1 = str.substring(0, game.getBoard().toIndex(p));
+		String str2 = str.substring(game.getBoard().toIndex(p) + 1);
+		int turn = game.isP1Turn() ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		return str1 + turn + str2;
+	}
+
+	//new game for unexisting scenario
+	private Game newGame(Game game, Point p){
+		Game g = new Game();
+		g.setGameState(newString(game, p));
+		g.setP1Turn(game.isP1Turn());
+		return g;
+	}
+
+	//checks the surrounding of the surrounding of potential revived soldier
+	private boolean firstCheck(List<Point> points, Game game){
+		for(Point p : points){
+			if(p.x < 8 && p.x > -1 && p.y < 8 && p.y > -1){
+				Game g = newGame(game, p);
+				if (!areaCheck(p, g))
+					return false;
+			}
+		}
+		return true;
+	}
+
+
 	/**
 	 * Handles a click on this component at the specified point.
 	 * Parameter x the x-coordinate of the click on this component.
@@ -432,22 +507,28 @@ public class HamkaBoard extends JButton {
 			return;
 		};
 		Point p = getPoint(x, y);
-
 		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare, blueSquare);
 		if(copy.isChangeBlue){
+			showColor = false;
 			if(this.game.getBoard().get(p.x, p.y) == 0){
-				//create new soldier when stepping on blue
-				String str = copy.getGameState();
-				String str1 = str.substring(0, copy.getBoard().toIndex(p));
-				String str2 = str.substring(copy.getBoard().toIndex(p)+1);
-				int turn = game.isP1Turn() ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
-				str = str1+turn+str2;
-
-				game.setGameState(str);
-				update(false);
-				copy.isChangeBlue = false;
+				Game g = newGame(copy, p);
+				String str;
+				List<Point> av = surround(p);
+				if(areaCheck(p, g)) {
+					if (firstCheck(av, g)) {
+						//create new soldier when stepping on blue
+						str = newString(copy, p);
+						game.setGameState(str);
+						update(false);
+						copy.isChangeBlue = false;
+						showColor = true;
+						handleClick(0, 0, 2);
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Invalid revive location.");
+				}
 				return;
-
 			}
 		}
 		Point check = new Point(0, 0);

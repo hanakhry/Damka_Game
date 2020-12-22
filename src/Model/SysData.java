@@ -264,7 +264,6 @@ public final class SysData {
                     isTurn = true;
 
                 }
-                System.out.println(isTurn);
 //                int id=Integer.valueOf(data.charAt(0));
 //                int ID=id-48;
                  tiles=Arrays.asList(data);

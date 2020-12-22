@@ -144,11 +144,11 @@ public class RandomEvents {
         int soldierColor = g.isP1Turn() ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
         int queenColor = g.isP1Turn() ? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN;
         Point blue = new Point(35, 35);
-       /* List<Point> soldiers = g.getBoard().find(soldierColor);
+        List<Point> soldiers = g.getBoard().find(soldierColor);
         List<Point> queen = g.getBoard().find(queenColor);
-        if(soldiers.size() == 2 && queen.size() == 1){*/
+        if(soldiers.size() == 2 && queen.size() == 1){
             blue = randomPoint(available);
-       // }
+        }
         return blue;
     }
 }
