@@ -347,9 +347,10 @@ public final class SysData {
             Random r = new Random();
             int index = r.nextInt(questionObj.size()) ;
             String wholeQ=questionObj.get(index).toString();
-            System.out.println(wholeQ);
+
             String q=wholeQ.substring(wholeQ.indexOf("question=")+9,wholeQ.indexOf(","));
             String a=wholeQ.substring(wholeQ.indexOf("answers=[")+9,wholeQ.indexOf("]"));
+
             String l=wholeQ.substring(wholeQ.indexOf("level=")+6,wholeQ.indexOf(", a"));
             String c=wholeQ.substring(wholeQ.indexOf("correct_ans=")+12,wholeQ.indexOf("}"));
             int ind=Integer.parseInt(c)-1;
@@ -417,6 +418,28 @@ public final class SysData {
 
 
 
+    }
+    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o2,
+                               Map.Entry<String, Integer> o1)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 
 
