@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,7 @@ public class LeaderBoard extends JFrame {
     private JTable jTable1;
     private JButton backBtn;
     public String[][] board;
-    public static final String DEFAULT_TITLE = "Hamka Leader Board";
+    public static final String DEFAULT_TITLE = "Hamka LeaderBoard! Highest User's Score";
     /**
      * Creates new form tabel
      */
@@ -36,7 +37,18 @@ public class LeaderBoard extends JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 =new JTable(){
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column){
+                Component returnComp = super.prepareRenderer(renderer, row, column);
+                Color alternateColor = new Color(211,211,211);
+                Color whiteColor = Color.WHITE;
+                if (!returnComp.getBackground().equals(getSelectionBackground())){
+                    Color bg = (row % 2 == 0 ? alternateColor : whiteColor);
+                    returnComp .setBackground(bg);
+                    bg = null;
+                }
+                return returnComp;
+            }};
         backBtn = new JButton("Back");
 
         backBtn.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -74,9 +86,10 @@ public class LeaderBoard extends JFrame {
         jTable1.setFocusable(false);
         jTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
         jTable1.setRowHeight(25);
-        jTable1.setSelectionBackground(new java.awt.Color(232, 57, 95));
+        jTable1.setSelectionBackground(new Color(32, 136, 203));
         jTable1.setShowVerticalLines(false);
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.changeSelection(0, 0, false, true);
         jScrollPane1.setViewportView(jTable1);
 
         setSize(new java.awt.Dimension(620, 750));
