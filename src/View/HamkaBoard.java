@@ -507,6 +507,7 @@ public class HamkaBoard extends JButton {
 			return;
 		};
 		Point p = getPoint(x, y);
+		System.out.println(p);
 		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare, blueSquare);
 		if(copy.isChangeBlue){
 			showColor = false;

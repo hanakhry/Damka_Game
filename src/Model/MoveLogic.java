@@ -69,7 +69,6 @@ public class MoveLogic {
 	 */
 	private static boolean validateIDs(Board board, boolean isP1Turn,
 			int startIndex, int endIndex) {
-		
 		// Check if end is clear
 		if (board.get(endIndex) != Constants.EMPTY) {
 			return false;
@@ -82,15 +81,21 @@ public class MoveLogic {
 				&& id != Constants.WHITE_QUEEN)) {
 			return false;
 		}
-		
 		// Check the middle
-		Point middle = Board.middle(startIndex, endIndex);
-		int midID = board.get(Board.toIndex(middle));
-		if (midID != Constants.INVALID && ((!isP1Turn &&
-				midID != Constants.BLACK_SOLDIER && midID != Constants.BLACK_QUEEN) ||
-				(isP1Turn && midID != Constants.WHITE_SOLDIER &&
-				midID != Constants.WHITE_QUEEN))) {
-			return false;
+		int black = Constants.BLACK_QUEEN;
+		int white = Constants.WHITE_QUEEN;
+
+		int onBoard = board.get(startIndex);
+		if(onBoard != black && onBoard != white) {
+			Point middle = Board.middle(startIndex, endIndex);
+			int midID = board.get(Board.toIndex(middle));
+			if (midID != Constants.INVALID && ((!isP1Turn &&
+					midID != Constants.BLACK_SOLDIER && midID != Constants.BLACK_QUEEN) ||
+					(isP1Turn && midID != Constants.WHITE_SOLDIER &&
+							midID != Constants.WHITE_QUEEN))) {
+
+				return false;
+			}
 		}
 		
 		// Passed all tests
@@ -109,43 +114,80 @@ public class MoveLogic {
 	 */
 	private static boolean validateDistance(Board board, boolean isP1Turn,
 			int startIndex, int endIndex) {
-		
+
 		// Check that it was a diagonal move
 		Point start = Board.toPoint(startIndex);
 		Point end = Board.toPoint(endIndex);
+		int black = Constants.BLACK_QUEEN;
+		int white = Constants.WHITE_QUEEN;
+		int onBoard = board.get(startIndex);
+
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
-		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
-			return false;
-		}
-		
-		// Check that it was in the right direction
-		int id = board.get(startIndex);
-		if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
-				(id == Constants.BLACK_SOLDIER && dy < 0)) {
-			return false;
-		}
-		
-		// Check that if this is not a skip, there are none available
-		Point middle = Board.middle(startIndex, endIndex);
-		int midID = board.get(Board.toIndex(middle));
-		if (midID < 0) {
-			
-			// Get the correct soldiers
-			List<Point> soldiers;
-			if (isP1Turn) {
-				soldiers = board.find(Constants.BLACK_SOLDIER);
-				soldiers.addAll(board.find(Constants.BLACK_QUEEN));
-			} else {
-				soldiers = board.find(Constants.WHITE_SOLDIER);
-				soldiers.addAll(board.find(Constants.WHITE_QUEEN));
+
+		if(onBoard == black || onBoard == white){
+			if(Math.abs(dx) != Math.abs(dy)) {
+				return false;
 			}
-			
-			// Check if any of them have a skip available
-			for (Point p : soldiers) {
-				int index = Board.toIndex(p);
-				if (!getSkips(board, index).isEmpty()) {
-					return false;
+
+			// Check that if this is not a skip, there are none available
+			Point middle = Board.middle(startIndex, endIndex);
+			int midID = board.get(Board.toIndex(middle));
+			if (midID < 0) {
+
+				// Get the correct soldiers
+				List<Point> soldiers;
+				if (isP1Turn) {
+					soldiers = board.find(Constants.BLACK_SOLDIER);
+					soldiers.addAll(board.find(Constants.BLACK_QUEEN));
+				} else {
+					soldiers = board.find(Constants.WHITE_SOLDIER);
+					soldiers.addAll(board.find(Constants.WHITE_QUEEN));
+				}
+
+				// Check if any of them have a skip available
+				for (Point p : soldiers) {
+					int index = Board.toIndex(p);
+					if (!getSkips(board, index).isEmpty()) {
+						return false;
+					}
+				}
+			}
+
+		} else {
+
+			if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
+				return false;
+			}
+
+			// Check that it was in the right direction
+			int id = board.get(startIndex);
+			if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
+					(id == Constants.BLACK_SOLDIER && dy < 0)) {
+				return false;
+			}
+
+			// Check that if this is not a skip, there are none available
+			Point middle = Board.middle(startIndex, endIndex);
+			int midID = board.get(Board.toIndex(middle));
+			if (midID < 0) {
+
+				// Get the correct soldiers
+				List<Point> soldiers;
+				if (isP1Turn) {
+					soldiers = board.find(Constants.BLACK_SOLDIER);
+					soldiers.addAll(board.find(Constants.BLACK_QUEEN));
+				} else {
+					soldiers = board.find(Constants.WHITE_SOLDIER);
+					soldiers.addAll(board.find(Constants.WHITE_QUEEN));
+				}
+
+				// Check if any of them have a skip available
+				for (Point p : soldiers) {
+					int index = Board.toIndex(p);
+					if (!getSkips(board, index).isEmpty()) {
+						return false;
+					}
 				}
 			}
 		}
