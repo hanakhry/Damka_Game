@@ -113,7 +113,7 @@ public class ManageQuestion extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (checkFields()) {
                     String question = questionField.getText();
-                    int level = comboBox1.getSelectedIndex();
+                    int level = comboBox1.getSelectedIndex()+1;
                     int answer;
                     String ans1 = answer1.getText();
                     String ans2 = answer2.getText();
