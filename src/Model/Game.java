@@ -202,8 +202,30 @@ public class Game {
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
 
-		// Make the soldier a queen if necessary
+		int px = -1;
+		int py = -1;
+		Point start = Board.toPoint(startIndex);
 		Point end = Board.toPoint(endIndex);
+		int dx = end.x - start.x;
+		int dy = end.y - start.y;
+
+		if(Math.abs(dx) > 1){
+			if(dx > 0)
+				px = 1;
+			if(dy > 0)
+				py = 1;
+			int x = start.x;
+			int y = start.y;
+			x += px;
+			y += py;
+			int endX = end.x-px;
+			while(x != endX){
+				x += px;
+				y += py;
+			}
+			this.board.set(x, y, 0);
+		}
+		// Make the soldier a queen if necessary
 		int id = board.get(endIndex);
 		boolean switchTurn = false;
 		if (end.y == 0 && id == Constants.WHITE_SOLDIER) {
@@ -223,6 +245,7 @@ public class Game {
 				board.copy(), endIndex).isEmpty()) {
 			switchTurn = true;
 		}
+
 
 		// give 50 for stepping on green
 		int onGreen = Board.toIndex(tempGreen.x, tempGreen.y);

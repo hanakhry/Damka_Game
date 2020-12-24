@@ -507,7 +507,6 @@ public class HamkaBoard extends JButton {
 			return;
 		};
 		Point p = getPoint(x, y);
-		System.out.println(p);
 		Game copy = game.copy(yellowSquare, greenSquare, game.isGreen, redSquare, blueSquare);
 		if(copy.isChangeBlue){
 			showColor = false;
@@ -564,8 +563,7 @@ public class HamkaBoard extends JButton {
 			if (!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(preserved)).isEmpty()) {
 				if (selected != null && sel != null) {
 					if (selected.equals(saveRed) || sel.equals(saveRed)) {
-						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
-							boolean change = copy.isP1Turn();
+						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) { boolean change = copy.isP1Turn();
 							String expected = copy.getGameState();
 							boolean[] move = copy.move(selected, sel);
 							if (move[0])

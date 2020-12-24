@@ -120,7 +120,13 @@ public class MoveLogic {
 		Point end = Board.toPoint(endIndex);
 		int black = Constants.BLACK_QUEEN;
 		int white = Constants.WHITE_QUEEN;
+		int blackS = Constants.BLACK_SOLDIER;
+		int whiteS = Constants.WHITE_SOLDIER;
+
 		int onBoard = board.get(startIndex);
+
+		int px = -1;
+		int py = -1;
 
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
@@ -129,12 +135,42 @@ public class MoveLogic {
 			if(Math.abs(dx) != Math.abs(dy)) {
 				return false;
 			}
+			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
+				return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
+			}
+
+			if(dx > 0)
+				px = 1;
+			if(dy > 0)
+				py = 1;
+
+			int endX = end.x-px;
+			int endY = end.y-py;
+			int toEat = board.get(endX, endY);
+			if(onBoard == black){
+				if(toEat != white && toEat != whiteS)
+					return false;
+			}
+			if(onBoard == white){
+				if(toEat != black && toEat != blackS)
+					return false;
+			}
+			int x = start.x;
+			int y = start.y;
+			x += px;
+			y += py;
+			while(x != endX){
+				if(board.get(x,y) != 0) {
+					return false;
+				}
+				x += px;
+				y += py;
+			}
 
 			// Check that if this is not a skip, there are none available
 			Point middle = Board.middle(startIndex, endIndex);
 			int midID = board.get(Board.toIndex(middle));
 			if (midID < 0) {
-
 				// Get the correct soldiers
 				List<Point> soldiers;
 				if (isP1Turn) {
@@ -144,7 +180,6 @@ public class MoveLogic {
 					soldiers = board.find(Constants.WHITE_SOLDIER);
 					soldiers.addAll(board.find(Constants.WHITE_QUEEN));
 				}
-
 				// Check if any of them have a skip available
 				for (Point p : soldiers) {
 					int index = Board.toIndex(p);
@@ -152,50 +187,55 @@ public class MoveLogic {
 						return false;
 					}
 				}
+
 			}
 
 		} else {
-
-			if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
-				return false;
-			}
-
-			// Check that it was in the right direction
-			int id = board.get(startIndex);
-			if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
-					(id == Constants.BLACK_SOLDIER && dy < 0)) {
-				return false;
-			}
-
-			// Check that if this is not a skip, there are none available
-			Point middle = Board.middle(startIndex, endIndex);
-			int midID = board.get(Board.toIndex(middle));
-			if (midID < 0) {
-
-				// Get the correct soldiers
-				List<Point> soldiers;
-				if (isP1Turn) {
-					soldiers = board.find(Constants.BLACK_SOLDIER);
-					soldiers.addAll(board.find(Constants.BLACK_QUEEN));
-				} else {
-					soldiers = board.find(Constants.WHITE_SOLDIER);
-					soldiers.addAll(board.find(Constants.WHITE_QUEEN));
-				}
-
-				// Check if any of them have a skip available
-				for (Point p : soldiers) {
-					int index = Board.toIndex(p);
-					if (!getSkips(board, index).isEmpty()) {
-						return false;
-					}
-				}
-			}
+			return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
 		}
 		
 		// Passed all tests
 		return true;
 	}
-	
+
+	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
+		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
+			return false;
+		}
+
+		// Check that it was in the right direction
+		int id = board.get(startIndex);
+		if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
+				(id == Constants.BLACK_SOLDIER && dy < 0)) {
+			return false;
+		}
+
+		// Check that if this is not a skip, there are none available
+		Point middle = Board.middle(startIndex, endIndex);
+		int midID = board.get(Board.toIndex(middle));
+		if (midID < 0) {
+
+			// Get the correct soldiers
+			List<Point> soldiers;
+			if (isP1Turn) {
+				soldiers = board.find(Constants.BLACK_SOLDIER);
+				soldiers.addAll(board.find(Constants.BLACK_QUEEN));
+			} else {
+				soldiers = board.find(Constants.WHITE_SOLDIER);
+				soldiers.addAll(board.find(Constants.WHITE_QUEEN));
+			}
+
+			// Check if any of them have a skip available
+			for (Point p : soldiers) {
+				int index = Board.toIndex(p);
+				if (!getSkips(board, index).isEmpty()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Checks if the specified soldier is safe (i.e. the opponent cannot skip the soldier).
 	 * board, the current board state.
