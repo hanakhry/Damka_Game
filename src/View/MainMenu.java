@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Map;
 
 public class MainMenu extends JFrame {
@@ -106,28 +107,14 @@ public class MainMenu extends JFrame {
                 window.restart();
             }
             if(src==LoadGame){
-                dispose();
-                HamkaWindow window = new HamkaWindow(user1.getText(),user2.getText());
-                HamkaGameHistory history = new HamkaGameHistory();
-                String a = String.valueOf(history.getFinalTiles());
-                a = a.replace(",","");
-                a = a.replace(" ","");
-                a = a.replace("[","");
-                a = a.replace("]","");
-               // System.out.println(a);
-                window.setGameState(a);
-                window.getBoard().getGame().setP1Turn(history.getTurn());
-                window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
-                window.setVisible(true);
-                window.getBoard().getGame().refreshColors();
-                window.getBoard().handleClick(0, 0, 2);
+                try {
+//
+                    new HamkaGameHistory();
 
-                final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
-                JOptionPane.showMessageDialog(null,
-                        "Game Loaded Successfully!","Load game",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        icon);
 
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
 
             }
             if(src==LeaderBoard){
