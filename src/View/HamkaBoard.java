@@ -70,6 +70,8 @@ public class HamkaBoard extends JButton {
 
 	private boolean showColor = true;
 
+	private boolean reviveClickFlag = false;
+
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
 	}
@@ -503,6 +505,7 @@ public class HamkaBoard extends JButton {
 	 * Parameter y the y-coordinate of the click on this component.
 	 */
 	public void handleClick(int x, int y, int changeColor) {
+	    reviveClickFlag = false;
 		if (isGameOver) {
 			return;
 		};
@@ -523,9 +526,14 @@ public class HamkaBoard extends JButton {
 						copy.isChangeBlue = false;
 						showColor = true;
 						handleClick(0, 0, 2);
-					}
+					} else{
+                        reviveClickFlag = true;
+                        JOptionPane.showMessageDialog(null, "Invalid revive location.");
+                    }
+                    return;
 				}
 				else{
+				    reviveClickFlag = true;
 					JOptionPane.showMessageDialog(null, "Invalid revive location.");
 				}
 				return;
@@ -660,7 +668,8 @@ public class HamkaBoard extends JButton {
 			Point m = HamkaBoard.this.getMousePosition();
 			if (m != null) {
 				handleClick(m.x, m.y, 1);
-				handleClick(m.x, m.y, 2);
+				if(!reviveClickFlag)
+				    handleClick(m.x, m.y, 2);
 			}
 		}
 	}
