@@ -263,7 +263,7 @@ public class Game {
 		int onRed = Board.toIndex(tempRed.x, tempRed.y);
 		if(onRed == endIndex){
 			redSwitch = true;
-			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon-red.png"));
 			JOptionPane.showMessageDialog(null,
 					"You got extra Move!", "Red",
 					JOptionPane.INFORMATION_MESSAGE,
@@ -275,7 +275,7 @@ public class Game {
 		int onBlue = Board.toIndex(tempBlue.x, tempBlue.y);
 		if(onBlue == endIndex){
 			isChangeBlue = true;
-			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon-blue.png"));
 			JOptionPane.showMessageDialog(null,
 					"You get to revive a soldier!", "Blue",
 					JOptionPane.INFORMATION_MESSAGE,
