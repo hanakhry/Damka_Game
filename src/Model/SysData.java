@@ -51,9 +51,9 @@ public final class SysData {
 
     public HashMap<Integer, Game> games() { return this.games; }
 
-    public void importFile() {
+    public void importFile(String path) {
         try {
-            File myObj = new File("TEXT/testLoad.txt");
+            File myObj = new File(path);
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -290,7 +290,7 @@ public final class SysData {
         ArrayList<Game> appendList = new ArrayList<>();
         ArrayList<Integer> tiles = new ArrayList<Integer>();
         if(games.isEmpty()){
-            importGamesFromTxtFile("TEXT/testLoad.txt");
+            importGamesFromTxtFile(path);
         }
 
         for (Map.Entry<Integer, Game> entry : games.entrySet()) {

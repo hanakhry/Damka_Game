@@ -44,7 +44,7 @@ public class HamkaGameHistory extends JFrame {
     public HamkaGameHistory() throws IOException {
 
         super.setTitle("Game Load List");
-        super.setSize(620, 750);
+        super.setSize(500, 600);
         super.setLocationRelativeTo(null);
         final JLabel label = new JLabel();
         //label.setSize(500,100);
@@ -64,13 +64,20 @@ public class HamkaGameHistory extends JFrame {
         }
 
         list1= new JList<>(l1);
-        list1.setBounds(100, 100, 500, 600);
+        list1.setSelectedIndex(0);
+
+
+        JPanel tmpPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel btnPanel= new JPanel(new BorderLayout());
-        JPanel layout = new JPanel(new BorderLayout());
-        btnPanel.add(showBtn, BorderLayout.EAST);
-        btnPanel.add(backBtn, BorderLayout.WEST);
-        layout.add(list1,BorderLayout.CENTER);
-        layout.add(btnPanel,BorderLayout.SOUTH);
+        JPanel layout = new JPanel(new GridLayout(2,0));
+        tmpPanel.add(backBtn);
+        tmpPanel.add(showBtn);
+        btnPanel.add(tmpPanel,BorderLayout.SOUTH);
+
+
+
+        layout.add(list1);
+        layout.add(btnPanel);
 
         super.setVisible(true);
         this.add(layout);
@@ -92,7 +99,7 @@ public class HamkaGameHistory extends JFrame {
 
     public void translateTextFile() throws IOException {
         SysData sysData = new SysData();
-        System.out.println("is"+index);
+
         this.turn=sysData.importGamesFromTxtFile(files[getIndex()].getCanonicalPath());
         this.tiles1=sysData.getTiles();
 
@@ -131,6 +138,8 @@ public class HamkaGameHistory extends JFrame {
             if (showBtn == src) {
                 dispose();  //Remove frame
                 int index = list1.getSelectedIndex();
+                String select=list1.getSelectedValue();
+                String[] userArray = select.split(".vs.", 2);
                 setIndex(index);
                 try {
                     translateTextFile();
@@ -138,17 +147,17 @@ public class HamkaGameHistory extends JFrame {
                     ioException.printStackTrace();
                 }
 
-                HamkaWindow window = new HamkaWindow(user1.getText(), user2.getText());
+                HamkaWindow window = new HamkaWindow(userArray[0], userArray[1]);
 
-                System.out.println("Index Selected: " + index);
+
                 String s = (String) list1.getSelectedValue();
-                System.out.println("Value Selected: " + s);
+
                 String a = String.valueOf(getFinalTiles());
                 a = a.replace(",", "");
                 a = a.replace(" ", "");
                 a = a.replace("[", "");
                 a = a.replace("]", "");
-                System.out.println(a);
+
 
                 window.setGameState(a);
                 window.getBoard().getGame().setP1Turn(getTurn());
