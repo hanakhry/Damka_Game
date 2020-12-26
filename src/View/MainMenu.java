@@ -108,7 +108,7 @@ public class MainMenu extends JFrame {
             }
             if(src==LoadGame){
                 try {
-//
+                    dispose();
                     new HamkaGameHistory();
 
 
