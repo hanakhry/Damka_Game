@@ -22,6 +22,7 @@ public class HamkaGameHistory extends JFrame {
     public List<String> al = new ArrayList<String>();
     public static int index;
     public JButton showBtn;
+    public JButton backBtn;
     public JList<String> list1;
     public Boolean turn;
     public List tiles1;
@@ -47,10 +48,12 @@ public class HamkaGameHistory extends JFrame {
         super.setLocationRelativeTo(null);
         final JLabel label = new JLabel();
         //label.setSize(500,100);
-        showBtn = new JButton("Show");
+        showBtn = new JButton("Load Game");
+        backBtn = new JButton("Back");
         showBtn.setForeground(Color.black);
-        showBtn.setBounds(200, 150, 80, 30);
+        //showBtn.setBounds(200, 150, 80, 30);
         showBtn.addActionListener(new HamkaHistoryListener());
+        backBtn.addActionListener(new HamkaHistoryListener());
         final DefaultListModel<String> l1 = new DefaultListModel<>();
         files = countNumberOfTxtFile();
         /** add all the txt file to l1 list**/
@@ -61,12 +64,16 @@ public class HamkaGameHistory extends JFrame {
         }
 
         list1= new JList<>(l1);
-        list1.setBounds(100, 100, 100, 120);
-        super.add(list1);
-        super.add(showBtn);
-        super.setLayout(null);
-        super.setVisible(true);
+        list1.setBounds(100, 100, 500, 600);
+        JPanel btnPanel= new JPanel(new BorderLayout());
+        JPanel layout = new JPanel(new BorderLayout());
+        btnPanel.add(showBtn, BorderLayout.EAST);
+        btnPanel.add(backBtn, BorderLayout.WEST);
+        layout.add(list1,BorderLayout.CENTER);
+        layout.add(btnPanel,BorderLayout.SOUTH);
 
+        super.setVisible(true);
+        this.add(layout);
     }
 
     public File[] countNumberOfTxtFile() throws IOException {
@@ -157,6 +164,12 @@ public class HamkaGameHistory extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE,
                         icon);
 
+            }
+            if (backBtn == src) {
+                dispose();
+                MainMenu window = new MainMenu();
+                window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
+                window.setVisible(true);
             }
         }
      }
