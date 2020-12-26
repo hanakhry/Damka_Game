@@ -527,13 +527,11 @@ public class HamkaBoard extends JButton {
 						showColor = true;
 						handleClick(0, 0, 2);
 					} else{
-                        reviveClickFlag = true;
                         JOptionPane.showMessageDialog(null, "Invalid revive location.");
                     }
                     return;
 				}
 				else{
-				    reviveClickFlag = true;
 					JOptionPane.showMessageDialog(null, "Invalid revive location.");
 				}
 				return;
@@ -668,6 +666,7 @@ public class HamkaBoard extends JButton {
 			Point m = HamkaBoard.this.getMousePosition();
 			if (m != null) {
 				handleClick(m.x, m.y, 1);
+				//currently revive is not used
 				if(!reviveClickFlag)
 				    handleClick(m.x, m.y, 2);
 			}
