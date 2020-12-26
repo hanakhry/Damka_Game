@@ -139,7 +139,14 @@ public class HamkaGameHistory extends JFrame {
                 dispose();  //Remove frame
                 int index = list1.getSelectedIndex();
                 String select=list1.getSelectedValue();
-                String[] userArray = select.split(".vs.", 2);
+                String[] userArray= new String[2];
+                if(select.contains(".vs")) {
+                    userArray = select.split(".vs.", 2);
+                }
+                else {
+                    userArray[0]="Username 1";
+                    userArray[1]="Username 2";
+                }
                 setIndex(index);
                 try {
                     translateTextFile();
