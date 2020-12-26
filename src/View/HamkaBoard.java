@@ -505,7 +505,6 @@ public class HamkaBoard extends JButton {
 	 * Parameter y the y-coordinate of the click on this component.
 	 */
 	public void handleClick(int x, int y, int changeColor) {
-	    reviveClickFlag = false;
 		if (isGameOver) {
 			return;
 		};
@@ -517,6 +516,7 @@ public class HamkaBoard extends JButton {
 				Game g = newGame(copy, p);
 				String str;
 				List<Point> av = surround(p);
+				reviveClickFlag = false;
 				if(areaCheck(p, g)) {
 					if (firstCheck(av, g)) {
 						//create new soldier when stepping on blue
@@ -527,11 +527,12 @@ public class HamkaBoard extends JButton {
 						showColor = true;
 						handleClick(0, 0, 2);
 					} else{
+						reviveClickFlag = true;
                         JOptionPane.showMessageDialog(null, "Invalid revive location.");
                     }
                     return;
-				}
-				else{
+				} else{
+					reviveClickFlag = true;
 					JOptionPane.showMessageDialog(null, "Invalid revive location.");
 				}
 				return;
