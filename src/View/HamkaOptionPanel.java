@@ -221,10 +221,12 @@ public class HamkaOptionPanel extends JPanel {
 			if(src==pauseBtn){
 				cntd.pause();
 				cntd2.pause();
+				cntd3.pause();
 			}
 			if(src==resumeBtn){
 				cntd.resume();
 				cntd2.resume();
+				cntd3.resume();
 			}
 			}
 		}
