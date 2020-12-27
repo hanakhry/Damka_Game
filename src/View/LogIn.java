@@ -4,9 +4,11 @@
 
 package View;
 
-import java.awt.event.*;
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
-import net.miginfocom.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class LogIn extends JFrame {
