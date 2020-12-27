@@ -101,6 +101,24 @@ public class MoveLogic {
 		// Passed all tests
 		return true;
 	}
+
+	private static Point crossBoard(int startIndex){
+		Point start = Board.toPoint(startIndex);
+		int d = 0;
+		int x;
+		int y;
+		System.out.println(start.x+"   "+ start.y);
+		if(start.x > start.y)
+			d = 8 - start.x;
+		else
+			d = 8 - start.y;
+		x = start.x + d;
+		y = start.y + d;
+		x = x % 8;
+		y = y % 8;
+		Point p = new Point(x, y);
+		return p;
+	}
 	
 	/**
 	 * Checks that the move is diagonal and magnitude 1 or 2 in the correct
@@ -132,8 +150,9 @@ public class MoveLogic {
 		int dy = end.y - start.y;
 
 		if(onBoard == black || onBoard == white){
-			if(Math.abs(dx) != Math.abs(dy)) {
-				return false;
+			if (Math.abs(dx) != Math.abs(dy)) {
+				Point newStart = crossBoard(startIndex);
+				return validateDistance(board, isP1Turn, Board.toIndex(newStart), endIndex);
 			}
 			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
 				return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
@@ -147,14 +166,15 @@ public class MoveLogic {
 			int endX = end.x-px;
 			int endY = end.y-py;
 			int toEat = board.get(endX, endY);
-			if(onBoard == black){
-				if(toEat != white && toEat != whiteS)
+			//can only move in order to move
+			/*if(onBoard == black){
+				if(toEat == white && toEat == whiteS)
 					return false;
 			}
 			if(onBoard == white){
 				if(toEat != black && toEat != blackS)
 					return false;
-			}
+			}*/
 			int x = start.x;
 			int y = start.y;
 			x += px;
@@ -199,7 +219,7 @@ public class MoveLogic {
 	}
 
 	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
-		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
+		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2/* || dx == 0*/) {
 			return false;
 		}
 
