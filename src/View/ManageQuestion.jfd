@@ -102,23 +102,29 @@ new FormModel {
 				"value": "cell 3 18"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "clearButton"
+				"text": "Clear Fields"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 6 18"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "saveButton"
 				"text": "Save Edit"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 6 18"
+				"value": "cell 9 18"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "deleteButton"
 				"text": "Delete"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "deleteActionPerformed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 9 18"
+				"value": "cell 12 18"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "addButton"
 				"text": "Add"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 12 18"
+				"value": "cell 15 18"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
