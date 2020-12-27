@@ -202,44 +202,40 @@ public class HamkaGameHistory extends JFrame {
                 int returnVal = chooser.showOpenDialog(null);
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
                     try {
-                        System.out.println("You chose to open this file: " +
-                                chooser.getSelectedFile().getCanonicalFile());
+                        String path1 = chooser.getSelectedFile().getCanonicalPath();
+                        translateTextFile(path1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
+
+
+                    dispose();
+                    HamkaWindow window = new HamkaWindow("Username 1", "Username 2");
+
+
+                    String s = (String) list1.getSelectedValue();
+
+                    String a = String.valueOf(getFinalTiles());
+                    a = a.replace(",", "");
+                    a = a.replace(" ", "");
+                    a = a.replace("[", "");
+                    a = a.replace("]", "");
+
+
+                    window.setGameState(a);
+                    window.getBoard().getGame().setP1Turn(getTurn());
+                    window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+                    window.setVisible(true);
+                    window.getBoard().getGame().refreshColors();
+                    window.getBoard().handleClick(0, 0, 2);
+
+
+                    final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+                    JOptionPane.showMessageDialog(null,
+                            "External Loaded Successfully!", "Load game",
+                            JOptionPane.INFORMATION_MESSAGE,
+                            icon);
                 }
-                try {
-                    String path1=chooser.getSelectedFile().getCanonicalPath();
-                    translateTextFile(path1);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                dispose();
-                HamkaWindow window = new HamkaWindow("Username 1", "Username 2");
-
-
-                String s = (String) list1.getSelectedValue();
-
-                String a = String.valueOf(getFinalTiles());
-                a = a.replace(",", "");
-                a = a.replace(" ", "");
-                a = a.replace("[", "");
-                a = a.replace("]", "");
-
-
-                window.setGameState(a);
-                window.getBoard().getGame().setP1Turn(getTurn());
-                window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
-                window.setVisible(true);
-                window.getBoard().getGame().refreshColors();
-                window.getBoard().handleClick(0, 0, 2);
-
-
-                final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
-                JOptionPane.showMessageDialog(null,
-                        "External Loaded Successfully!", "Load game",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        icon);
             }
             if (backBtn == src) {
                 dispose();
