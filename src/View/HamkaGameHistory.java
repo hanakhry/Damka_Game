@@ -4,6 +4,7 @@ import Model.SysData;
 import Utils.Constants;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ public class HamkaGameHistory extends JFrame {
     public static int index;
     public JButton showBtn;
     public JButton backBtn;
+    public JButton externalBtn;
     public JList<String> list1;
     public Boolean turn;
     public List tiles1;
@@ -50,9 +52,11 @@ public class HamkaGameHistory extends JFrame {
         //label.setSize(500,100);
         showBtn = new JButton("Load Game");
         backBtn = new JButton("Back");
+        externalBtn= new JButton("Browse");
         showBtn.setForeground(Color.black);
         //showBtn.setBounds(200, 150, 80, 30);
         showBtn.addActionListener(new HamkaHistoryListener());
+        externalBtn.addActionListener(new HamkaHistoryListener());
         backBtn.addActionListener(new HamkaHistoryListener());
         final DefaultListModel<String> l1 = new DefaultListModel<>();
         files = countNumberOfTxtFile();
@@ -71,6 +75,7 @@ public class HamkaGameHistory extends JFrame {
         JPanel btnPanel= new JPanel(new BorderLayout());
         JPanel layout = new JPanel(new GridLayout(2,0));
         tmpPanel.add(backBtn);
+        tmpPanel.add(externalBtn);
         tmpPanel.add(showBtn);
         btnPanel.add(tmpPanel,BorderLayout.SOUTH);
 
@@ -97,10 +102,10 @@ public class HamkaGameHistory extends JFrame {
         return files;
     }
 
-    public void translateTextFile() throws IOException {
+    public void translateTextFile(String path) throws IOException {
         SysData sysData = new SysData();
 
-        this.turn=sysData.importGamesFromTxtFile(files[getIndex()].getCanonicalPath());
+        this.turn=sysData.importGamesFromTxtFile(path);
         this.tiles1=sysData.getTiles();
 
         //convert txt to array with value from Constants
@@ -140,7 +145,13 @@ public class HamkaGameHistory extends JFrame {
                 int index = list1.getSelectedIndex();
                 String select=list1.getSelectedValue();
                 String[] userArray= new String[2];
-                if(select.contains(".vs")) {
+
+                int ind = select.lastIndexOf("(");
+                if (ind > 0) {
+                    select = select.substring(0, ind);
+                }
+
+                if(select.contains(".vs.")) {
                     userArray = select.split(".vs.", 2);
                 }
                 else {
@@ -148,8 +159,9 @@ public class HamkaGameHistory extends JFrame {
                     userArray[1]="Username 2";
                 }
                 setIndex(index);
+
                 try {
-                    translateTextFile();
+                    translateTextFile(files[getIndex()].getCanonicalPath());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -180,6 +192,50 @@ public class HamkaGameHistory extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE,
                         icon);
 
+            }
+
+            if(externalBtn==src){
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Hamka Load TEXT", "txt");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String path1 = chooser.getSelectedFile().getCanonicalPath();
+                        translateTextFile(path1);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+
+                    dispose();
+                    HamkaWindow window = new HamkaWindow("Username 1", "Username 2");
+
+
+                    String s = (String) list1.getSelectedValue();
+
+                    String a = String.valueOf(getFinalTiles());
+                    a = a.replace(",", "");
+                    a = a.replace(" ", "");
+                    a = a.replace("[", "");
+                    a = a.replace("]", "");
+
+
+                    window.setGameState(a);
+                    window.getBoard().getGame().setP1Turn(getTurn());
+                    window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
+                    window.setVisible(true);
+                    window.getBoard().getGame().refreshColors();
+                    window.getBoard().handleClick(0, 0, 2);
+
+
+                    final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+                    JOptionPane.showMessageDialog(null,
+                            "External Loaded Successfully!", "Load game",
+                            JOptionPane.INFORMATION_MESSAGE,
+                            icon);
+                }
             }
             if (backBtn == src) {
                 dispose();
