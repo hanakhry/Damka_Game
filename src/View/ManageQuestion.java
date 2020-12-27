@@ -107,6 +107,12 @@ public class ManageQuestion extends JFrame {
             }
         });
 
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearFields();
+            }
+                                     });
         //save changes to question
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -271,6 +277,10 @@ public class ManageQuestion extends JFrame {
         field.setBorder(BorderFactory.createLineBorder(Color.green));
     }
 
+    private void deleteActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
    public class radioButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
@@ -314,6 +324,7 @@ public class ManageQuestion extends JFrame {
         answer4 = new JTextField();
         choice4 = new JRadioButton();
         backButton = new JButton();
+        clearButton = new JButton();
         saveButton = new JButton();
         deleteButton = new JButton();
         addButton = new JButton();
@@ -402,13 +413,14 @@ public class ManageQuestion extends JFrame {
 
         //======== selectPanel ========
         {
-            selectPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-            swing.border.EmptyBorder(0,0,0,0), "",javax.swing.border
-            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
-            ,java.awt.Font.BOLD,12),java.awt.Color.red),selectPanel. getBorder
-            ()));selectPanel. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-            .beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-            ();}});
+            selectPanel.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+            new javax.swing.border.EmptyBorder(0,0,0,0),null
+            ,javax.swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM
+            ,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12)
+            ,java.awt.Color.red),selectPanel. getBorder()));selectPanel. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
+            ){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException()
+            ;}});
             selectPanel.setLayout(new MigLayout(
                 "hidemode 3",
                 // columns
@@ -484,17 +496,22 @@ public class ManageQuestion extends JFrame {
         backButton.setText("Back");
         contentPane.add(backButton, "cell 3 18");
 
+        //---- clearButton ----
+        clearButton.setText("Clear Fields");
+        contentPane.add(clearButton, "cell 6 18");
+
         //---- saveButton ----
         saveButton.setText("Save Edit");
-        contentPane.add(saveButton, "cell 6 18");
+        contentPane.add(saveButton, "cell 9 18");
 
         //---- deleteButton ----
         deleteButton.setText("Delete");
-        contentPane.add(deleteButton, "cell 9 18");
+        deleteButton.addActionListener(e -> deleteActionPerformed(e));
+        contentPane.add(deleteButton, "cell 12 18");
 
         //---- addButton ----
         addButton.setText("Add");
-        contentPane.add(addButton, "cell 12 18");
+        contentPane.add(addButton, "cell 15 18");
         setSize(1150, 1055);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -519,6 +536,7 @@ public class ManageQuestion extends JFrame {
     private JTextField answer4;
     private JRadioButton choice4;
     private JButton backButton;
+    private JButton clearButton;
     private JButton saveButton;
     private JButton deleteButton;
     private JButton addButton;

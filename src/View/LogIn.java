@@ -46,6 +46,10 @@ public class LogIn extends JFrame {
         // TODO add your code here
     }
 
+    private void loginKeyPressed(KeyEvent e) {
+        // TODO add your code here
+    }
+
 
 
     private void initComponents() {
@@ -114,6 +118,12 @@ public class LogIn extends JFrame {
         //---- login ----
         login.setText("Log in");
         login.addActionListener(e -> loginActionPerformed(e));
+        login.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                loginKeyPressed(e);
+            }
+        });
         contentPane.add(login, "cell 13 8");
         pack();
         setLocationRelativeTo(getOwner());
