@@ -1,20 +1,16 @@
 package View;
 
 import Controller.CountTimerScore;
-import Model.Game;
-import Model.SysData;
-import org.w3c.dom.Text;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.io.FileWriter;
 /**
  * This class provides a user interface component to control
  * options for the game of Hamka being played in the window.
@@ -249,8 +245,15 @@ public class HamkaOptionPanel extends JPanel {
 					c.printStackTrace();
 				}
 
-
-
+                path=path.replace(".txt","");
+				path=path.replace("TEXT\\" , "");
+				String msg="<html>Game Saved: <b>"+path+"</b></html>";
+				JLabel label = new JLabel(msg);
+				final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+				JOptionPane.showMessageDialog(null,
+						label, "Save game",
+						JOptionPane.INFORMATION_MESSAGE,
+						icon);
 			}
 
 
