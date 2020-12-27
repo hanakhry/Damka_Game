@@ -60,7 +60,7 @@ public class HamkaGameHistory extends JFrame {
         backBtn.addActionListener(new HamkaHistoryListener());
         final DefaultListModel<String> l1 = new DefaultListModel<>();
         files = countNumberOfTxtFile();
-        /** add all the txt file to l1 list**/
+         /** add all the txt file to l1 list**/
         for (File file : files) {
 
             l1.addElement(file.getName().replace(".txt", ""));
@@ -87,7 +87,7 @@ public class HamkaGameHistory extends JFrame {
         super.setVisible(true);
         this.add(layout);
     }
-
+    //return all the txt file in TEXT directory
     public File[] countNumberOfTxtFile() throws IOException {
         File f = new File("TEXT");
 
@@ -169,7 +169,6 @@ public class HamkaGameHistory extends JFrame {
                 HamkaWindow window = new HamkaWindow(userArray[0], userArray[1]);
 
 
-                String s = (String) list1.getSelectedValue();
 
                 String a = String.valueOf(getFinalTiles());
                 a = a.replace(",", "");

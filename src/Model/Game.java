@@ -76,31 +76,31 @@ public class Game {
 		restart();
 	}
 
-	public Game(String state) {
-		setGameState(state);
-	}
+//	public Game(String state) {
+//		setGameState(state);
+//	}
 
-	public Game(int id,Board board, boolean isP1Turn, int skipIndex) {
-		this.id=id;
-		this.board = (board == null)? new Board() : board;
-		this.isP1Turn = isP1Turn;
-		this.skipIndex = skipIndex;
-		this.colors = new HashMap<>();
-		this.redSquare = new ArrayList<>();
-		this.blueSquare = new ArrayList<>();
-		this.greenSquare = new ArrayList<>();
-		this.orangeSquares = new ArrayList<>();
-		this.yellowSquares = new ArrayList<>();
-		this.blueSquare = new ArrayList<>();
-		this.tempGreen = new Point();
-		this.tempRed = new Point();
-		this.tempBlue = new Point();
-		this.tempYellow = new ArrayList<>();
-		this.tempIsOrange = false;
-		this.tempIsGreen = false;
-		this.black1Player = new Player("",0);
-		this.white2Player = new Player("",0);
-	}
+//	public Game(Board board, boolean isP1Turn, int skipIndex) {
+//		this.id=id;
+//		this.board = (board == null)? new Board() : board;
+//		this.isP1Turn = isP1Turn;
+//		this.skipIndex = skipIndex;
+//		this.colors = new HashMap<>();
+//		this.redSquare = new ArrayList<>();
+//		this.blueSquare = new ArrayList<>();
+//		this.greenSquare = new ArrayList<>();
+//		this.orangeSquares = new ArrayList<>();
+//		this.yellowSquares = new ArrayList<>();
+//		this.blueSquare = new ArrayList<>();
+//		this.tempGreen = new Point();
+//		this.tempRed = new Point();
+//		this.tempBlue = new Point();
+//		this.tempYellow = new ArrayList<>();
+//		this.tempIsOrange = false;
+//		this.tempIsGreen = false;
+//		this.black1Player = new Player("",0);
+//		this.white2Player = new Player("",0);
+//	}
 	public Game(boolean turn) {
 		this.colors = new HashMap<>();
 		this.redSquare = new ArrayList<>();
@@ -119,6 +119,25 @@ public class Game {
 		this.black1Player = new Player("",0);
 		this.white2Player = new Player("",0);
 
+	}
+
+	public Game(ArrayList<Integer> tiles, boolean p1Turn) {
+		this.colors = new HashMap<>();
+		this.redSquare = new ArrayList<>();
+		this.greenSquare = new ArrayList<>();
+		this.orangeSquares = new ArrayList<>();
+		this.yellowSquares = new ArrayList<>();
+		this.isOrange=false;
+		this.isGreen=false;
+		this.tempGreen = new Point();
+		this.tempRed = new Point();
+		this.tempBlue = new Point();
+		this.tempYellow = new ArrayList<>();
+		this.tempIsOrange = false;
+		this.tempIsGreen = false;
+		isP1Turn = p1Turn;
+		this.black1Player = new Player("",0);
+		this.white2Player = new Player("",0);
 	}
 
 	/**
@@ -383,6 +402,9 @@ public class Game {
 
 	public int getSkipIndex() {
 		return skipIndex;
+	}
+	public boolean getP1Turn() {
+		return isP1Turn;
 	}
 
 	/**

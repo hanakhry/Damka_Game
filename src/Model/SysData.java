@@ -3,6 +3,7 @@ package Model;
 import Utils.Constants;
 import Utils.Level;
 import View.HamkaQuestion;
+import View.HamkaWindow;
 import org.json.simple.*;
 
 import javax.swing.*;
@@ -280,65 +281,6 @@ public final class SysData {
         return isTurn;
     }
 
-
-
-    //add game to json(Save)
-    public void addGameToJSON(String path, Game game) throws IOException {
-
-
-        //array that holds all of the existing games
-        ArrayList<Game> appendList = new ArrayList<>();
-        ArrayList<Integer> tiles = new ArrayList<Integer>();
-        if(games.isEmpty()){
-            importGamesFromTxtFile(path);
-        }
-
-        for (Map.Entry<Integer, Game> entry : games.entrySet()) {
-            appendList.add(entry.getValue());
-        }
-        try {
-            //new array to hold the games
-            JsonArray games = new JsonArray();
-
-            //add the game to array
-            JsonObject jsonObject = new JsonObject();
-            //~~~~~~
-            jsonObject.put("Id", game.getId());
-            //game -> get tiles
-            //get ->(boolean)turn -> B/W
-            System.out.println("sssss"+game.getGameState());
-//            jsonObject.put("Tiles", game.getGameState());
-            String turn;
-            boolean isP1Turn=game.isP1Turn();
-            if(isP1Turn==true)
-                turn="B";
-            turn="W";
-            jsonObject.put("Turn", turn);
-
-            //add already existing objects back into the file
-            for(Game q : appendList){
-                //~~~~~
-                jsonObject.put("Id", game.getId());
-                //game -> get tiles
-                //get ->(boolean)turn -> B/W
-//                jsonObject.put("Tiles", game.getBoard());
-                String turn1;
-                boolean isP1Turn1=game.isP1Turn();
-                if(isP1Turn1==true)
-                    turn1="B";
-                turn1="W";
-                jsonObject.put("Turn", turn1);
-            }
-
-            JsonObject doc = new JsonObject();
-            doc.put("games", games);
-
-            writeToFile(path, doc);
-        } catch ( NullPointerException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public int randomQuestionFromJSON(String path) {
         try (FileReader reader = new FileReader(new File(path))) {

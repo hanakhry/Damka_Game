@@ -1,12 +1,20 @@
 package View;
 
 import Controller.CountTimerScore;
+import Model.Game;
+import Model.SysData;
+import org.w3c.dom.Text;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.io.FileWriter;
 /**
  * This class provides a user interface component to control
  * options for the game of Hamka being played in the window.
@@ -39,6 +47,9 @@ public class HamkaOptionPanel extends JPanel {
 	public CountTimerScore cntd2=new CountTimerScore(this, timeLabel2,scoreLabel2,2);
 	private JLabel timeLabel3=new JLabel();
 	public CountTimerScore cntd3=new CountTimerScore(this, timeLabel3,null,3);
+	public File[] files;
+
+
 
 	/**
 	 * Creates a new option panel for the specified Hamka window.
@@ -127,6 +138,7 @@ public class HamkaOptionPanel extends JPanel {
 	private class HamkaOptionListener implements ActionListener {
 
 
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -175,39 +187,71 @@ public class HamkaOptionPanel extends JPanel {
 
 			}
 
-//			if(src==saveBtn){
-//				ArrayList<Integer> tiles=new ArrayList<>();
-//				SysData data=new SysData();
-//				HamkaBoard state=window.getBoard();
-//				for(int i=0;i<33;i++){
-//					int a=(state.getGame().getGameState().charAt(i));
-//					if(a== '6') a=2;
-//					if(a=='0') a=0;
-//					if(a=='4'||a=='1') a=1;
-//					if(a=='7') a=22;
-//					if(a=='5') a=11;
-//
-//					tiles.add(i,a);
-//				}
-////				System.out.println("Test: ");
-////				for (int number : tiles) {
-////					System.out.print(number+" ");
-////				}
-////				System.out.println("Test: ");
-//			//	System.out.println(tiles.get(1));
-////				System.out.println("GameID:"+state.getGame().getId());
-//				Game game=new Game(state.getGame().getId(),tiles,state.getGame().isP1Turn());
-//				System.out.println("Test2 "+tiles);
-//
-//				try {
-//
-//					data.addGameToJSON("JSON/games.JSON",game);
-//				} catch (IOException ioException) {
-//					ioException.printStackTrace();
-//				}
-//
-//
-//			}
+			if(src==saveBtn){
+
+
+				ArrayList<Integer> tiles=new ArrayList<>();
+				try {
+					files = countNumberOfTxtFile();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+
+				HamkaBoard state=window.getBoard();
+				for(int i=0;i<33;i++){
+					int a=(state.getGame().getGameState().charAt(i));
+					if(a== '6') a=2;
+					if(a=='0') a=0;
+					if(a=='4'||a=='1') a=1;
+					if(a=='7') a=22;
+					if(a=='5') a=11;
+                   if(i!=32)
+					tiles.add(i,a);
+                   else {
+                   	if(a==0){
+                   		a='B';
+                   		tiles.add(i,a);}
+                   	else{ a='W';
+						tiles.add(i,a);}
+				   }
+				}
+				int i=1;
+
+				//create the path of new txt file
+				String user1=window.getBoard().getGame().getBlack1Player().getpUsername();
+				String user2=window.getBoard().getGame().getWhite2Player().getpUsername();
+				String path=("TEXT\\"+user1+".vs."+user2+".txt");
+
+				boolean result=pathExist(path);
+				//loop to change path if exist
+				while(result==true){
+					path=("TEXT\\"+user1+".vs."+user2+"("+i+")"+".txt");
+					i++;
+					result=pathExist(path);
+				}
+                     //create new file and write inside
+				try {
+					FileWriter myObj = new FileWriter(path);
+					String a = String.valueOf(tiles);
+
+					a=a.replace("87","B");
+					a=a.replace("66","W");
+					a = a.replace(" ", "");
+					a = a.replace("[", "");
+					a = a.replace("]", "");
+					myObj.write(a);
+					myObj.close();
+
+
+
+				} catch (IOException c) {
+					System.out.println("An error occurred.");
+					c.printStackTrace();
+				}
+
+
+
+			}
 
 
 			if(src==quitBtn){
@@ -233,6 +277,29 @@ public class HamkaOptionPanel extends JPanel {
 	public HamkaWindow getWindow() {
 		return window;
 	}
+	//return all the txt file in TEXT directory
+	public File[] countNumberOfTxtFile() throws IOException {
+		File f = new File("TEXT");
+
+		FilenameFilter textFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".txt");
+			}
+		};
+
+		File[] files = f.listFiles(textFilter);
+
+		return files;
+	}
+	//check if path file exist in TEXT
+	public  boolean pathExist(String path){
+		File file = new File(path);
+		if(file.exists())
+		    return true;
+		else
+			return false;
+	}
+
 
 }
 
