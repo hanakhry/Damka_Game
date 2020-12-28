@@ -315,7 +315,9 @@ public class Board {
 		
 		return true;
 	}
-	
+	public int[] getState(){
+		return state;
+	}
 	@Override
 	public String toString() {
 		String obj = getClass().getName() + "[";

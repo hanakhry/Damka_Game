@@ -20,14 +20,14 @@ public class MoveLogic {
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
 	public static boolean isValidMove(Game game,
-			int startIndex, int endIndex) {
+									  int startIndex, int endIndex) {
 		return game == null? false : isValidMove(game.getBoard(),
 				game.isP1Turn(), startIndex, endIndex, game.getSkipIndex());
 	}
-	
+
 	/**
 	 * Determines if the specified move is valid based on the rules of Hamka.
-	 * 
+	 *
 	 * board, the current board to check against.
 	 * isP1Turn, the flag indicating if it is player 1's turn.
 	 * startIndex, the start index of the move.
@@ -36,8 +36,8 @@ public class MoveLogic {
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
 	public static boolean isValidMove(Board board, boolean isP1Turn,
-			int startIndex, int endIndex, int skipIndex) {
-		
+									  int startIndex, int endIndex, int skipIndex) {
+
 		// Basic checks
 		if (board == null || !Board.isValidIndex(startIndex) ||
 				!Board.isValidIndex(endIndex)) {
@@ -47,18 +47,18 @@ public class MoveLogic {
 		} else if (Board.isValidIndex(skipIndex) && skipIndex != startIndex) {
 			return false;
 		}
-		
+
 		// Perform the tests to validate the move
 		if (!validateIDs(board, isP1Turn, startIndex, endIndex)) {
 			return false;
 		} else if (!validateDistance(board, isP1Turn, startIndex, endIndex)) {
 			return false;
 		}
-		
+
 		// Passed all tests
 		return true;
 	}
-	
+
 	/**
 	 * Validates all ID related values for the start, end, and middle (if the move is a skip).
 	 * board, the current board to check against.
@@ -68,12 +68,12 @@ public class MoveLogic {
 	 * return true if and only if all IDs are valid.
 	 */
 	private static boolean validateIDs(Board board, boolean isP1Turn,
-			int startIndex, int endIndex) {
+									   int startIndex, int endIndex) {
 		// Check if end is clear
 		if (board.get(endIndex) != Constants.EMPTY) {
 			return false;
 		}
-		
+
 		// Check if proper ID
 		int id = board.get(startIndex);
 		if ((isP1Turn && id != Constants.BLACK_SOLDIER && id != Constants.BLACK_QUEEN)
@@ -97,29 +97,127 @@ public class MoveLogic {
 				return false;
 			}
 		}
-		
+
 		// Passed all tests
 		return true;
 	}
 
-	private static Point crossBoard(int startIndex){
+	private static Point[] zxc(int startIndex){
 		Point start = Board.toPoint(startIndex);
-		int d = 0;
-		int x;
-		int y;
-		System.out.println(start.x+"   "+ start.y);
-		if(start.x > start.y)
-			d = 8 - start.x;
-		else
-			d = 8 - start.y;
-		x = start.x + d;
-		y = start.y + d;
-		x = x % 8;
-		y = y % 8;
-		Point p = new Point(x, y);
-		return p;
+		int x = start.x;
+		int y = start.y;
+		while(x < 8 && y < 8){
+			x++;
+			y++;
+		}
+		if(x == 8)
+			x = 0;
+		if(y == 8)
+			y = 0;
+		Point point1 = new Point(x, y);
+
+		x = start.x;
+		y = start.y;
+		while ( x > -1 && y < 8) {
+			x--;
+			y++;
+		}
+		if(x == -1)
+			x = 7;
+		if(y == 8)
+			y = 0;
+		Point point2 = new Point(x, y);
+
+		x = start.x;
+		y = start.y;
+		while ( x > -1 && y > -1) {
+			x--;
+			y--;
+		}
+		if(x == -1)
+			x = 7;
+		if(y == -1)
+			y = 7;
+		Point point3 = new Point(x, y);
+
+		x = start.x;
+		y = start.y;
+		while ( x < 8 && y > -1) {
+			x++;
+			y--;
+		}
+		if(x == 8)
+			x = 0;
+		if(y == -1)
+			y = 7;
+		Point point4 = new Point(x, y);
+
+		Point points[] = new Point[4];
+		points[0] = point1;
+		points[1] = point2;
+		points[2] = point3;
+		points[3] = point4;
+		return points;
 	}
-	
+
+	private static boolean crossBoard(Point point, Point end, Board board, int endIndex, int movement){
+		int px = -1;
+		int py = -1;
+		if(movement == 1){
+			px = 1;
+			py = 1;
+		} else if(movement == 2){
+			py = 1;
+		}  else if(movement == 4){
+			px = 1;
+		}
+		int x = point.x;
+		int y = point.y;
+		System.out.println(x+"      "+y);
+		x += px;
+		y += py;
+		if(movement == 1){
+			while (x < 7 && y < 7) {
+				if (board.get(x, y) != 0) {
+					return false;
+				}
+				x += px;
+				y += py;
+			}
+		} else if(movement == 2){
+			while (x > 0 && y < 7) {
+				if (board.get(x, y) != 0) {
+					return false;
+				}
+				x += px;
+				y += py;
+			}
+		} else if(movement == 3){
+			while (x > 0 && y > 7) {
+				if (board.get(x, y) != 0) {
+					return false;
+				}
+				x += px;
+				y += py;
+			}
+		} else if(movement == 4){
+			while (x < 7 && y > 0) {
+				if (board.get(x, y) != 0) {
+					return false;
+				}
+				x += px;
+				y += py;
+			}
+		}
+		System.out.println("////////");
+		if(point.equals(end))
+			return true;
+		if(Board.toIndex(x, y) != endIndex) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Checks that the move is diagonal and magnitude 1 or 2 in the correct
 	 * direction. If the magnitude is not 2 (not a skip), it checks that
@@ -131,7 +229,7 @@ public class MoveLogic {
 	 * return true if and only if the move distance is valid.
 	 */
 	private static boolean validateDistance(Board board, boolean isP1Turn,
-			int startIndex, int endIndex) {
+											int startIndex, int endIndex) {
 
 		// Check that it was a diagonal move
 		Point start = Board.toPoint(startIndex);
@@ -148,11 +246,20 @@ public class MoveLogic {
 
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
-
+		System.out.println(startIndex);
 		if(onBoard == black || onBoard == white){
-			if (Math.abs(dx) != Math.abs(dy)) {
-				Point newStart = crossBoard(startIndex);
-				return validateDistance(board, isP1Turn, Board.toIndex(newStart), endIndex);
+			if(Math.abs(dx) != Math.abs(dy)) {
+				Point p[] = zxc(startIndex);
+				if(crossBoard(p[0], end, board, endIndex, 1))
+					return true;
+				else
+					if(crossBoard(p[1], end, board, endIndex, 2))
+						return true;
+					else
+						if(crossBoard(p[2], end, board, endIndex, 3))
+							return true;
+						else
+							return false;
 			}
 			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
 				return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
@@ -165,16 +272,18 @@ public class MoveLogic {
 
 			int endX = end.x-px;
 			int endY = end.y-py;
-			int toEat = board.get(endX, endY);
-			//can only move in order to move
-			/*if(onBoard == black){
-				if(toEat == white && toEat == whiteS)
+
+			//move only when eating is an option
+			/*int toEat = board.get(endX, endY);
+			if(onBoard == black){
+				if(toEat != white && toEat != whiteS)
 					return false;
 			}
 			if(onBoard == white){
 				if(toEat != black && toEat != blackS)
 					return false;
 			}*/
+
 			int x = start.x;
 			int y = start.y;
 			x += px;
@@ -213,13 +322,13 @@ public class MoveLogic {
 		} else {
 			return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
 		}
-		
+
 		// Passed all tests
 		return true;
 	}
 
 	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
-		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2/* || dx == 0*/) {
+		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
 			return false;
 		}
 
@@ -263,7 +372,7 @@ public class MoveLogic {
 	 * return true if and only if the soldier at the point is safe.
 	 */
 	public static boolean isSafe(Board board, Point soldier) {
-		
+
 		// Trivial cases
 		if (board == null || soldier == null) {
 			return true;
@@ -276,7 +385,7 @@ public class MoveLogic {
 		if (id == Constants.EMPTY) {
 			return true;
 		}
-		
+
 		// Determine if it can be skipped
 		boolean isBlack = (id == Constants.BLACK_SOLDIER || id == Constants.BLACK_QUEEN);
 		List<Point> check = new ArrayList<>();
@@ -284,12 +393,12 @@ public class MoveLogic {
 		for (Point p : check) {
 			int start = Board.toIndex(p);
 			int tid = board.get(start);
-			
+
 			// Nothing here
 			if (tid == Constants.EMPTY || tid == Constants.INVALID) {
 				continue;
 			}
-			
+
 			// Check ID
 			boolean isWhite = (tid == Constants.WHITE_SOLDIER ||
 					tid == Constants.WHITE_QUEEN);
@@ -297,7 +406,7 @@ public class MoveLogic {
 				continue;
 			}
 			boolean isQueen = (tid == Constants.BLACK_QUEEN || tid == Constants.BLACK_QUEEN);
-			
+
 			// Determine if valid skip direction
 			int dx = (soldier.x - p.x) * 2;
 			int dy = (soldier.y - p.y) * 2;
@@ -309,7 +418,7 @@ public class MoveLogic {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 	/** MoveMore logic **/
