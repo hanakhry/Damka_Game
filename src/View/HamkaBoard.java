@@ -526,7 +526,7 @@ public class HamkaBoard extends JButton {
 						update(false);
 						copy.isChangeBlue = false;
 						showColor = true;
-						handleClick(0, 0, 2);
+						handleClick(x, y, 2);
 					} else{
 						reviveClickFlag = true;
                         JOptionPane.showMessageDialog(null, "Invalid revive location.");
@@ -606,7 +606,7 @@ public class HamkaBoard extends JButton {
 				JOptionPane.showMessageDialog(null, "Sadly your soldier can't move any further, turn skipped.");
 				saveRed = new Point(0, 0);
 				this.game.setP1Turn(!this.game.isP1Turn());
-				handleClick(0, 0, 0);
+				handleClick(x, y, 0);
 			}
 		}
 
