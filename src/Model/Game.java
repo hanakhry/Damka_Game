@@ -2,7 +2,7 @@ package Model;
 
 import Controller.RandomEvents;
 import Utils.Constants;
-
+import View.HamkaBoard;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -365,7 +365,7 @@ public class Game {
 		for (Point p : test) {
 			int i = Board.toIndex(p);
 			if (!MoveLogic.getMoves(board, i).isEmpty() ||
-					!MoveLogic.getSkips(board, i).isEmpty()) {
+					!MoveLogic.getSkips(board, i).isEmpty() || HamkaBoard.saveRed.equals(new Point(0, 0))) {
 				return false;
 			}
 		}

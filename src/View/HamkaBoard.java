@@ -372,8 +372,9 @@ public class HamkaBoard extends JButton {
 			g.setFont(new Font("Arial", Font.BOLD, 20));
 			if(getGame().getBlack1Player().getpScore() > getGame().getWhite2Player().getpScore())
 			msg = getGame().getBlack1Player().getpUsername()+" Won!";
-			else
-				msg= getGame().getWhite2Player().getpUsername()+" Won!";
+			else if (getGame().getBlack1Player().getpScore() < getGame().getWhite2Player().getpScore())
+				     msg= getGame().getWhite2Player().getpUsername()+" Won!";
+			else msg= "It's a tie!";
 			width = g.getFontMetrics().stringWidth(msg);
 			g.setColor(new Color(240, 240, 255));
 			g.fillRoundRect(W / 2 - width / 2 - 5,
