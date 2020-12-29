@@ -193,7 +193,6 @@ public class MoveLogic {
 		x += px;
 		y += py;
 		if(movement == 1){
-			System.out.println(point);
 			while (x < 7 && y < 7 && x != end.x) {
 				if (board.get(x, y) != 0) {
 					return false;
@@ -202,7 +201,6 @@ public class MoveLogic {
 				y += py;
 			}
 		} else if(movement == 2){
-			System.out.println(point);
 			while (x > 0 && y < 7 && x != end.x) {
 				if (board.get(x, y) != 0) {
 					return false;
@@ -211,7 +209,6 @@ public class MoveLogic {
 				y += py;
 			}
 		} else if(movement == 3){
-			System.out.println(point);
 			while (x > 0 && y < 7 && x != end.x) {
 				if (board.get(x, y) != 0) {
 					return false;
@@ -220,7 +217,6 @@ public class MoveLogic {
 				y += py;
 			}
 		} else if(movement == 4){
-			System.out.println(point);
 			while (x < 7 && y > 0 && x != end.x) {
 				if (board.get(x, y) != 0) {
 					return false;
@@ -270,7 +266,6 @@ public class MoveLogic {
 		if(onBoard == black || onBoard == white){
 			if(Math.abs(dx) != Math.abs(dy)) {
 				Point p[] = zxc(startIndex, board);
-				System.out.println("/////////");
 				if(crossBoard(p[0], end, board, endIndex, 1))
 					return true;
 				else

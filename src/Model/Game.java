@@ -52,6 +52,7 @@ public class Game {
 	public boolean isGreen;
 	public boolean isOrange;
 
+	private boolean queenSkip = false;
 
 
 	/** **/
@@ -242,7 +243,10 @@ public class Game {
 				x += px;
 				y += py;
 			}
+			System.out.println("qqq");
 			this.board.set(x, y, 0);
+			if(!MoveLogic.getSkips(board, endIndex).isEmpty())
+				queenSkip = true;
 		}
 		// Make the soldier a queen if necessary
 		int id = board.get(endIndex);
@@ -262,7 +266,11 @@ public class Game {
 		}
 		if (!midValid || MoveLogic.getSkips(
 				board.copy(), endIndex).isEmpty()) {
-			switchTurn = true;
+			if(!queenSkip) {
+				switchTurn = true;
+			} else{
+				queenSkip = false;
+			}
 		}
 
 
