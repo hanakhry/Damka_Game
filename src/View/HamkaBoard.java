@@ -227,6 +227,10 @@ public class HamkaBoard extends JButton {
 		//green square
 		if (this.game.isGreen) {
 			try {
+				if(greenSquare.equals(new Point(0, 0))){
+					game.refreshColors();
+				}
+
 				g.setColor(Color.green);
 				g.fillRect(OFFSET_X + greenSquare.x * BOX_SIZE + 3, OFFSET_Y + greenSquare.y * BOX_SIZE + 3, BOX_SIZE - 6, BOX_SIZE - 6);
 			} catch (NullPointerException e) {
@@ -445,8 +449,8 @@ public class HamkaBoard extends JButton {
 
 	//checks that 4 points surrounding a point are safe
 	private boolean areaCheck(Point p, Game game){
-		int soldier = game.isP1Turn() ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
-		int queen = game.isP1Turn() ? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN;
+		int soldier = game.isP1Turn() ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		int queen = game.isP1Turn() ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
 		int check;
 
 
@@ -475,7 +479,7 @@ public class HamkaBoard extends JButton {
 		String str = game.getGameState();
 		String str1 = str.substring(0, game.getBoard().toIndex(p));
 		String str2 = str.substring(game.getBoard().toIndex(p) + 1);
-		int turn = game.isP1Turn() ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		int turn = game.isP1Turn() ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
 		return str1 + turn + str2;
 	}
 
@@ -525,6 +529,7 @@ public class HamkaBoard extends JButton {
 						game.setGameState(str);
 						update(false);
 						copy.isChangeBlue = false;
+						game.setP1Turn(!copy.isP1Turn());
 						showColor = true;
 						handleClick(x, y, 2);
 					} else{

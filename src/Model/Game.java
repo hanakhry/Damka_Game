@@ -324,7 +324,7 @@ public class Game {
 		}
 
 
-		if (switchTurn && !redSwitch) {
+		if (switchTurn && !redSwitch && !isChangeBlue) {
 			this.isP1Turn = !isP1Turn;
 			this.skipIndex = -1;
 		}
