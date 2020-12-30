@@ -1,6 +1,7 @@
 package Model;
 
 import Utils.Constants;
+import Utils.PointEaten;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ public class MoveLogic {
 	 * parameter endIndex, the end index of the move.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static boolean isValidMove(Game game,
+	public static PointEaten isValidMove(Game game,
 									  int startIndex, int endIndex) {
-		return game == null? false : isValidMove(game.getBoard(),
+		return game == null? new PointEaten(false, null) : isValidMove(game.getBoard(),
 				game.isP1Turn(), startIndex, endIndex, game.getSkipIndex());
 	}
 
@@ -35,28 +36,29 @@ public class MoveLogic {
 	 * skipIndex, the index of the last skip this turn.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static boolean isValidMove(Board board, boolean isP1Turn,
+	public static PointEaten isValidMove(Board board, boolean isP1Turn,
 									  int startIndex, int endIndex, int skipIndex) {
 
 		// Basic checks
+		PointEaten check = validateDistance(board, isP1Turn, startIndex, endIndex);
 		if (board == null || !Board.isValidIndex(startIndex) ||
 				!Board.isValidIndex(endIndex)) {
-			return false;
+			return new PointEaten(false, null);
 		} else if (startIndex == endIndex) {
-			return false;
+			return new PointEaten(false, null);
 		} else if (Board.isValidIndex(skipIndex) && skipIndex != startIndex) {
-			return false;
+			return new PointEaten(false, null);
 		}
 
 		// Perform the tests to validate the move
 		if (!validateIDs(board, isP1Turn, startIndex, endIndex)) {
-			return false;
-		} else if (!validateDistance(board, isP1Turn, startIndex, endIndex)) {
-			return false;
+			return new PointEaten(false, null);
+		} else if (!check.check) {
+			return new PointEaten(false, null);
 		}
 
 		// Passed all tests
-		return true;
+		return new PointEaten(true, null);
 	}
 
 	/**
@@ -97,27 +99,43 @@ public class MoveLogic {
 				return false;
 			}
 		}
-
 		// Passed all tests
 		return true;
 	}
 
-	private static Point[] zxc(int startIndex, Board board){
+	/**
+	 * from startingIndex the method will move to all 4 possible close border sides, then decides where it will be if
+	 * the queen moved outside the border
+	 * @param startIndex
+	 * @param board
+	 * @return
+	 */
+	private static Point[] getBorder(int startIndex, Board board){
+		boolean skipFlag = false;
+		Point point1 = null;
+		Point point2 = null;
+		Point point3 = null;
+		Point point4 = null;
 		Point start = Board.toPoint(startIndex);
 		int x = start.x;
 		int y = start.y;
 		while(x < 8 && y < 8){
 			x++;
 			y++;
-			if (board.get(x, y) != 0) {
-
+			if (board.get(x, y) != 0 && x < 8 && y < 8) {
+				skipFlag = true;
+				break;
 			}
 		}
 		if(x == 8)
 			x = 0;
 		if(y == 8)
 			y = 0;
-		Point point1 = new Point(x, y);
+		if(!skipFlag) {
+			point1 = new Point(x, y);
+		} else{
+			skipFlag = false;
+		}
 
 
 		x = start.x;
@@ -125,15 +143,20 @@ public class MoveLogic {
 		while ( x > -1 && y < 8) {
 			x--;
 			y++;
-			if (board.get(x, y) != 0) {
-
+			if (board.get(x, y) != 0 && x > -1 && y < 8) {
+				skipFlag = true;
+				break;
 			}
 		}
 		if(x == -1)
 			x = 7;
 		if(y == 8)
 			y = 0;
-		Point point2 = new Point(x, y);
+		if(!skipFlag) {
+			point2 = new Point(x, y);
+		} else{
+			skipFlag = false;
+		}
 
 
 		x = start.x;
@@ -141,15 +164,20 @@ public class MoveLogic {
 		while ( x > -1 && y > -1) {
 			x--;
 			y--;
-			if (board.get(x, y) != 0) {
-
+			if (board.get(x, y) != 0 && x > -1 && y > -1) {
+				skipFlag = true;
+				break;
 			}
 		}
 		if(x == -1)
 			x = 7;
 		if(y == -1)
 			y = 7;
-		Point point3 = new Point(x, y);
+		if(!skipFlag) {
+			point3 = new Point(x, y);
+		} else{
+			skipFlag = false;
+		}
 
 
 		x = start.x;
@@ -157,8 +185,8 @@ public class MoveLogic {
 		while ( x < 8 && y > -1) {
 			x++;
 			y--;
-			if (board.get(x, y) != 0) {
-
+			if (board.get(x, y) != 0 && x < 8 && y > -1) {
+				skipFlag = true;
 				break;
 			}
 		}
@@ -166,8 +194,9 @@ public class MoveLogic {
 			x = 0;
 		if(y == -1)
 			y = 7;
-		Point point4 = new Point(x, y);
-
+		if(!skipFlag) {
+			point4 = new Point(x, y);
+		}
 
 		Point points[] = new Point[4];
 		points[0] = point1;
@@ -177,7 +206,20 @@ public class MoveLogic {
 		return points;
 	}
 
-	private static boolean crossBoard(Point point, Point end, Board board, int endIndex, int movement){
+	/**
+	 * the method will check if it's a valid move for the queen from point to end
+	 * @param point new starting point on the board
+	 * @param end end point to get to
+	 * @param board
+	 * @param endIndex
+	 * @param movement determines in which direction the queen is moving
+	 * @return true if it's a possible move
+	 */
+	private static boolean crossBoard(Point point, Point end, Board board, int endIndex, boolean isP1Turn, int movement){
+		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
+		if(point.equals(end) && board.get(endIndex) == 0)
+			return true;
 		int px = -1;
 		int py = -1;
 		if(movement == 1){
@@ -190,11 +232,13 @@ public class MoveLogic {
 		}
 		int x = point.x;
 		int y = point.y;
-		x += px;
-		y += py;
 		if(movement == 1){
 			while (x < 7 && y < 7 && x != end.x) {
 				if (board.get(x, y) != 0) {
+					int onBoard = board.get(end.x-1, end.y-1);
+					if((onBoard == soldier || onBoard == queen) && x == end.x-1) {
+						return true;
+					}
 					return false;
 				}
 				x += px;
@@ -203,14 +247,22 @@ public class MoveLogic {
 		} else if(movement == 2){
 			while (x > 0 && y < 7 && x != end.x) {
 				if (board.get(x, y) != 0) {
+					int onBoard = board.get(end.x+1, end.y-1);
+					if((onBoard == soldier || onBoard == queen) && x == end.x+1) {
+						return true;
+					}
 					return false;
 				}
 				x += px;
 				y += py;
 			}
 		} else if(movement == 3){
-			while (x > 0 && y < 7 && x != end.x) {
+			while (x > 0 && y > 0 && x != end.x) {
 				if (board.get(x, y) != 0) {
+					int onBoard = board.get(end.x+1, end.y+1);
+					if((onBoard == soldier || onBoard == queen) && x == end.x+1) {
+						return true;
+					}
 					return false;
 				}
 				x += px;
@@ -219,6 +271,10 @@ public class MoveLogic {
 		} else if(movement == 4){
 			while (x < 7 && y > 0 && x != end.x) {
 				if (board.get(x, y) != 0) {
+					int onBoard = board.get(end.x-1, end.y+1);
+					if((onBoard == soldier || onBoard == queen) && x == end.x-1) {
+						return true;
+					}
 					return false;
 				}
 				x += px;
@@ -235,6 +291,30 @@ public class MoveLogic {
 		return true;
 	}
 
+	private static boolean middlePoint(int startIndex, int endIndex, Board board, boolean isP1Turn){
+		Point middle = Board.middle(startIndex, endIndex);
+		int midID = board.get(Board.toIndex(middle));
+		if (midID < 0) {
+			// Get the correct soldiers
+			List<Point> soldiers;
+			if (isP1Turn) {
+				soldiers = board.find(Constants.BLACK_SOLDIER);
+				soldiers.addAll(board.find(Constants.BLACK_QUEEN));
+			} else {
+				soldiers = board.find(Constants.WHITE_SOLDIER);
+				soldiers.addAll(board.find(Constants.WHITE_QUEEN));
+			}
+			// Check if any of them have a skip available
+			for (Point point : soldiers) {
+				int index = Board.toIndex(point);
+				if (!getSkips(board, index).isEmpty()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Checks that the move is diagonal and magnitude 1 or 2 in the correct
 	 * direction. If the magnitude is not 2 (not a skip), it checks that
@@ -245,102 +325,80 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if the move distance is valid.
 	 */
-	private static boolean validateDistance(Board board, boolean isP1Turn,
-											int startIndex, int endIndex) {
+	private static PointEaten validateDistance(Board board, boolean isP1Turn,
+											   int startIndex, int endIndex) {
 
 		// Check that it was a diagonal move
 		Point start = Board.toPoint(startIndex);
 		Point end = Board.toPoint(endIndex);
 		int black = Constants.BLACK_QUEEN;
 		int white = Constants.WHITE_QUEEN;
-		int blackS = Constants.BLACK_SOLDIER;
-		int whiteS = Constants.WHITE_SOLDIER;
 
+
+		boolean flags[] = new boolean[4];
 		int onBoard = board.get(startIndex);
-
 		int px = -1;
 		int py = -1;
 
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
+		//if selected is queen
 		if(onBoard == black || onBoard == white){
-			if(Math.abs(dx) != Math.abs(dy)) {
-				Point p[] = zxc(startIndex, board);
-				if(crossBoard(p[0], end, board, endIndex, 1))
-					return true;
-				else
-					if(crossBoard(p[1], end, board, endIndex, 2))
-						return true;
+			//not a diagonal move
+			if(Math.abs(dx) != 1) {
+				Point p[] = getBorder(startIndex, board);
+				for (int i = 0; i < 4; i++) {
+					if (p[i] == null)
+						flags[i] = false;
 					else
-						if(crossBoard(p[2], end, board, endIndex, 3))
-							return true;
-						else
-							return false;
-			}
-			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
-				return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
-			}
-
-			if(dx > 0)
-				px = 1;
-			if(dy > 0)
-				py = 1;
-
-			int endX = end.x-px;
-			int endY = end.y-py;
-
-			//move only when eating is an option
-			/*int toEat = board.get(endX, endY);
-			if(onBoard == black){
-				if(toEat != white && toEat != whiteS)
-					return false;
-			}
-			if(onBoard == white){
-				if(toEat != black && toEat != blackS)
-					return false;
-			}*/
-
-			int x = start.x;
-			int y = start.y;
-			x += px;
-			y += py;
-			while(x != endX){
-				if(board.get(x,y) != 0) {
-					return false;
+						flags[i] = true;
 				}
+				//check all 4 possible points
+				if (flags[0] && crossBoard(p[0], end, board, endIndex, isP1Turn, 1)) {
+					return new PointEaten(true, new Point(end.x-1, end.y-1));
+				} else if (flags[1] && crossBoard(p[1], end, board, endIndex, isP1Turn, 2)) {
+					return new PointEaten(true, new Point(end.x+1, end.y-1));
+				} else if (flags[2] && crossBoard(p[2], end, board, endIndex, isP1Turn, 3)) {
+					return new PointEaten(true, new Point(end.x+1, end.y+1));
+				} else if (flags[3] && crossBoard(p[3], end, board, endIndex, isP1Turn, 4)) {
+					return new PointEaten(true, new Point(end.x-1, end.y+1));
+				}
+			}
+			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) > 1){
+				if (dx > 0)
+					px = 1;
+				if (dy > 0)
+					py = 1;
+
+				int endX = end.x - px;
+
+				int x = start.x;
+				int y = start.y;
 				x += px;
 				y += py;
-			}
-
-			// Check that if this is not a skip, there are none available
-			Point middle = Board.middle(startIndex, endIndex);
-			int midID = board.get(Board.toIndex(middle));
-			if (midID < 0) {
-				// Get the correct soldiers
-				List<Point> soldiers;
-				if (isP1Turn) {
-					soldiers = board.find(Constants.BLACK_SOLDIER);
-					soldiers.addAll(board.find(Constants.BLACK_QUEEN));
-				} else {
-					soldiers = board.find(Constants.WHITE_SOLDIER);
-					soldiers.addAll(board.find(Constants.WHITE_QUEEN));
-				}
-				// Check if any of them have a skip available
-				for (Point p : soldiers) {
-					int index = Board.toIndex(p);
-					if (!getSkips(board, index).isEmpty()) {
-						return false;
+				while (x != endX) {
+					if (board.get(x, y) != 0) {
+						return new PointEaten(false, null);
 					}
+					x += px;
+					y += py;
 				}
 
+				// Check that if this is not a skip, there are none available
+				return new PointEaten(middlePoint(startIndex, endIndex, board, isP1Turn), null);
+
+			}
+			else if (Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
+				boolean check = middlePoint(startIndex, endIndex, board, isP1Turn);
+				return new PointEaten(check, null);
 			}
 
 		} else {
-			return normalMove(board,dx, dy, startIndex, endIndex, isP1Turn);
+			boolean check = normalMove(board, dx, dy, startIndex, endIndex, isP1Turn);
+			return new PointEaten(check, null);
 		}
-
 		// Passed all tests
-		return true;
+		return new PointEaten(true, null);
 	}
 
 	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
@@ -356,28 +414,7 @@ public class MoveLogic {
 		}
 
 		// Check that if this is not a skip, there are none available
-		Point middle = Board.middle(startIndex, endIndex);
-		int midID = board.get(Board.toIndex(middle));
-		if (midID < 0) {
-
-			// Get the correct soldiers
-			List<Point> soldiers;
-			if (isP1Turn) {
-				soldiers = board.find(Constants.BLACK_SOLDIER);
-				soldiers.addAll(board.find(Constants.BLACK_QUEEN));
-			} else {
-				soldiers = board.find(Constants.WHITE_SOLDIER);
-				soldiers.addAll(board.find(Constants.WHITE_QUEEN));
-			}
-
-			// Check if any of them have a skip available
-			for (Point p : soldiers) {
-				int index = Board.toIndex(p);
-				if (!getSkips(board, index).isEmpty()) {
-					return false;
-				}
-			}
-		}
+		middlePoint(startIndex, endIndex, board, isP1Turn);
 		return true;
 	}
 

@@ -2,6 +2,7 @@ package Model;
 
 import Controller.RandomEvents;
 import Utils.Constants;
+import Utils.PointEaten;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class Game {
 	/** The ID for game.*/
 	private int id;
 	/** The current state of the Hamka board. */
-	private Board board;
+	public Board board;
 
 	/** The flag indicating if it is player 1's (Black) turn. */
 	private boolean isP1Turn;
@@ -187,7 +188,8 @@ public class Game {
 	 */
 	public boolean[] move(Point start, Point end) {
 		boolean ret[] = new boolean[2];
-	    if(!this.redSwitch) {
+
+		if(!this.redSwitch) {
             if (start == null || end == null) {
             	ret[0] = false;
                 return ret;
@@ -210,11 +212,16 @@ public class Game {
 	public boolean[] move(int startIndex, int endIndex) {
 		boolean ret[] = new boolean[2];
 		// Validate the move
-		if (!MoveLogic.isValidMove(this, startIndex, endIndex)) {
+        PointEaten pe = MoveLogic.isValidMove(this, startIndex, endIndex);
+		if (!pe.check) {
 			ret[0] = false;
 			return ret;
 		}
 
+		/*if(pe.point != null) {
+			System.out.println(pe.point);
+			this.board.set(Board.toIndex(pe.point), Constants.EMPTY);
+		}*/
 		// Make the move
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
@@ -243,10 +250,10 @@ public class Game {
 				x += px;
 				y += py;
 			}
-			System.out.println("qqq");
 			this.board.set(x, y, 0);
+			isP1Turn = !isP1Turn;
 			if(!MoveLogic.getSkips(board, endIndex).isEmpty())
-				queenSkip = true;
+				isP1Turn = !isP1Turn;
 		}
 		// Make the soldier a queen if necessary
 		int id = board.get(endIndex);
@@ -259,17 +266,18 @@ public class Game {
 			switchTurn = true;
 		}
 
-		// Check if the turn should switch (i.e. no more skips)
-		boolean midValid = Board.isValidIndex(midIndex);
-		if (midValid) {
-			this.skipIndex = endIndex;
+		if(queenSkip){
+			switchTurn = false;
 		}
-		if (!midValid || MoveLogic.getSkips(
-				board.copy(), endIndex).isEmpty()) {
-			if(!queenSkip) {
+		// Check if the turn should switch (i.e. no more skips)
+		if(Math.abs(dx) == 1){
+			boolean midValid = Board.isValidIndex(midIndex);
+			if (midValid) {
+				this.skipIndex = endIndex;
+			}
+			if (!midValid || MoveLogic.getSkips(
+					board.copy(), endIndex).isEmpty()) {
 				switchTurn = true;
-			} else{
-				queenSkip = false;
 			}
 		}
 
@@ -330,7 +338,6 @@ public class Game {
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-
 
 		if (switchTurn && !redSwitch && !isChangeBlue) {
 			this.isP1Turn = !isP1Turn;

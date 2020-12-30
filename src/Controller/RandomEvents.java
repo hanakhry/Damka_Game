@@ -47,7 +47,7 @@ public class RandomEvents {
     private static List<Point> allValidMoves(Point p, List<Point> emptyBlackCells, Game g){
         List<Point> availableCells = new ArrayList<>();
         for(Point point : emptyBlackCells) {
-            if(MoveLogic.isValidMove(g, Board.toIndex(p), Board.toIndex(point))){
+            if(MoveLogic.isValidMove(g, Board.toIndex(p), Board.toIndex(point)).check){
                 availableCells.add(point);
             }
         }
