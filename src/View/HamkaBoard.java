@@ -483,7 +483,7 @@ public class HamkaBoard extends JButton {
 		return str1 + turn + str2;
 	}
 
-	//new game for unexisting scenario
+	//new game for non existing scenario
 	private Game newGame(Game game, Point p){
 		Game g = new Game();
 		g.setGameState(newString(game, p));
