@@ -1,7 +1,6 @@
 package Model;
 
 import Utils.Constants;
-import Utils.PointEaten;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -20,9 +19,9 @@ public class MoveLogic {
 	 * parameter endIndex, the end index of the move.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static PointEaten isValidMove(Game game,
+	public static boolean isValidMove(Game game,
 									  int startIndex, int endIndex) {
-		return game == null? new PointEaten(false, null) : isValidMove(game.getBoard(),
+		return game == null? false : isValidMove(game.getBoard(),
 				game.isP1Turn(), startIndex, endIndex, game.getSkipIndex());
 	}
 
@@ -36,29 +35,28 @@ public class MoveLogic {
 	 * skipIndex, the index of the last skip this turn.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static PointEaten isValidMove(Board board, boolean isP1Turn,
+	public static boolean isValidMove(Board board, boolean isP1Turn,
 									  int startIndex, int endIndex, int skipIndex) {
 
 		// Basic checks
-		PointEaten check = validateDistance(board, isP1Turn, startIndex, endIndex);
 		if (board == null || !Board.isValidIndex(startIndex) ||
 				!Board.isValidIndex(endIndex)) {
-			return new PointEaten(false, null);
+			return false;
 		} else if (startIndex == endIndex) {
-			return new PointEaten(false, null);
+			return false;
 		} else if (Board.isValidIndex(skipIndex) && skipIndex != startIndex) {
-			return new PointEaten(false, null);
+			return false;
 		}
 
 		// Perform the tests to validate the move
 		if (!validateIDs(board, isP1Turn, startIndex, endIndex)) {
-			return new PointEaten(false, null);
-		} else if (!check.check) {
-			return new PointEaten(false, null);
+			return false;
+		} else if (!validateDistance(board, isP1Turn, startIndex, endIndex)) {
+			return false;
 		}
 
 		// Passed all tests
-		return new PointEaten(true, null);
+		return true;
 	}
 
 	/**
@@ -218,8 +216,9 @@ public class MoveLogic {
 	private static boolean crossBoard(Point point, Point end, Board board, int endIndex, boolean isP1Turn, int movement){
 		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
 		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
-		if(point.equals(end) && board.get(endIndex) == 0)
+		if(point.equals(end) && board.get(endIndex) == 0) {
 			return true;
+		}
 		int px = -1;
 		int py = -1;
 		if(movement == 1){
@@ -325,7 +324,7 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if the move distance is valid.
 	 */
-	private static PointEaten validateDistance(Board board, boolean isP1Turn,
+	private static boolean validateDistance(Board board, boolean isP1Turn,
 											   int startIndex, int endIndex) {
 
 		// Check that it was a diagonal move
@@ -345,7 +344,7 @@ public class MoveLogic {
 		//if selected is queen
 		if(onBoard == black || onBoard == white){
 			//not a diagonal move
-			if(Math.abs(dx) != 1) {
+			if(Math.abs(dx) != 1 || Math.abs(dy) != 1) {
 				Point p[] = getBorder(startIndex, board);
 				for (int i = 0; i < 4; i++) {
 					if (p[i] == null)
@@ -355,14 +354,15 @@ public class MoveLogic {
 				}
 				//check all 4 possible points
 				if (flags[0] && crossBoard(p[0], end, board, endIndex, isP1Turn, 1)) {
-					return new PointEaten(true, new Point(end.x-1, end.y-1));
+					return true;
 				} else if (flags[1] && crossBoard(p[1], end, board, endIndex, isP1Turn, 2)) {
-					return new PointEaten(true, new Point(end.x+1, end.y-1));
+					return true;
 				} else if (flags[2] && crossBoard(p[2], end, board, endIndex, isP1Turn, 3)) {
-					return new PointEaten(true, new Point(end.x+1, end.y+1));
+					return true;
 				} else if (flags[3] && crossBoard(p[3], end, board, endIndex, isP1Turn, 4)) {
-					return new PointEaten(true, new Point(end.x-1, end.y+1));
+					return true;
 				}
+				//up until this point, all is well
 			}
 			if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) > 1){
 				if (dx > 0)
@@ -378,27 +378,27 @@ public class MoveLogic {
 				y += py;
 				while (x != endX) {
 					if (board.get(x, y) != 0) {
-						return new PointEaten(false, null);
+						return false;
 					}
 					x += px;
 					y += py;
 				}
 
 				// Check that if this is not a skip, there are none available
-				return new PointEaten(middlePoint(startIndex, endIndex, board, isP1Turn), null);
+				return middlePoint(startIndex, endIndex, board, isP1Turn);
 
 			}
 			else if (Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
-				boolean check = middlePoint(startIndex, endIndex, board, isP1Turn);
-				return new PointEaten(check, null);
+				return middlePoint(startIndex, endIndex, board, isP1Turn);
 			}
+			return false;
 
 		} else {
-			boolean check = normalMove(board, dx, dy, startIndex, endIndex, isP1Turn);
-			return new PointEaten(check, null);
+			return normalMove(board, dx, dy, startIndex, endIndex, isP1Turn);
+
 		}
 		// Passed all tests
-		return new PointEaten(true, null);
+
 	}
 
 	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
@@ -414,7 +414,9 @@ public class MoveLogic {
 		}
 
 		// Check that if this is not a skip, there are none available
-		middlePoint(startIndex, endIndex, board, isP1Turn);
+		boolean mp = middlePoint(startIndex, endIndex, board, isP1Turn);
+		if(!mp)
+			return false;
 		return true;
 	}
 

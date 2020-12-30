@@ -2,7 +2,6 @@ package Model;
 
 import Controller.RandomEvents;
 import Utils.Constants;
-import Utils.PointEaten;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class Game {
 	/** The ID for game.*/
 	private int id;
 	/** The current state of the Hamka board. */
-	public Board board;
+	private Board board;
 
 	/** The flag indicating if it is player 1's (Black) turn. */
 	private boolean isP1Turn;
@@ -82,7 +81,7 @@ public class Game {
 //		setGameState(state);
 //	}
 
-//	public Game(Board board, boolean isP1Turn, int skipIndex) {
+	//	public Game(Board board, boolean isP1Turn, int skipIndex) {
 //		this.id=id;
 //		this.board = (board == null)? new Board() : board;
 //		this.isP1Turn = isP1Turn;
@@ -188,17 +187,16 @@ public class Game {
 	 */
 	public boolean[] move(Point start, Point end) {
 		boolean ret[] = new boolean[2];
-
 		if(!this.redSwitch) {
-            if (start == null || end == null) {
-            	ret[0] = false;
-                return ret;
-            }
-            this.isGreen = false;
-            this.isOrange = false;
+			if (start == null || end == null) {
+				ret[0] = false;
+				return ret;
+			}
+			this.isGreen = false;
+			this.isOrange = false;
 			ret = move(Board.toIndex(start), Board.toIndex(end));
-            return ret;
-        }
+			return ret;
+		}
 		ret[0] = false;
 		return ret;
 	}
@@ -210,18 +208,16 @@ public class Game {
 	 * return true if and only if an update was made to the game state.
 	 */
 	public boolean[] move(int startIndex, int endIndex) {
+		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
+		boolean eatFlag = false;
 		boolean ret[] = new boolean[2];
 		// Validate the move
-        PointEaten pe = MoveLogic.isValidMove(this, startIndex, endIndex);
-		if (!pe.check) {
+		if (!MoveLogic.isValidMove(this, startIndex, endIndex)) {
 			ret[0] = false;
 			return ret;
 		}
 
-		/*if(pe.point != null) {
-			System.out.println(pe.point);
-			this.board.set(Board.toIndex(pe.point), Constants.EMPTY);
-		}*/
 		// Make the move
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
@@ -250,10 +246,13 @@ public class Game {
 				x += px;
 				y += py;
 			}
-			this.board.set(x, y, 0);
-			isP1Turn = !isP1Turn;
+			if(this.board.get(x, y) == queen || this.board.get(x, y) == soldier) {
+				this.board.set(x, y, 0);
+				eatFlag = true;
+			}
 			if(!MoveLogic.getSkips(board, endIndex).isEmpty())
-				isP1Turn = !isP1Turn;
+				queenSkip = true;
+
 		}
 		// Make the soldier a queen if necessary
 		int id = board.get(endIndex);
@@ -266,18 +265,17 @@ public class Game {
 			switchTurn = true;
 		}
 
-		if(queenSkip){
-			switchTurn = false;
-		}
 		// Check if the turn should switch (i.e. no more skips)
-		if(Math.abs(dx) == 1){
-			boolean midValid = Board.isValidIndex(midIndex);
-			if (midValid) {
-				this.skipIndex = endIndex;
-			}
-			if (!midValid || MoveLogic.getSkips(
-					board.copy(), endIndex).isEmpty()) {
+		boolean midValid = Board.isValidIndex(midIndex);
+		if (midValid) {
+			this.skipIndex = endIndex;
+		}
+		if (!midValid || MoveLogic.getSkips(
+				board.copy(), endIndex).isEmpty()) {
+			if(!queenSkip) {
 				switchTurn = true;
+			} else{
+				queenSkip = false;
 			}
 		}
 
@@ -339,7 +337,8 @@ public class Game {
 			}
 		}
 
-		if (switchTurn && !redSwitch && !isChangeBlue) {
+
+		if (switchTurn && !redSwitch && !isChangeBlue && !eatFlag) {
 			this.isP1Turn = !isP1Turn;
 			this.skipIndex = -1;
 		}
@@ -390,7 +389,7 @@ public class Game {
 	}
 
 	public boolean isP1Turn() {
-	        return isP1Turn;
+		return isP1Turn;
 
 
 	}
