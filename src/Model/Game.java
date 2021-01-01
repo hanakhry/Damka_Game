@@ -222,7 +222,14 @@ public class Game {
 			}
 			if(this.board.get(x, y) == queen || this.board.get(x, y) == soldier) {
 				this.board.set(x, y, 0);
+				if(isP1Turn){
+					getBlack1Player().setpScore(getBlack1Player().getpScore()+100);
+				}
+				if(!isP1Turn){
+					getWhite2Player().setpScore(getWhite2Player().getpScore()+100);
+				}
 				eatFlag = true;
+
 			}
 
 		}
