@@ -235,6 +235,12 @@ public class Game {
 			}
 			if(eat != null){
 				this.board.set(eat.x, eat.y, 0);
+				if(isP1Turn){
+					getBlack1Player().setpScore(getBlack1Player().getpScore()+100);
+				}
+				if(!isP1Turn){
+					getWhite2Player().setpScore(getWhite2Player().getpScore()+100);
+				}
 				eat = null;
 				isP1Turn = !isP1Turn;
 				eatFlag = true;
