@@ -573,10 +573,33 @@ public class HamkaBoard extends JButton {
 			}
 		} else {
 			Point sel = getPoint(x, y);
-			if (!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(preserved)).isEmpty()) {
+			int spot = this.game.getBoard().get(preserved.x, preserved.y);
+			int soldier;
+			int queen;
+			boolean turn;
+			boolean skip = false;
+			if(spot == Constants.BLACK_QUEEN || spot == Constants.BLACK_SOLDIER){
+				soldier = Constants.WHITE_SOLDIER;
+				queen = Constants.WHITE_QUEEN;
+				turn = true;
+			} else{
+				soldier = Constants.BLACK_SOLDIER;
+				queen = Constants.BLACK_QUEEN;
+				turn = false;
+			}
+
+			if(turn){
+				if(game.getBoard().get(preserved.x+2, preserved.y+2) == 0 || game.getBoard().get(preserved.x-2, preserved.y+2) == 0)
+					skip = true;
+			} else{
+				if(game.getBoard().get(preserved.x+2, preserved.y-2) == 0 || game.getBoard().get(preserved.x-2, preserved.y-2) == 0)
+					skip = true;
+			}
+			if (!MoveLogic.getMoves(this.game.getBoard(), Board.toIndex(preserved)).isEmpty() || skip) {
 				if (selected != null && sel != null) {
 					if (selected.equals(saveRed) || sel.equals(saveRed)) {
-						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) { boolean change = copy.isP1Turn();
+						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+							boolean change = copy.isP1Turn();
 							String expected = copy.getGameState();
 							boolean[] move = copy.move(selected, sel);
 							if (move[0])
@@ -593,7 +616,7 @@ public class HamkaBoard extends JButton {
 					}
 				}
 			} else {
-				if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
+				if((Board.isValidPoint(sel) && Board.isValidPoint(selected))) {
 					boolean change = copy.isP1Turn();
 					String expected = copy.getGameState();
 					boolean[] move = copy.move(selected, sel);
@@ -608,7 +631,7 @@ public class HamkaBoard extends JButton {
 					change = (copy.isP1Turn() != change);
 					this.selected = change ? null : sel;
 				}
-				JOptionPane.showMessageDialog(null, "Sadly your soldier can't move any further, turn skipped.");
+				JOptionPane.showMessageDialog(null, "Unfortunately your soldier can't move any further, turn skipped.");
 				saveRed = new Point(0, 0);
 				this.game.setP1Turn(!this.game.isP1Turn());
 				handleClick(x, y, 0);
