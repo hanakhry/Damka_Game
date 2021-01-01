@@ -21,7 +21,7 @@ public class MoveLogic {
 	 */
 	public static boolean isValidMove(Game game,
 									  int startIndex, int endIndex) {
-		return game == null? false : isValidMove(game.getBoard(),
+		return game == null? false : isValidMove(game ,game.getBoard(),
 				game.isP1Turn(), startIndex, endIndex, game.getSkipIndex());
 	}
 
@@ -35,7 +35,7 @@ public class MoveLogic {
 	 * skipIndex, the index of the last skip this turn.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static boolean isValidMove(Board board, boolean isP1Turn,
+	public static boolean isValidMove(Game g, Board board, boolean isP1Turn,
 									  int startIndex, int endIndex, int skipIndex) {
 
 		// Basic checks
@@ -51,7 +51,7 @@ public class MoveLogic {
 		// Perform the tests to validate the move
 		if (!validateIDs(board, isP1Turn, startIndex, endIndex)) {
 			return false;
-		} else if (!validateDistance(board, isP1Turn, startIndex, endIndex)) {
+		} else if (!validateDistance(g, board, isP1Turn, startIndex, endIndex)) {
 			return false;
 		}
 
@@ -108,7 +108,12 @@ public class MoveLogic {
 	 * @param board
 	 * @return
 	 */
-	private static Point[] getBorder(int startIndex, Board board){
+	private static Point[] getBorder(Game game, int startIndex, Board board, boolean isP1Turn, Point end){
+		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
+		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
+
+		int tempX;
+		int tempY;
 		boolean skipFlag = false;
 		Point point1 = null;
 		Point point2 = null;
@@ -121,6 +126,20 @@ public class MoveLogic {
 			x++;
 			y++;
 			if (board.get(x, y) != 0 && x < 8 && y < 8) {
+				if(x == 7 || y == 7 && (board.get(x, y) == soldier || board.get(x, y) == queen)) {
+					tempX = x;
+					tempY = y;
+					x--;
+					y++;
+					if(x == 8)
+						x = 0;
+					if(y == 8)
+						y = 0;
+					if (new Point(x, y).equals(end)) {
+						game.eat = new Point(tempX, tempY);
+						break;
+					}
+				}
 				skipFlag = true;
 				break;
 			}
@@ -142,6 +161,20 @@ public class MoveLogic {
 			x--;
 			y++;
 			if (board.get(x, y) != 0 && x > -1 && y < 8) {
+				if(x == 0 || y == 7 && (board.get(x, y) == soldier || board.get(x, y) == queen)) {
+					tempX = x;
+					tempY = y;
+					x--;
+					y++;
+					if(x == -1)
+						x = 7;
+					if(y == 8)
+						y = 0;
+					if (new Point(x, y).equals(end)) {
+						game.eat = new Point(tempX, tempY);
+						break;
+					}
+				}
 				skipFlag = true;
 				break;
 			}
@@ -163,6 +196,20 @@ public class MoveLogic {
 			x--;
 			y--;
 			if (board.get(x, y) != 0 && x > -1 && y > -1) {
+				if(x == 0 || y == 0 && (board.get(x, y) == soldier || board.get(x, y) == queen)) {
+					tempX = x;
+					tempY = y;
+					x--;
+					y++;
+					if(x == -1)
+						x = 7;
+					if(y == -1)
+						y = 7;
+					if (new Point(x, y).equals(end)) {
+						game.eat = new Point(tempX, tempY);
+						break;
+					}
+				}
 				skipFlag = true;
 				break;
 			}
@@ -184,6 +231,20 @@ public class MoveLogic {
 			x++;
 			y--;
 			if (board.get(x, y) != 0 && x < 8 && y > -1) {
+				if(x == 7 || y == 0 && (board.get(x, y) == soldier || board.get(x, y) == queen)) {
+					tempX = x;
+					tempY = y;
+					x--;
+					y++;
+					if(x == 8)
+						x = 0;
+					if(y == -1)
+						y = 7;
+					if (new Point(x, y).equals(end)) {
+						game.eat = new Point(tempX, tempY);
+						break;
+					}
+				}
 				skipFlag = true;
 				break;
 			}
@@ -324,7 +385,7 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if the move distance is valid.
 	 */
-	private static boolean validateDistance(Board board, boolean isP1Turn,
+	private static boolean validateDistance(Game game, Board board, boolean isP1Turn,
 											   int startIndex, int endIndex) {
 
 		// Check that it was a diagonal move
@@ -345,7 +406,7 @@ public class MoveLogic {
 		if(onBoard == black || onBoard == white){
 			//not a diagonal move
 			if(Math.abs(dx) != 1 || Math.abs(dy) != 1) {
-				Point p[] = getBorder(startIndex, board);
+				Point p[] = getBorder(game, startIndex, board, isP1Turn, end);
 				for (int i = 0; i < 4; i++) {
 					if (p[i] == null)
 						flags[i] = false;

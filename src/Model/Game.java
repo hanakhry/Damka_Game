@@ -52,6 +52,8 @@ public class Game {
 	public boolean isGreen;
 	public boolean isOrange;
 
+	public Point eat = null;
+
 
 
 	/** **/
@@ -230,6 +232,12 @@ public class Game {
 				}
 				eatFlag = true;
 
+			}
+			if(eat != null){
+				this.board.set(eat.x, eat.y, 0);
+				eat = null;
+				isP1Turn = !isP1Turn;
+				eatFlag = true;
 			}
 
 		}
