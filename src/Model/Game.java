@@ -180,6 +180,30 @@ public class Game {
 		return ret;
 	}
 
+	private List<Point> checkPoints(List<Point> check, int endIndex){
+		List<Point> booked = new ArrayList<>();
+		Point mid;
+		for (Point p : check) {
+			if (board.get(p.x, p.y) != 0) {
+				booked.add(p);
+			}
+			if (Board.toIndex(p) < 0 || Board.toIndex(p) > 31) {
+				booked.add(p);
+			}
+			mid = Board.middle(endIndex, Board.toIndex(p));
+			int sd = isP1Turn ? Constants.BLACK_SOLDIER : Constants.WHITE_SOLDIER;
+			int qn = isP1Turn ? Constants.BLACK_QUEEN : Constants.WHITE_QUEEN;
+			int toMid = board.get(Board.toIndex(mid));
+			if(toMid == 0 || toMid == sd || toMid == qn)
+				booked.add(p);
+			if(!MoveLogic.validateDistance(this, getBoard(), isP1Turn, endIndex, Board.toIndex(p))){
+				booked.add(p);
+			}
+		}
+		check.removeAll(booked);
+		return check;
+	}
+
 	/**
 	 * Attempts to make a move given the start and end index of the move.
 	 * startIndex the start index of the move.
@@ -202,7 +226,7 @@ public class Game {
 		this.board.set(endIndex, board.get(startIndex));
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
-		//make it work for MoveLogic to proc
+		if(midIndex < 32 || midIndex >= 0)
 		chainEat = true;
 
 		int px = -1;
@@ -271,21 +295,10 @@ public class Game {
 
 		List<Point> check = MoveLogic.getSkips(this,
 				board.copy(), endIndex);
-		List<Point> booked = new ArrayList<>();
-		Point mid;
+
 		if(!check.isEmpty()){
-			for (Point p : check) {
-				if (board.get(p.x, p.y) != 0) {
-					booked.add(p);
-				}
-				if (Board.toIndex(p) < 0 || Board.toIndex(p) > 31) {
-					booked.add(p);
-				}
-				mid = Board.middle(endIndex, Board.toIndex(p));
-				if(board.get(Board.toIndex(mid)) == 0)
-					booked.add(p);
-			}
-			check.removeAll(booked);
+			check = checkPoints(check, endIndex);
+			System.out.println("endIndex: "+endIndex+"   "+ check);
 		}
 		if(check.isEmpty()){
 			chainEat = false;
@@ -311,6 +324,13 @@ public class Game {
 		//handle stepping on red square
 		int onRed = Board.toIndex(tempRed.x, tempRed.y);
 		if(onRed == endIndex){
+			check = MoveLogic.getSkips(this,
+					board.copy(), endIndex);
+
+			if(!check.isEmpty())
+				check = checkPoints(check, endIndex);
+			if(check.isEmpty())
+				chainEat = false;
 			redSwitch = true;
 			final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon-red.png"));
 			JOptionPane.showMessageDialog(null,

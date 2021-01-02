@@ -385,7 +385,7 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if the move distance is valid.
 	 */
-	private static boolean validateDistance(Game game, Board board, boolean isP1Turn,
+	public static boolean validateDistance(Game game, Board board, boolean isP1Turn,
 											   int startIndex, int endIndex) {
 
 		// Check that it was a diagonal move
