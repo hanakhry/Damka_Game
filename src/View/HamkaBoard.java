@@ -357,7 +357,7 @@ public class HamkaBoard extends JButton {
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;
 		g.setColor(back);
-		g.fillRect(W / 2 - width / 2 - 5 -185, OFFSET_Y + 8 * BOX_SIZE + 2, width + 378, 15);
+		g.fillRect(65, OFFSET_Y + 8 * BOX_SIZE + 2, 475, 15);
 		g.setColor(front);
 		g.setFont(new Font("default", Font.BOLD, 12));
 		g.drawString(msg, W / 2 - width / 2, OFFSET_Y + 8 * BOX_SIZE + 2 + 11);
