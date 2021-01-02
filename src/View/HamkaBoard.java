@@ -478,7 +478,7 @@ public class HamkaBoard extends JButton {
 	}
 
 	//new string to "create" game scenario
-	private String newString(Game game, Point p){
+	public String newString(Game game, Point p){
 		String str = game.getGameState();
 		String str1 = str.substring(0, game.getBoard().toIndex(p));
 		String str2 = str.substring(game.getBoard().toIndex(p) + 1);

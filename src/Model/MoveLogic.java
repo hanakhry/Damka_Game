@@ -1,6 +1,7 @@
 package Model;
 
 import Utils.Constants;
+import View.HamkaBoard;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -368,7 +369,8 @@ public class MoveLogic {
 			for (Point point : soldiers) {
 				int index = Board.toIndex(point);
 				if (!getSkips(game, board, index).isEmpty()) {
-					return false;
+					//zzzzzzzzzzzzzzzzzzz
+					game.didntEat = point;
 				}
 			}
 		}
@@ -454,7 +456,7 @@ public class MoveLogic {
 			}
 			return false;
 
-		} else {
+		} else { //if not queen
 			return normalMove(game, board, dx, dy, startIndex, endIndex, isP1Turn);
 		}
 		// Passed all tests

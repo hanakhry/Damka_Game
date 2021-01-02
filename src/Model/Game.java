@@ -54,7 +54,7 @@ public class Game {
 
 	public Point eat = null;
 	public static boolean chainEat = false;
-
+	public static Point didntEat;
 
 
 	/** **/
@@ -220,14 +220,21 @@ public class Game {
 			ret[0] = false;
 			return ret;
 		}
+		System.out.println(didntEat);
 		// Make the move
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
 		this.board.set(endIndex, board.get(startIndex));
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
-		if(midIndex < 32 || midIndex >= 0)
-		chainEat = true;
+		if(midIndex < 32 && midIndex >= 0) {
+			chainEat = true;
+		}
+		//if could but did not eat
+		if(didntEat != null) {
+			this.board.set(didntEat.x, didntEat.y, 0);
+			didntEat = null;
+		}
 
 		int px = -1;
 		int py = -1;
@@ -298,7 +305,6 @@ public class Game {
 
 		if(!check.isEmpty()){
 			check = checkPoints(check, endIndex);
-			System.out.println("endIndex: "+endIndex+"   "+ check);
 		}
 		if(check.isEmpty()){
 			chainEat = false;
