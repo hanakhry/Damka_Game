@@ -351,7 +351,7 @@ public class MoveLogic {
 		return true;
 	}
 
-	private static boolean middlePoint(int startIndex, int endIndex, Board board, boolean isP1Turn){
+	private static boolean middlePoint(Game game, int startIndex, int endIndex, Board board, boolean isP1Turn){
 		Point middle = Board.middle(startIndex, endIndex);
 		int midID = board.get(Board.toIndex(middle));
 		if (midID < 0) {
@@ -367,7 +367,7 @@ public class MoveLogic {
 			// Check if any of them have a skip available
 			for (Point point : soldiers) {
 				int index = Board.toIndex(point);
-				if (!getSkips(board, index).isEmpty()) {
+				if (!getSkips(game, board, index).isEmpty()) {
 					return false;
 				}
 			}
@@ -446,36 +446,37 @@ public class MoveLogic {
 				}
 
 				// Check that if this is not a skip, there are none available
-				return middlePoint(startIndex, endIndex, board, isP1Turn);
+				return middlePoint(game, startIndex, endIndex, board, isP1Turn);
 
 			}
 			else if (Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1) {
-				return middlePoint(startIndex, endIndex, board, isP1Turn);
+				return middlePoint(game, startIndex, endIndex, board, isP1Turn);
 			}
 			return false;
 
 		} else {
-			return normalMove(board, dx, dy, startIndex, endIndex, isP1Turn);
-
+			return normalMove(game, board, dx, dy, startIndex, endIndex, isP1Turn);
 		}
 		// Passed all tests
 
 	}
 
-	private static boolean normalMove(Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
+	private static boolean normalMove(Game game, Board board, int dx, int dy, int startIndex, int endIndex, boolean isP1Turn){
 		if (Math.abs(dx) != Math.abs(dy) || Math.abs(dx) > 2 || dx == 0) {
 			return false;
 		}
 
 		// Check that it was in the right direction
 		int id = board.get(startIndex);
-		if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
-				(id == Constants.BLACK_SOLDIER && dy < 0)) {
-			return false;
+		if(!game.chainEat) {
+			if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
+					(id == Constants.BLACK_SOLDIER && dy < 0)) {
+				return false;
+			}
 		}
 
 		// Check that if this is not a skip, there are none available
-		boolean mp = middlePoint(startIndex, endIndex, board, isP1Turn);
+		boolean mp = middlePoint(game, startIndex, endIndex, board, isP1Turn);
 		if(!mp)
 			return false;
 		return true;
@@ -505,7 +506,7 @@ public class MoveLogic {
 		// Determine if it can be skipped
 		boolean isBlack = (id == Constants.BLACK_SOLDIER || id == Constants.BLACK_QUEEN);
 		List<Point> check = new ArrayList<>();
-		addPoints(check, soldier, Constants.BLACK_QUEEN, 1);
+		addPoints(false, check, soldier, Constants.BLACK_QUEEN, 1);
 		for (Point p : check) {
 			int start = Board.toIndex(p);
 			int tid = board.get(start);
@@ -557,7 +558,7 @@ public class MoveLogic {
 		// Determine possible points
 		int id = board.get(startIndex);
 		Point p = Board.toPoint(startIndex);
-		addPoints(endPoints, p, id, 1);
+		addPoints(false, endPoints, p, id, 1);
 
 		// Remove invalid points
 		for (int i = 0; i < endPoints.size(); i ++) {
@@ -579,7 +580,7 @@ public class MoveLogic {
 	 * return the list of points such that the start to a given point represents a skip available.
 	 */
 
-	public static List<Point> getSkips(Board board, int startIndex) {
+	public static List<Point> getSkips(Game game, Board board, int startIndex) {
 
 		// Trivial cases
 		List<Point> endPoints = new ArrayList<>();
@@ -590,18 +591,19 @@ public class MoveLogic {
 		// Determine possible points
 		int id = board.get(startIndex);
 		Point p = Board.toPoint(startIndex);
-		addPoints(endPoints, p, id, 2);
+		addPoints(game.chainEat, endPoints, p, id, 2);
 
 		// Remove invalid points
-		for (int i = 0; i < endPoints.size(); i ++) {
+		if(!game.chainEat){
+			for (int i = 0; i < endPoints.size(); i++) {
 
-			// Check that the skip is valid
-			Point end = endPoints.get(i);
-			if (!isValidSkip(board, startIndex, Board.toIndex(end))) {
-				endPoints.remove(i --);
+				// Check that the skip is valid
+				Point end = endPoints.get(i);
+				if (!isValidSkip(board, startIndex, Board.toIndex(end))) {
+					endPoints.remove(i--);
+				}
 			}
 		}
-
 		return endPoints;
 	}
 
@@ -647,19 +649,27 @@ public class MoveLogic {
 	 * id, the ID at the center point.
 	 * delta, the amount to add/subtract.
 	 */
-	public static void addPoints(List<Point> points, Point p, int id, int delta) {
+	public static void addPoints(boolean eatChain, List<Point> points, Point p, int id, int delta) {
 
 		// Add points moving down
 		boolean isQueen = (id == Constants.BLACK_QUEEN || id == Constants.WHITE_QUEEN);
 		if (isQueen || id == Constants.BLACK_SOLDIER) {
 			points.add(new Point(p.x + delta, p.y + delta));
 			points.add(new Point(p.x - delta, p.y + delta));
+			if(eatChain){
+				points.add(new Point(p.x + delta, p.y - delta));
+				points.add(new Point(p.x - delta, p.y - delta));
+			}
 		}
 
 		// Add points moving up
 		if (isQueen || id == Constants.WHITE_SOLDIER) {
 			points.add(new Point(p.x + delta, p.y - delta));
 			points.add(new Point(p.x - delta, p.y - delta));
+			if(eatChain){
+				points.add(new Point(p.x + delta, p.y + delta));
+				points.add(new Point(p.x - delta, p.y + delta));
+			}
 		}
 	}
 

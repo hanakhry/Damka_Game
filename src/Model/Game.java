@@ -53,6 +53,7 @@ public class Game {
 	public boolean isOrange;
 
 	public Point eat = null;
+	public static boolean chainEat = false;
 
 
 
@@ -156,6 +157,7 @@ public class Game {
 		this.isOrange = false;
 	}
 
+
 	/**
 	 * Attempts to make a move from the start point to the end point.
 	 * parameter start, the start point for the move.
@@ -200,6 +202,8 @@ public class Game {
 		this.board.set(endIndex, board.get(startIndex));
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
+		//make it work for MoveLogic to proc
+		chainEat = true;
 
 		int px = -1;
 		int py = -1;
@@ -208,6 +212,7 @@ public class Game {
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
 
+		//queen long diagonal
 		if(Math.abs(dx) > 1){
 			if(dx > 0)
 				px = 1;
@@ -222,6 +227,7 @@ public class Game {
 				x += px;
 				y += py;
 			}
+			//count eat score
 			if(this.board.get(x, y) == queen || this.board.get(x, y) == soldier) {
 				this.board.set(x, y, 0);
 				if(isP1Turn){
@@ -239,7 +245,6 @@ public class Game {
 				isP1Turn = !isP1Turn;
 				eatFlag = true;
 			}
-
 		}
 		// Make the soldier a queen if necessary
 		int id = board.get(endIndex);
@@ -257,7 +262,29 @@ public class Game {
 		if (midValid) {
 			this.skipIndex = endIndex;
 		}
-		if (!midValid || MoveLogic.getSkips(
+
+		List<Point> check = MoveLogic.getSkips(this,
+				board.copy(), endIndex);
+		List<Point> booked = new ArrayList<>();
+		Point mid;
+		if(!check.isEmpty()){
+			for (Point p : check) {
+				if (board.get(p.x, p.y) != 0) {
+					booked.add(p);
+				}
+				if (Board.toIndex(p) < 0 || Board.toIndex(p) > 31) {
+					booked.add(p);
+				}
+				mid = Board.middle(endIndex, Board.toIndex(p));
+				if(board.get(Board.toIndex(mid)) == 0)
+					booked.add(p);
+			}
+			check.removeAll(booked);
+		}
+		if(check.isEmpty()){
+			chainEat = false;
+		}
+		if (!midValid || MoveLogic.getSkips(this,
 				board.copy(), endIndex).isEmpty()) {
 				switchTurn = true;
 		}
@@ -362,7 +389,7 @@ public class Game {
 		for (Point p : test) {
 			int i = Board.toIndex(p);
 			if (!MoveLogic.getMoves(board, i).isEmpty() ||
-					!MoveLogic.getSkips(board, i).isEmpty()) {
+					!MoveLogic.getSkips(this, board, i).isEmpty()) {
 				return false;
 			}
 		}

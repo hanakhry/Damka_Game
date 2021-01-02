@@ -176,12 +176,13 @@ public class HamkaGameHistory extends JFrame {
                 a = a.replace("[", "");
                 a = a.replace("]", "");
 
-
+                window.getBoard().getGame().chainEat = false;
                 window.setGameState(a);
                 window.getBoard().getGame().setP1Turn(getTurn());
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
                 window.getBoard().getGame().refreshColors();
+
                 window.getBoard().handleClick(0, 0, 2);
 
 

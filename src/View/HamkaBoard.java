@@ -660,7 +660,7 @@ public class HamkaBoard extends JButton {
 		} else if(isP1Turn ^ (id == Constants.BLACK_SOLDIER ||
 				id == Constants.BLACK_QUEEN)) { // wrong soldier
 			return false;
-		} else if (!MoveLogic.getSkips(b, i).isEmpty()) { // skip available + add points to skip (player must skip)
+		} else if (!MoveLogic.getSkips(game, b, i).isEmpty()) { // skip available + add points to skip (player must skip)
 			if(isP1Turn){
 				game.getBlack1Player().setpScore(game.getBlack1Player().getpScore()+50);
 			}
@@ -680,7 +680,7 @@ public class HamkaBoard extends JButton {
 			if (soldier == i) {
 				continue;
 			}
-			if (!MoveLogic.getSkips(b, soldier).isEmpty()) {
+			if (!MoveLogic.getSkips(game, b, soldier).isEmpty()) {
 				return false;
 			}
 		}
