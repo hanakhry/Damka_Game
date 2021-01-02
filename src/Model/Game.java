@@ -226,7 +226,7 @@ public class Game {
 		this.board.set(endIndex, board.get(startIndex));
 		this.board.set(midIndex, Constants.EMPTY);
 		this.board.set(startIndex, Constants.EMPTY);
-		if(midIndex < 32 || midIndex >= 0)
+		if(midIndex < 32 && midIndex >= 0)
 		chainEat = true;
 
 		int px = -1;
