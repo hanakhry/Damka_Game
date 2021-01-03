@@ -220,6 +220,7 @@ public class Game {
         }
         //if could but did not eat
         if (!red) {
+            System.out.println(didntEat);
             if (didntEat != null) {
                 if (this.board.get(didntEat.x, didntEat.y) == 0 && !chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()) {
                     this.board.set(endIndex, 0);
@@ -228,13 +229,22 @@ public class Game {
                             "Deleted",
                             JOptionPane.ERROR_MESSAGE);
 
-                } else if (!chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()) {
+                } else if(!chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()){
                     this.board.set(didntEat.x, didntEat.y, 0);
                     JOptionPane.showMessageDialog(null,
                             "You didn't eat!, Soldier Deleted",
                             "Deleted",
                             JOptionPane.ERROR_MESSAGE);
-                    //System.out.println(chainEat);
+                    }
+                else if (!chainEat) {
+                    if(this.board.get(didntEat.x, didntEat.y) == 0)
+                        this.board.set(endIndex, 0);
+                    else
+                        this.board.set(didntEat.x, didntEat.y, 0);
+                    JOptionPane.showMessageDialog(null,
+                            "You didn't eat!, Soldier Deleted",
+                            "Deleted",
+                            JOptionPane.ERROR_MESSAGE);
                 }
 
                 didntEat = null;
