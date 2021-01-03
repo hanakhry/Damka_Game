@@ -1,9 +1,7 @@
 package Model;
 
 import Utils.Constants;
-import View.HamkaBoard;
-
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import java.util.List;
  * implements all the rules of Hamka.
  */
 public class MoveLogic {
-
 	/**
 	 * Determines if the specified move is valid based on the rules of Hamka.
 	 * parameter game, the game to check against.
@@ -25,7 +22,6 @@ public class MoveLogic {
 		return game == null? false : isValidMove(game ,game.getBoard(),
 				game.isP1Turn(), startIndex, endIndex, game.getSkipIndex());
 	}
-
 	/**
 	 * Determines if the specified move is valid based on the rules of Hamka.
 	 *
@@ -36,9 +32,7 @@ public class MoveLogic {
 	 * skipIndex, the index of the last skip this turn.
 	 * return true if the move is legal according to the rules of Hamka.
 	 */
-	public static boolean isValidMove(Game g, Board board, boolean isP1Turn,
-									  int startIndex, int endIndex, int skipIndex) {
-
+	public static boolean isValidMove(Game g, Board board, boolean isP1Turn,int startIndex, int endIndex, int skipIndex) {
 		// Basic checks
 		if (board == null || !Board.isValidIndex(startIndex) ||
 				!Board.isValidIndex(endIndex)) {
@@ -55,7 +49,6 @@ public class MoveLogic {
 		} else if (!validateDistance(g, board, isP1Turn, startIndex, endIndex)) {
 			return false;
 		}
-
 		// Passed all tests
 		return true;
 	}
@@ -68,8 +61,7 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if all IDs are valid.
 	 */
-	private static boolean validateIDs(Board board, boolean isP1Turn,
-									   int startIndex, int endIndex) {
+	private static boolean validateIDs(Board board, boolean isP1Turn, int startIndex, int endIndex) {
 		// Check if end is clear
 		if (board.get(endIndex) != Constants.EMPTY) {
 			return false;
@@ -105,14 +97,10 @@ public class MoveLogic {
 	/**
 	 * from startingIndex the method will move to all 4 possible close border sides, then decides where it will be if
 	 * the queen moved outside the border
-	 * @param startIndex
-	 * @param board
-	 * @return
 	 */
 	private static Point[] getBorder(Game game, int startIndex, Board board, boolean isP1Turn, Point end){
 		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
 		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
-
 		int tempX;
 		int tempY;
 		boolean skipFlag = false;
@@ -154,8 +142,6 @@ public class MoveLogic {
 		} else{
 			skipFlag = false;
 		}
-
-
 		x = start.x;
 		y = start.y;
 		while ( x > -1 && y < 8) {
@@ -189,8 +175,6 @@ public class MoveLogic {
 		} else{
 			skipFlag = false;
 		}
-
-
 		x = start.x;
 		y = start.y;
 		while ( x > -1 && y > -1) {
@@ -257,7 +241,6 @@ public class MoveLogic {
 		if(!skipFlag) {
 			point4 = new Point(x, y);
 		}
-
 		Point points[] = new Point[4];
 		points[0] = point1;
 		points[1] = point2;
@@ -265,7 +248,6 @@ public class MoveLogic {
 		points[3] = point4;
 		return points;
 	}
-
 	/**
 	 * the method will check if it's a valid move for the queen from point to end
 	 * @param point new starting point on the board
@@ -369,7 +351,7 @@ public class MoveLogic {
 			for (Point point : soldiers) {
 				int index = Board.toIndex(point);
 				if (!getSkips(game, board, index).isEmpty()) {
-					System.out.println(point);
+					//System.out.println(point);
 					game.didntEat = point;
 				}
 			}
@@ -388,21 +370,16 @@ public class MoveLogic {
 	 * endIndex, the end index of the move.
 	 * return true if and only if the move distance is valid.
 	 */
-	public static boolean validateDistance(Game game, Board board, boolean isP1Turn,
-											   int startIndex, int endIndex) {
-
+	public static boolean validateDistance(Game game, Board board, boolean isP1Turn, int startIndex, int endIndex) {
 		// Check that it was a diagonal move
 		Point start = Board.toPoint(startIndex);
 		Point end = Board.toPoint(endIndex);
 		int black = Constants.BLACK_QUEEN;
 		int white = Constants.WHITE_QUEEN;
-
-
 		boolean flags[] = new boolean[4];
 		int onBoard = board.get(startIndex);
 		int px = -1;
 		int py = -1;
-
 		int dx = end.x - start.x;
 		int dy = end.y - start.y;
 		//if selected is queen
@@ -484,7 +461,6 @@ public class MoveLogic {
 			return false;
 		return true;
 	}
-
 	/**
 	 * Checks if the specified soldier is safe (i.e. the opponent cannot skip the soldier).
 	 * board, the current board state.
@@ -551,7 +527,6 @@ public class MoveLogic {
 	 */
 
 	public static List<Point> getMoves(Board board, int startIndex) {
-
 		// Trivial cases
 		List<Point> endPoints = new ArrayList<>();
 		if (board == null || !Board.isValidIndex(startIndex)) {
@@ -573,7 +548,6 @@ public class MoveLogic {
 
 		return endPoints;
 	}
-
 
 	/**
 	 * Gets a list of skip end-points for a given starting point.
@@ -609,7 +583,6 @@ public class MoveLogic {
 		}
 		return endPoints;
 	}
-
 	/**
 	 * Checks if a skip is valid.
 	 * board, the board to check against.
@@ -618,8 +591,7 @@ public class MoveLogic {
 	 * return true if and only if the skip can be performed.
 	 */
 
-	public static boolean isValidSkip(Board board,
-									  int startIndex, int endIndex) {
+	public static boolean isValidSkip(Board board, int startIndex, int endIndex) {
 
 		if (board == null) {
 			return false;

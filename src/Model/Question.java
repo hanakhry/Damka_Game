@@ -41,60 +41,19 @@ public class Question<String> {
 
     }
 
-    public int getPointDecreaced() {
-        return pointDecreaced;
-    }
-
-    public void setPointDecreaced(int pointDecreaced) {
-        this.pointDecreaced = pointDecreaced;
-    }
-
     public String getQuestion() {
         return question;
     }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
     public ArrayList<String> getAnswers() {
         return answers;
     }
-
-    public void setAnswers(ArrayList<String> answers) {
-        this.answers = answers;
-    }
-
     public int getIndexOfCorrectAnswer() {
         return IndexOfCorrectAnswer;
     }
-
-    public void setIndexOfCorrectAnswer(int indexOfCorrectAnswer) {
-        IndexOfCorrectAnswer = indexOfCorrectAnswer;
-    }
-
     public Level getLevel() {
         return level;
     }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public int getPointAdded() {
-        return pointAdded;
-    }
-
-    public void setPointAdded(int pointAdded) {
-        this.pointAdded = pointAdded;
-    }
-
-    public int getNumOfQuestion() { return numOfQuestion; }
-
-    public void setNumOfQuestion(int numOfQuestion) { this.numOfQuestion = numOfQuestion; }
-
     public String getTeam() { return team; }
-
     public void  setTeam(String team) { this.team = team; }
 
     @Override

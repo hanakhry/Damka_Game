@@ -3,9 +3,10 @@ package Model;
 import Utils.Constants;
 import Utils.Level;
 import View.HamkaQuestion;
-import View.HamkaWindow;
-import org.json.simple.*;
-
+import org.json.simple.DeserializationException;
+import org.json.simple.JsonArray;
+import org.json.simple.JsonObject;
+import org.json.simple.Jsoner;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
@@ -18,21 +19,17 @@ public final class SysData {
     public HashMap<Level, ArrayList<Question>> questions = new HashMap();
     private final HashMap<Integer, Game> games = new HashMap();
     public HashMap<String,Integer> leaderboard= new HashMap<>();
-
+    List tiles;
     public List getTiles() {
         return tiles;
     }
-
     public void setTiles(List tiles) {
         this.tiles = tiles;
     }
 
-    List tiles;
-
 
 
     public SysData(){
-
     }
     //singletone
     public static SysData getInstance() {
@@ -43,29 +40,10 @@ public final class SysData {
             return instance;
     }
 
-
-
-
     public HashMap<Level, ArrayList<Question>> getQuestions() {
         return this.questions;
     }
 
-    public HashMap<Integer, Game> games() { return this.games; }
-
-    public void importFile(String path) {
-        try {
-            File myObj = new File(path);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
     public void importQuestionsFromJSON(String path) {
         questions = new HashMap();
         try (FileReader reader = new FileReader(new File(path))) {
@@ -275,7 +253,7 @@ public final class SysData {
 
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            //System.out.println("An error occurred.");
             e.printStackTrace();
         }
         return isTurn;
@@ -355,11 +333,6 @@ public final class SysData {
         } catch (DeserializationException | IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
     }
     public void readLeaderFromFile(String path) {
         try (FileReader reader = new FileReader(path)) {
@@ -401,6 +374,4 @@ public final class SysData {
         }
         return temp;
     }
-
-
 }

@@ -1,29 +1,3 @@
-/*
- * RULES
- * >>>>>>>>>>>>>
- * 1.	Soldier can only move diagonally, on dark tiles.
- * 
- * 2.	Normal Soldier can only move forward diagonally (for black Soldier,
- * 		this is down and for white Soldier this is up).
- * 
- * 3.	A Soldier becomes a king when it reaches the opponents end and cannot
- * 		move forward anymore.
- * 
- * 4.	Once a Soldier becomes a king, the player's turn is over.
- * 
- * 5.	After a Soldier/king moves one space diagonally, the player's turn is
- * 		over.
- * 
- * 6.	If an opponent's Soldier/Queen can be eaten, it must be eaten.
- * 
- * 7.	If after eating, the same Soldier can eat again, it must. Otherwise,
- * 		the turn is over.
- * 
- * 8.	The game is over if a player either has no more Soldiers or cannot make
- * 		a move on their turn.
- * 
- * 9.	The player with the White Soldiers moves first.
- */
 package Controller;
 
 import View.MainMenu;

@@ -22,7 +22,7 @@ public class HamkaGameHistory extends JFrame {
     public ArrayList<Integer> finalTiles = new ArrayList<>();
     public List<String> al = new ArrayList<String>();
     public static int index;
-    public JButton showBtn;
+    public JButton loadBtn;
     public JButton backBtn;
     public JButton externalBtn;
     public JList<String> list1;
@@ -48,14 +48,12 @@ public class HamkaGameHistory extends JFrame {
         super.setTitle("Game Load List");
         super.setSize(500, 600);
         super.setLocationRelativeTo(null);
-        final JLabel label = new JLabel();
-        //label.setSize(500,100);
-        showBtn = new JButton("Load Game");
+        loadBtn = new JButton("Load Game");
         backBtn = new JButton("Back");
         externalBtn= new JButton("Browse");
-        showBtn.setForeground(Color.black);
+        loadBtn.setForeground(Color.black);
         //showBtn.setBounds(200, 150, 80, 30);
-        showBtn.addActionListener(new HamkaHistoryListener());
+        loadBtn.addActionListener(new HamkaHistoryListener());
         externalBtn.addActionListener(new HamkaHistoryListener());
         backBtn.addActionListener(new HamkaHistoryListener());
         final DefaultListModel<String> l1 = new DefaultListModel<>();
@@ -76,7 +74,7 @@ public class HamkaGameHistory extends JFrame {
         JPanel layout = new JPanel(new GridLayout(2,0));
         tmpPanel.add(backBtn);
         tmpPanel.add(externalBtn);
-        tmpPanel.add(showBtn);
+        tmpPanel.add(loadBtn);
         btnPanel.add(tmpPanel,BorderLayout.SOUTH);
 
 
@@ -131,7 +129,6 @@ public class HamkaGameHistory extends JFrame {
 
     }
 
-
     private class HamkaHistoryListener implements ActionListener {
 
 
@@ -140,7 +137,7 @@ public class HamkaGameHistory extends JFrame {
 
             Object src = e.getSource();
             // No window to update
-            if (showBtn == src) {
+            if (loadBtn == src) {
                 dispose();  //Remove frame
                 int index = list1.getSelectedIndex();
                 String select=list1.getSelectedValue();
@@ -165,11 +162,7 @@ public class HamkaGameHistory extends JFrame {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
                 HamkaWindow window = new HamkaWindow(userArray[0], userArray[1]);
-
-
-
                 String a = String.valueOf(getFinalTiles());
                 a = a.replace(",", "");
                 a = a.replace(" ", "");
@@ -182,10 +175,7 @@ public class HamkaGameHistory extends JFrame {
                 window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                 window.setVisible(true);
                 window.getBoard().getGame().refreshColors();
-
                 window.getBoard().handleClick(0, 0, 2);
-
-
                 final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
                 JOptionPane.showMessageDialog(null,
                         "Game Loaded Successfully!", "Load game",
@@ -207,29 +197,19 @@ public class HamkaGameHistory extends JFrame {
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
-
-
                     dispose();
                     HamkaWindow window = new HamkaWindow("Username 1", "Username 2");
-
-
-                    String s = (String) list1.getSelectedValue();
-
                     String a = String.valueOf(getFinalTiles());
                     a = a.replace(",", "");
                     a = a.replace(" ", "");
                     a = a.replace("[", "");
                     a = a.replace("]", "");
-
-
                     window.setGameState(a);
                     window.getBoard().getGame().setP1Turn(getTurn());
                     window.setDefaultCloseOperation(HamkaWindow.EXIT_ON_CLOSE);
                     window.setVisible(true);
                     window.getBoard().getGame().refreshColors();
                     window.getBoard().handleClick(0, 0, 2);
-
-
                     final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
                     JOptionPane.showMessageDialog(null,
                             "External Loaded Successfully!", "Load game",

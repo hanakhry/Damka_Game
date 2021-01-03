@@ -1,30 +1,6 @@
 {
 	"questions":[
 		{
-			"question":"What's the capital of France?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"team":"Hedgehog",
-			"correct_ans":"3"
-		},
-		{
-			"question":"What's the capital of UK?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"London",
-				"Madrid"
-			],
-			"team":"Hedgehog",
-			"correct_ans":"3"
-		},
-		{
 			"question":"What is incorrect about Black-box test? ",
 			"level":"1",
 			"answers":[
@@ -59,42 +35,6 @@
 			],
 			"team":"Hedgehog",
 			"correct_ans":"4"
-		},
-		{
-			"question":"What's the capital of Germany?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"team":"",
-			"correct_ans":"1"
-		},
-		{
-			"question":"What's the capital of Germany?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"team":"",
-			"correct_ans":"1"
-		},
-		{
-			"question":"What's the capital of Germany?",
-			"level":"1",
-			"answers":[
-				"Berlin",
-				"Rome",
-				"Paris",
-				"Madrid"
-			],
-			"team":"",
-			"correct_ans":"1"
 		},
 		{
 			"question":"What is correct about maintenance costs?",
@@ -153,7 +93,7 @@
 				"3.Proxy",
 				"4.Prototype"
 			],
-			"team":"",
+			"team":"Hedgehog",
 			"correct_ans":"3"
 		},
 		{
@@ -165,7 +105,7 @@
 				"3.In Waterfall ; you are 1\/2 way through the project when you have built 1\/2 the features",
 				"4.In Agile ; Customers are happy because they can make changes without paying exorbitant costs"
 			],
-			"team":"",
+			"team":"Hedgehog",
 			"correct_ans":"4"
 		},
 		{
@@ -225,7 +165,7 @@
 				"3.Breaking projects down into little bits of user functionality",
 				"4.Prioritizing user stories; and then continuously delivering them in iterations"
 			],
-			"team":"",
+			"team":"Hedgehog",
 			"correct_ans":"2"
 		}
 	]

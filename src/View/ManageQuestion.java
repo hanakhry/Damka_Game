@@ -32,8 +32,6 @@ public class ManageQuestion extends JFrame {
         super.setTitle("Question Manager");
         super.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         super.setLocationRelativeTo(null);
-
-
         this.choice1.addActionListener(new radioButtonListener());
         this.choice2.addActionListener(new radioButtonListener());
         this.choice3.addActionListener(new radioButtonListener());
@@ -330,7 +328,7 @@ public class ManageQuestion extends JFrame {
         addButton = new JButton();
 
         //======== this ========
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "hidemode 3",
             // columns

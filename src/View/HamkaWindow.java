@@ -2,7 +2,6 @@ package View;
 
 import Controller.RandomEvents;
 import Model.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
  */
 
 public class HamkaWindow extends JFrame {
-
 
 	/** The default width for the checkers window. */
 	public static final int DEFAULT_WIDTH = 620;
@@ -30,19 +28,14 @@ public class HamkaWindow extends JFrame {
 	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn(), yellowSquare);
 	public static Point greenSquare = random.greenEvents(new Game(), new Game().getBoard().find(0), redSquare);
 	public static List<Point>  orangeSquares = random.orangeEvents(new Game(), new Game().getBoard().find(0));
-
-
 	/** The checker board component playing the updatable game. */
 	private HamkaBoard board;
-
 	private HamkaOptionPanel opts;
 
 
 	public HamkaWindow(String user1,String user2) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE,user1,user2);
 	}
-
-
 
 	public HamkaWindow(int width, int height, String title,String user1,String user2) {
 
@@ -62,8 +55,6 @@ public class HamkaWindow extends JFrame {
 		layout.add(board, BorderLayout.CENTER);
 		layout.add(opts, BorderLayout.SOUTH);
 		this.add(layout);
-
-
 	}
 
 	public static List<Point> getStartingSquares(){
@@ -82,8 +73,6 @@ public class HamkaWindow extends JFrame {
 	public HamkaOptionPanel getOpts() {
 		return opts;
 	}
-
-
 
 	public void restart() {
 		this.board.getGame().restart();

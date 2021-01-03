@@ -12,17 +12,11 @@ import java.util.Map;
 public class MainMenu extends JFrame {
     /** The default width for the checkers window. */
     public static final int DEFAULT_WIDTH = 620;
-
     /** The default height for the checkers window. */
     public static final int DEFAULT_HEIGHT = 750;
-
     /** The default title for the checkers window. */
     public static final String DEFAULT_TITLE = "Hamka Hedgehog";
-
     private MainMenuCanvas mMC;
-
-
-
     private JButton NewGame;
     private JButton LoadGame;
     private JButton Questions;
@@ -34,23 +28,17 @@ public class MainMenu extends JFrame {
     public MainMenu() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE);
     }
-
-
     public MainMenu(int width, int height, String title) {
 
         // Setup the window
         super(title);
         super.setSize(width, height);
         super.setLocationRelativeTo(null);
-
         // Setup the components
         JPanel layout = new JPanel();
         layout.setLayout(new GridLayout(2, 1));
         this.mMC = new MainMenuCanvas();
-
         layout.add(mMC);
-
-
         JPanel oPts= new JPanel();
         JPanel oPtsUsers= new JPanel();
         oPts.setLayout(new GridLayout(6, 1));

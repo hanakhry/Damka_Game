@@ -1,13 +1,11 @@
 package View;
 
-
 import Controller.RandomEvents;
 import Model.Board;
 import Model.Game;
 import Model.MoveLogic;
 import Model.SysData;
 import Utils.Constants;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,55 +25,35 @@ public class HamkaBoard extends JButton {
 
 	/** The game of Hamka that is being played on this component. */
 	private Game game;
-	
 	/** The window containing this Hamka board UI component. */
 	private HamkaWindow window;
-
-	
 	/** The last point that the current player selected on the Hamka board. */
 	public Point selected;
-	
 	/** The flag to determine the colour of the selected tile. If the selection
 	 * is valid, a green colour is used to highlight the tile. Otherwise, a red
 	 * colour is used. */
 	private boolean selectionValid;
-
-
 	/** The colour of the light tiles (by default, this is white). */
 	private Color lightTile;
-
 	/** The colour of the dark tiles (by default, this is black). */
 	private Color darkTile;
-	
 	/** A convenience flag to check if the game is over. */
 	private boolean isGameOver;
-
 	private static List<Point> yellowSquare;
-
 	private static Point redSquare;
-
 	public static Point greenSquare;
-
 	public static Point blueSquare;
-
 	private static boolean colorChange = true;
-
 	private static List<Point> orangeSquare;
-
 	public static Point saveRed = new Point(0, 0);
-
 	private Point checkPoint = new Point(35, 35);
-
 	private Point preserved;
-
 	private boolean showColor = true;
-
 	private boolean reviveClickFlag = false;
 
 	public HamkaBoard(HamkaWindow window) {
 		this(window, new Game());
 	}
-	
 	public HamkaBoard(HamkaWindow window, Game game) {
 
 		// Setup the component
@@ -92,9 +70,6 @@ public class HamkaBoard extends JButton {
 		this.window = window;
 
 	}
-
-
-
 	private void updateYellow(Graphics g, List<Point> yellowSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
 		for (int i = 0; i < 3; i++) {
 			Point yellowPoint = yellowSquare.get(i);
@@ -102,8 +77,6 @@ public class HamkaBoard extends JButton {
 			g.fillRect(OFFSET_X + yellowPoint.x * BOX_SIZE +1, OFFSET_Y + yellowPoint.y * BOX_SIZE +1 , BOX_SIZE-2, BOX_SIZE-2);
 		}
 	}
-
-
 	private void updateOrange(Graphics g, List<Point> orangeSquare, int OFFSET_X, int OFFSET_Y, int BOX_SIZE){
 		for (int i = 0; i < orangeSquare.size(); i++) {
 			Point orangePoint = orangeSquare.get(i);
@@ -143,9 +116,6 @@ public class HamkaBoard extends JButton {
 
 		repaint();
 	}
-	
-
-	
 	public synchronized boolean setGameState(boolean testValue, String newState, String expected) {
 		RandomEvents random = new RandomEvents(this.game.getBoard().find(0));
 		yellowSquare = random.yellowEvents();
@@ -164,9 +134,7 @@ public class HamkaBoard extends JButton {
 		
 		return true;
 	}
-	
 
-	
 	/**
 	 * Draws the current Hamka game state.
 	 */
@@ -395,35 +363,11 @@ public class HamkaBoard extends JButton {
 	public Game getGame() {
 		return game;
 	}
-
 	public void setGame(Game game) {
 		this.game = (game == null)? new Game() : game;
 	}
-
 	public HamkaWindow getWindow() {
 		return window;
-	}
-
-	public void setWindow(HamkaWindow window) {
-		this.window = window;
-	}
-
-
-
-	public Color getLightTile() {
-		return lightTile;
-	}
-
-	public void setLightTile(Color lightTile) {
-		this.lightTile = (lightTile == null)? Color.WHITE : lightTile;
-	}
-
-	public Color getDarkTile() {
-		return darkTile;
-	}
-
-	public void setDarkTile(Color darkTile) {
-		this.darkTile = (darkTile == null)? Color.BLACK : darkTile;
 	}
 
 	private Point getPoint(int x, int y){
@@ -505,7 +449,6 @@ public class HamkaBoard extends JButton {
 		}
 		return true;
 	}
-
 
 	/**
 	 * Handles a click on this component at the specified point.

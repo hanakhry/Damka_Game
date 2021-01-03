@@ -2,11 +2,9 @@ package Controller;
 
 import View.HamkaBoard;
 import View.HamkaOptionPanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 
 public class CountTimerScore {
 
@@ -15,15 +13,14 @@ public class CountTimerScore {
     private int count;
     private HamkaBoard h;
     private boolean isTimerActive = false;
-    private Timer tmr = new Timer(ONE_SECOND, this::actionPerformed);
+    private final Timer tmr = new Timer(ONE_SECOND, this::actionPerformed);
+    private final JLabel cntL;
+    private final JLabel cnsL;
+    private final int pTime;
+
     /**
-     * Jlabel from main class
-     **/
-    private JLabel cntL;
-    private JLabel cnsL;
-    private int pTime;
-
-
+     * Responsible for in game timers and score count also being used in Green and Orange coloring
+     */
 
     public CountTimerScore(HamkaOptionPanel hamkaOptionPanel, JLabel tL, JLabel sL, int pT) {
         this.hamkaOptionPanel = hamkaOptionPanel;
@@ -34,9 +31,9 @@ public class CountTimerScore {
         if (pTime == 1 || pTime == 2) setTimerColor(cntL, Color.GREEN.darker());
     }
 
-   // @Override
+    // @Override
     public void actionPerformed(ActionEvent e) {
-       try{
+        try {
             if (pTime == 1 && hamkaOptionPanel.getWindow().getBoard().getGame().isP1Turn()) {
                 if (isTimerActive) {
                     count++;
@@ -98,9 +95,9 @@ public class CountTimerScore {
                     setTimerText(cntL, TimeFormat(count));
                 }
             }
-        } catch(NullPointerException nEx){
-           
-       }
+        } catch (NullPointerException nEx) {
+
+        }
     }
 
     public void start() {
@@ -150,5 +147,4 @@ public class CountTimerScore {
     private void setTimerColor(JLabel tL, Color sColor) {
         tL.setForeground(sColor);
     }
-
 }

@@ -1,7 +1,7 @@
 package View;
 
 import Controller.CountTimerScore;
-
+import Controller.StartGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,13 +17,8 @@ import java.util.ArrayList;
  */
 public class HamkaOptionPanel extends JPanel {
 
-
-
-
 	/** The checkers window to update when an option is changed. */
 	private HamkaWindow window;
-
-	private JButton showQuestion=new JButton("Question");;
 	/** The button that when clicked, restarts the game. */
 	private JButton restartBtn;
 	/** The button that when clicked, saves the game. */
@@ -45,17 +40,13 @@ public class HamkaOptionPanel extends JPanel {
 	public CountTimerScore cntd3=new CountTimerScore(this, timeLabel3,null,3);
 	public File[] files;
 
-
-
 	/**
 	 * Creates a new option panel for the specified Hamka window.
 	 */
 
 	public HamkaOptionPanel(HamkaWindow window) {
 		super(new GridLayout(0, 1));
-		
 		this.window = window;
-		
 		// Initialize the components & Add listeners to them
 		//this.showQuestion=new JButton("Question");
 		this.pauseBtn = new JButton("Pause");
@@ -69,8 +60,6 @@ public class HamkaOptionPanel extends JPanel {
 		this.pauseBtn.addActionListener(new HamkaOptionListener());
 		this.resumeBtn.addActionListener(new HamkaOptionListener());
 		this.quitBtn.addActionListener(new HamkaOptionListener());
-
-
 		// Add components to the layout
 		JPanel top2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -128,16 +117,10 @@ public class HamkaOptionPanel extends JPanel {
 
 	}
 
-
-
-
 	private class HamkaOptionListener implements ActionListener {
-
-
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
 
 			// No window to update
 			if (window == null) {
@@ -221,10 +204,8 @@ public class HamkaOptionPanel extends JPanel {
 					myObj.write(a);
 					myObj.close();
 
-
-
 				} catch (IOException c) {
-					System.out.println("An error occurred.");
+					//System.out.println("An error occurred.");
 					c.printStackTrace();
 				}
 
@@ -239,15 +220,18 @@ public class HamkaOptionPanel extends JPanel {
 						icon);
 			}
 
-
 			if(src==quitBtn){
 					window.restart();
 					window.dispose();
 					window = null;
-					MainMenu window = new MainMenu();
-					window.setDefaultCloseOperation(MainMenu.DISPOSE_ON_CLOSE);
-					window.setVisible(true);
+
+				String[] args = new String[0]; // Or String[] args = {};
+				try {
+					StartGame.main(args);
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
 				}
+			}
 			if(src==pauseBtn){
 				cntd.pause();
 				cntd2.pause();
@@ -285,8 +269,6 @@ public class HamkaOptionPanel extends JPanel {
 		else
 			return false;
 	}
-
-
 }
 
 
