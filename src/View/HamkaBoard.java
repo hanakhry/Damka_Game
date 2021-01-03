@@ -551,13 +551,15 @@ public class HamkaBoard extends JButton {
 		// Determine what square (if any) was selected
 
 		//check if red has been stepped on last turn
+
+		//if not
 		if(saveRed.equals(check)){
 			Point sel = getPoint(x, y);
 			// Determine if a move should be attempted
 			if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
 				boolean change = copy.isP1Turn();
 				String expected = copy.getGameState();
-				boolean[] move = copy.move(selected, sel);
+				boolean[] move = copy.move(selected, sel, false);
 				if (move[1]) {
 					saveRed = redSquare;
 					preserved = getPoint(x, y);
@@ -574,20 +576,14 @@ public class HamkaBoard extends JButton {
 			} else {
 				this.selected = sel;
 			}
-		} else {
+		} else { //the player has stepped on red
 			Point sel = getPoint(x, y);
 			int spot = this.game.getBoard().get(preserved.x, preserved.y);
-			int soldier;
-			int queen;
 			boolean turn;
 			boolean skip = false;
 			if(spot == Constants.BLACK_QUEEN || spot == Constants.BLACK_SOLDIER){
-				soldier = Constants.WHITE_SOLDIER;
-				queen = Constants.WHITE_QUEEN;
 				turn = true;
 			} else{
-				soldier = Constants.BLACK_SOLDIER;
-				queen = Constants.BLACK_QUEEN;
 				turn = false;
 			}
 
@@ -604,7 +600,7 @@ public class HamkaBoard extends JButton {
 						if (Board.isValidPoint(sel) && Board.isValidPoint(selected)) {
 							boolean change = copy.isP1Turn();
 							String expected = copy.getGameState();
-							boolean[] move = copy.move(selected, sel);
+							boolean[] move = copy.move(selected, sel, true);
 							if (move[0])
 								saveRed = new Point(0, 0);
 							if (changeColor == 2)
@@ -622,7 +618,7 @@ public class HamkaBoard extends JButton {
 				if((Board.isValidPoint(sel) && Board.isValidPoint(selected))) {
 					boolean change = copy.isP1Turn();
 					String expected = copy.getGameState();
-					boolean[] move = copy.move(selected, sel);
+					boolean[] move = copy.move(selected, sel, true);
 					if (move[0])
 						saveRed = new Point(0, 0);
 					if (changeColor == 2)
@@ -634,6 +630,7 @@ public class HamkaBoard extends JButton {
 					change = (copy.isP1Turn() != change);
 					this.selected = change ? null : sel;
 				}
+
 				JOptionPane.showMessageDialog(null, "Unfortunately your soldier can't move any further, turn skipped.");
 				saveRed = new Point(0, 0);
 				this.game.setP1Turn(!this.game.isP1Turn());

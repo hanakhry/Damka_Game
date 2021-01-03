@@ -54,6 +54,8 @@ public class Game {
 
 	public Point eat = null;
 	public static boolean chainEat = false;
+
+	//if skipped eating, point to be removed
 	public static Point didntEat;
 
 
@@ -164,7 +166,7 @@ public class Game {
 	 * parameter end, the end point for the move.
 	 * return true if and only if an update was made to the game state.
 	 */
-	public boolean[] move(Point start, Point end) {
+	public boolean[] move(Point start, Point end, boolean red) {
 		boolean ret[] = new boolean[2];
 		if(!this.redSwitch) {
 			if (start == null || end == null) {
@@ -173,7 +175,7 @@ public class Game {
 			}
 			this.isGreen = false;
 			this.isOrange = false;
-			ret = move(Board.toIndex(start), Board.toIndex(end));
+			ret = move(Board.toIndex(start), Board.toIndex(end), red);
 			return ret;
 		}
 		ret[0] = false;
@@ -210,7 +212,7 @@ public class Game {
 	 * endIndex the end index of the move.
 	 * return true if and only if an update was made to the game state.
 	 */
-	public boolean[] move(int startIndex, int endIndex) {
+	public boolean[] move(int startIndex, int endIndex, boolean red) {
 		int soldier = isP1Turn ? Constants.WHITE_SOLDIER : Constants.BLACK_SOLDIER;
 		int queen = isP1Turn ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
 		boolean eatFlag = false;
@@ -220,7 +222,6 @@ public class Game {
 			ret[0] = false;
 			return ret;
 		}
-		System.out.println(didntEat);
 		// Make the move
 		Point middle = Board.middle(startIndex, endIndex);
 		int midIndex = Board.toIndex(middle);
@@ -231,9 +232,17 @@ public class Game {
 			chainEat = true;
 		}
 		//if could but did not eat
-		if(didntEat != null) {
-			this.board.set(didntEat.x, didntEat.y, 0);
-			didntEat = null;
+		if(!red){
+			if (didntEat != null) {
+				if (this.board.get(didntEat.x, didntEat.y) == 0 && !chainEat){
+					this.board.set(endIndex, 0);
+				}
+				else {
+					this.board.set(didntEat.x, didntEat.y, 0);
+				}
+
+				didntEat = null;
+			}
 		}
 
 		int px = -1;

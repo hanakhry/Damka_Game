@@ -369,10 +369,11 @@ public class MoveLogic {
 			for (Point point : soldiers) {
 				int index = Board.toIndex(point);
 				if (!getSkips(game, board, index).isEmpty()) {
-					//zzzzzzzzzzzzzzzzzzz
+					System.out.println(point);
 					game.didntEat = point;
 				}
 			}
+			//System.out.println("///////");
 		}
 		return true;
 	}
@@ -598,13 +599,13 @@ public class MoveLogic {
 		// Remove invalid points
 		if(!game.chainEat){
 			for (int i = 0; i < endPoints.size(); i++) {
-
 				// Check that the skip is valid
 				Point end = endPoints.get(i);
 				if (!isValidSkip(board, startIndex, Board.toIndex(end))) {
 					endPoints.remove(i--);
 				}
 			}
+
 		}
 		return endPoints;
 	}
