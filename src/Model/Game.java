@@ -234,11 +234,13 @@ public class Game {
 		//if could but did not eat
 		if(!red){
 			if (didntEat != null) {
-				if (this.board.get(didntEat.x, didntEat.y) == 0 && !chainEat){
+				if (this.board.get(didntEat.x, didntEat.y) == 0  && !chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()){
 					this.board.set(endIndex, 0);
+					System.out.println();
 				}
-				else {
+				else if(!chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()){
 					this.board.set(didntEat.x, didntEat.y, 0);
+					System.out.println(chainEat);
 				}
 
 				didntEat = null;
