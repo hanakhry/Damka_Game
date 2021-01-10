@@ -336,8 +336,8 @@ public class HamkaBoard extends JButton {
 		if (isGameOver) {
 			SysData sysdata=new SysData();
 			try {
-				sysdata.writeLeaderToFile("JSON/leaderhistory.JSON",getGame().getBlack1Player().getpUsername(),getGame().getBlack1Player().getpScore());
-				sysdata.writeLeaderToFile("JSON/leaderhistory.JSON",getGame().getWhite2Player().getpUsername(),getGame().getWhite2Player().getpScore());
+				sysdata.writeLeaderToFile("./src/JSON/leaderhistory.JSON",getGame().getBlack1Player().getpUsername(),getGame().getBlack1Player().getpScore());
+				sysdata.writeLeaderToFile("./src/JSON/leaderhistory.JSON",getGame().getWhite2Player().getpUsername(),getGame().getWhite2Player().getpScore());
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

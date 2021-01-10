@@ -87,7 +87,7 @@ public class HamkaGameHistory extends JFrame {
     }
     //return all the txt file in TEXT directory
     public File[] countNumberOfTxtFile() throws IOException {
-        File f = new File("TEXT");
+        File f = new File("./src/TEXT");
 
         FilenameFilter textFilter = new FilenameFilter() {
             public boolean accept(File dir, String name) {

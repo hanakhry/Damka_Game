@@ -1,0 +1,172 @@
+{
+	"questions":[
+		{
+			"question":"What is incorrect about Black-box test? ",
+			"level":"1",
+			"answers":[
+				"1.Graph representation of the software",
+				"2.Finite-state is a black box testing model",
+				"3.The software structure is known",
+				"4.Black box testing is based on partition of all possible inputs into equivalence class partitions"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"Which answer is not user testing type ? ",
+			"level":"1",
+			"answers":[
+				"1.Alpha testing ",
+				"2.Delta testing",
+				"3.Beta testing",
+				"4.Acceptance testing "
+			],
+			"team":"Hedgehog",
+			"correct_ans":"2"
+		},
+		{
+			"question":"Commonly used Architectural patterns include ?",
+			"level":"1",
+			"answers":[
+				"1.model-view-controller",
+				"2.layered architecture",
+				"3.pipe and filter",
+				"4.All the answers are correct"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"4"
+		},
+		{
+			"question":"What is correct about maintenance costs?",
+			"level":"2",
+			"answers":[
+				"1.Usually decrease development costs",
+				"2.Not affected by both technical and non-technical factors",
+				"3.decrease as software is maintained",
+				"4.Aging software has high support costs"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"4"
+		},
+		{
+			"question":"~Is the origin of the requirement clearly stated?~ ; this statment refer to ? ",
+			"level":"2",
+			"answers":[
+				"1.Checking requirements verifiability ",
+				"2.Checking requirements comprehensibility  ",
+				"3.Checking requirements traceability ",
+				"4.Checking requirements adaptability "
+			],
+			"team":"Hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"Reviews`s indirect Objectives include ?",
+			"level":"2",
+			"answers":[
+				"1.Record errors",
+				"2.Detect errors",
+				"3.Product proval",
+				"4.Idintify risks"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"1"
+		},
+		{
+			"question":"Architectures may be documented from several different perspectives or views. Possible views dont include ?",
+			"level":"2",
+			"answers":[
+				"1.a conceptual view",
+				"2.a nonphysical view",
+				"3.a process view",
+				"4.a development view"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"2"
+		},
+		{
+			"question":"structural GoF Design Pattern include ?",
+			"level":"2",
+			"answers":[
+				"1.Singleton",
+				"2.Iterator",
+				"3.Proxy",
+				"4.Prototype"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"choose the correct answer ?",
+			"level":"2",
+			"answers":[
+				"1.In Waterfall ; the testing starts from day one",
+				"2.In Agile ; you don't even know if you are building the right until it's too late to make any changes.",
+				"3.In Waterfall ; you are 1\/2 way through the project when you have built 1\/2 the features",
+				"4.In Agile ; Customers are happy because they can make changes without paying exorbitant costs"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"4"
+		},
+		{
+			"question":"During the maintenance phase ; the more changes there are.....?",
+			"level":"3",
+			"answers":[
+				"1.The more the product deviates from its original design",
+				"2.Regression testing files are up to date",
+				"3.Documentation becomes even more reliable than usual",
+				"4.The less difficult further changes become"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"1"
+		},
+		{
+			"question":"which answer is correct about requirements  ? ",
+			"level":"3",
+			"answers":[
+				"1.System requirements are Statements in natural language plus diagrams when User requirements are descriptions of the system\u2019s functions; services and operational constraints",
+				"2.A single non-functional requirement ; such as a security requirement ; may generate a number of related functional requirements that define system services that are required. ",
+				"3.Functional requirements define system properties and constraints e.g. reliability ; response time and storage requirements when Non-functional requirements Describe functionality or system services.",
+				"4.In practice ;it is possible to produce a complete and consistent requirements document."
+			],
+			"team":"Hedgehog",
+			"correct_ans":"2"
+		},
+		{
+			"question":"Which metrics not Derived from Reviews ?",
+			"level":"3",
+			"answers":[
+				"1.All the answers are correct",
+				"2.errors uncovered per preparation hour",
+				"3.number of errors found before preparation",
+				"4.inspection time per page of documentation"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"Embaded control systems are? ",
+			"level":"3",
+			"answers":[
+				"1.Application systems that run on local computer.",
+				"2.Applicaton that execute on a remote computer and are accessed by users from thier own pc .",
+				"3.software control systems that control and manage hardware devices.",
+				"4.business systems that are designed to process data in large batches."
+			],
+			"team":"Hedgehog",
+			"correct_ans":"3"
+		},
+		{
+			"question":"What is not Agile ?",
+			"level":"1",
+			"answers":[
+				"1.Building software incrementally from the start of the project",
+				"2.Treats analysis; design; coding; and testing as discrete phases in a software project",
+				"3.Breaking projects down into little bits of user functionality",
+				"4.Prioritizing user stories; and then continuously delivering them in iterations"
+			],
+			"team":"Hedgehog",
+			"correct_ans":"2"
+		}
+	]
+}
