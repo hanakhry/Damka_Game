@@ -263,7 +263,7 @@ public class Game {
                     int dx = start.x - end.x;
                     int dy = start.y - end.y;
                     if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1){
-                        System.out.println(didntEat);
+                        //System.out.println(didntEat);
                             this.board.set(endIndex, 0);
                         JOptionPane.showMessageDialog(null,
                                 "You didn't eat!, Soldier Deleted",
@@ -404,7 +404,7 @@ public class Game {
                 final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
 
                 SysData sysData = new SysData();
-                int result = sysData.randomQuestionFromJSON("JSON/questions.JSON");
+                int result = sysData.randomQuestionFromJSON("./src/JSON/questions.JSON");
                 if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + result);
                 if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + result);
                 if (result > 0) JOptionPane.showMessageDialog(null,
@@ -426,7 +426,7 @@ public class Game {
         ret[0] = true;
         if (redSwitch)
             ret[1] = true;
-        System.out.println("/////");
+        //System.out.println("/////");
         return ret;
     }
 
