@@ -263,7 +263,6 @@ public class Game {
                     int dx = start.x - end.x;
                     int dy = start.y - end.y;
                     if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1){
-                        //System.out.println(didntEat);
                             this.board.set(endIndex, 0);
                         JOptionPane.showMessageDialog(null,
                                 "You didn't eat!, Soldier Deleted",
@@ -428,7 +427,6 @@ public class Game {
         ret[0] = true;
         if (redSwitch)
             ret[1] = true;
-        //System.out.println("/////");
         return ret;
     }
 
