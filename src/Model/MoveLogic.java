@@ -451,6 +451,11 @@ public class MoveLogic {
 					(id == Constants.BLACK_SOLDIER && dy < 0)) {
 				return false;
 			}
+		} else if(Math.abs(dx) == 1 && Math.abs(dy) == 1){
+			if ((id == Constants.WHITE_SOLDIER && dy > 0) ||
+					(id == Constants.BLACK_SOLDIER && dy < 0)) {
+				return false;
+			}
 		}
 
 		// Check that if this is not a skip, there are none available

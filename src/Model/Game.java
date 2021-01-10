@@ -306,7 +306,8 @@ public class Game {
                 if (!isP1Turn) {
                     getWhite2Player().setpScore(getWhite2Player().getpScore() + 100);
                 }
-                //eatFlag = true;
+                if(!MoveLogic.getSkips(this, board, endIndex).isEmpty())
+                    eatFlag = true;
 
             }
             if (eat != null) {
@@ -319,7 +320,8 @@ public class Game {
                 }
                 eat = null;
                 isP1Turn = !isP1Turn;
-               // eatFlag = true;
+                if(!MoveLogic.getSkips(this, board, endIndex).isEmpty())
+                    eatFlag = true;
             }
         }
         // Make the soldier a queen if necessary
