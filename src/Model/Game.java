@@ -220,7 +220,7 @@ public class Game {
         }
         //if could but did not eat
         if (!red) {
-            System.out.println(didntEat);
+            //System.out.println(didntEat);
             if (didntEat != null) {
                 if (this.board.get(didntEat.x, didntEat.y) == 0 && !chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()) {
                     this.board.set(endIndex, 0);
@@ -380,7 +380,7 @@ public class Game {
                 final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
 
                 SysData sysData = new SysData();
-                int result = sysData.randomQuestionFromJSON("JSON/questions.JSON");
+                int result = sysData.randomQuestionFromJSON("./src/JSON/questions.JSON");
                 if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + result);
                 if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + result);
                 if (result > 0) JOptionPane.showMessageDialog(null,

@@ -97,7 +97,7 @@ public class ManageQuestion extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!selectQuestionList.isSelectionEmpty()) {
                     Question q = questions.get(selectQuestionList.getSelectedIndex());
-                    sysData.deleteQuestionFromJSON("JSON/questions.JSON", q);
+                    sysData.deleteQuestionFromJSON("./src/JSON/questions.JSON", q);
                     int index = selectQuestionList.getSelectedIndex();
                     ((DefaultListModel) selectQuestionList.getModel()).remove(index);
                 } else
@@ -138,8 +138,8 @@ public class ManageQuestion extends JFrame {
                     } else
                         answer = 4;
                     Question q = new Question(question, answers, answer, Level.getLevelByNumber(level), "");
-                    sysData.editQuestion("JSON/questions.JSON", questions.get(selectedIndexList), q);
-                    sysData.importQuestionsFromJSON("JSON/questions.JSON");
+                    sysData.editQuestion("./src/JSON/questions.JSON", questions.get(selectedIndexList), q);
+                    sysData.importQuestionsFromJSON("./src/JSON/questions.JSON");
                     questions = questionList();
                     DefaultListModel listModel = (DefaultListModel) selectQuestionList.getModel();
                     listModel.removeAllElements();
@@ -194,8 +194,8 @@ public class ManageQuestion extends JFrame {
                     answer = 4;
                 Question q = new Question(question, answers, answer, Level.getLevelByNumber(level), "");
                 try {
-                    sysData.addQuestionToJSON("JSON/questions.JSON",  q);
-                    sysData.importQuestionsFromJSON("JSON/questions.JSON");
+                    sysData.addQuestionToJSON("./src/JSON/questions.JSON",  q);
+                    sysData.importQuestionsFromJSON("./src/JSON/questions.JSON");
                     questions = questionList();
                     DefaultListModel listModel = (DefaultListModel) selectQuestionList.getModel();
                     listModel.removeAllElements();
@@ -256,7 +256,7 @@ public class ManageQuestion extends JFrame {
 
     public ArrayList<Question> questionList(){
         if(sysData.getQuestions().entrySet().isEmpty())
-            sysData.importQuestionsFromJSON("JSON/questions.JSON");
+            sysData.importQuestionsFromJSON("./src/JSON/questions.JSON");
         ArrayList<Question> questions = new ArrayList<>();
         for(Map.Entry<Level, ArrayList<Question>> entry : sysData.getQuestions().entrySet()){
             for(Question question : entry.getValue()){

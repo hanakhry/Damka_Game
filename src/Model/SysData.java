@@ -133,7 +133,7 @@ public final class SysData {
         //array that holds all of the existing questions
         ArrayList<Question> appendList = new ArrayList<Question>();
         if(questions.isEmpty()){
-            importQuestionsFromJSON("JSON/questions.JSON");
+            importQuestionsFromJSON("./src/JSON/questions.JSON");
         }
         for (Map.Entry<Level, ArrayList<Question>> entry : questions.entrySet()) {
             for(Question q: entry.getValue()){

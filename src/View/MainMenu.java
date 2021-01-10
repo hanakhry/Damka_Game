@@ -110,7 +110,7 @@ public class MainMenu extends JFrame {
 
                 SysData sysdata=new SysData();
 
-                sysdata.readLeaderFromFile("JSON/leaderhistory.JSON");
+                sysdata.readLeaderFromFile("./src/JSON/leaderhistory.JSON");
                 String[][] board=new String[25][2];
                 int i=0;
                 int j=0;

@@ -182,12 +182,12 @@ public class HamkaOptionPanel extends JPanel {
 				//create the path of new txt file
 				String user1=window.getBoard().getGame().getBlack1Player().getpUsername();
 				String user2=window.getBoard().getGame().getWhite2Player().getpUsername();
-				String path=("TEXT\\"+user1+".vs."+user2+".txt");
+				String path=("./src/TEXT\\"+user1+".vs."+user2+".txt");
 
 				boolean result=pathExist(path);
 				//loop to change path if exist
 				while(result==true){
-					path=("TEXT\\"+user1+".vs."+user2+"("+i+")"+".txt");
+					path=("./src/TEXT\\"+user1+".vs."+user2+"("+i+")"+".txt");
 					i++;
 					result=pathExist(path);
 				}
@@ -210,7 +210,7 @@ public class HamkaOptionPanel extends JPanel {
 				}
 
                 path=path.replace(".txt","");
-				path=path.replace("TEXT\\" , "");
+				path=path.replace("./src/TEXT\\" , "");
 				String msg="<html>Game Saved: <b>"+path+"</b></html>";
 				JLabel label = new JLabel(msg);
 				final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
@@ -249,7 +249,7 @@ public class HamkaOptionPanel extends JPanel {
 	}
 	//return all the txt file in TEXT directory
 	public File[] countNumberOfTxtFile() throws IOException {
-		File f = new File("TEXT");
+		File f = new File("./src/TEXT");
 
 		FilenameFilter textFilter = new FilenameFilter() {
 			public boolean accept(File dir, String name) {
