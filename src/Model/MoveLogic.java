@@ -351,11 +351,9 @@ public class MoveLogic {
 			for (Point point : soldiers) {
 				int index = Board.toIndex(point);
 				if (!getSkips(game, board, index).isEmpty()) {
-					//System.out.println(point);
 					game.didntEat = point;
 				}
 			}
-			//System.out.println("///////");
 		}
 		return true;
 	}

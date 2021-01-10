@@ -220,7 +220,20 @@ public class Game {
         }
         //if could but did not eat
         if (!red) {
-            System.out.println(didntEat);
+
+            //validation
+            List<Point> o = board.find(soldier);
+            for(Point p : o){
+                if(MoveLogic.getSkips(this, board, Board.toIndex(p)).isEmpty())
+                    didntEat = null;
+            }
+            o = board.find(queen);
+            for(Point p : o){
+                if(MoveLogic.getSkips(this, board, Board.toIndex(p)).isEmpty())
+                    didntEat = null;
+            }
+
+            //all possible conditions to remove
             if (didntEat != null) {
                 if (this.board.get(didntEat.x, didntEat.y) == 0 && !chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()) {
                     this.board.set(endIndex, 0);
@@ -228,14 +241,13 @@ public class Game {
                             "You didn't eat!, Soldier Deleted",
                             "Deleted",
                             JOptionPane.ERROR_MESSAGE);
-
                 } else if(!chainEat && !MoveLogic.getMoves(board, endIndex).isEmpty()){
                     this.board.set(didntEat.x, didntEat.y, 0);
                     JOptionPane.showMessageDialog(null,
                             "You didn't eat!, Soldier Deleted",
                             "Deleted",
                             JOptionPane.ERROR_MESSAGE);
-                    }
+                }
                 else if (!chainEat) {
                     if(this.board.get(didntEat.x, didntEat.y) == 0)
                         this.board.set(endIndex, 0);
@@ -245,8 +257,20 @@ public class Game {
                             "You didn't eat!, Soldier Deleted",
                             "Deleted",
                             JOptionPane.ERROR_MESSAGE);
+                } else if(chainEat){
+                    Point start = Board.toPoint(startIndex);
+                    Point end = Board.toPoint(endIndex);
+                    int dx = start.x - end.x;
+                    int dy = start.y - end.y;
+                    if(Math.abs(dx) == Math.abs(dy) && Math.abs(dx) == 1){
+                        System.out.println(didntEat);
+                            this.board.set(endIndex, 0);
+                        JOptionPane.showMessageDialog(null,
+                                "You didn't eat!, Soldier Deleted",
+                                "Deleted",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-
                 didntEat = null;
             }
         }
@@ -282,7 +306,7 @@ public class Game {
                 if (!isP1Turn) {
                     getWhite2Player().setpScore(getWhite2Player().getpScore() + 100);
                 }
-                eatFlag = true;
+                //eatFlag = true;
 
             }
             if (eat != null) {
@@ -295,7 +319,7 @@ public class Game {
                 }
                 eat = null;
                 isP1Turn = !isP1Turn;
-                eatFlag = true;
+               // eatFlag = true;
             }
         }
         // Make the soldier a queen if necessary
@@ -402,6 +426,7 @@ public class Game {
         ret[0] = true;
         if (redSwitch)
             ret[1] = true;
+        System.out.println("/////");
         return ret;
     }
 
