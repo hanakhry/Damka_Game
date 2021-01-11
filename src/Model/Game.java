@@ -224,8 +224,11 @@ public class Game {
             //validation
             List<Point> o = board.find(soldier);
             for(Point p : o){
-                if(MoveLogic.getSkips(this, board, Board.toIndex(p)).isEmpty())
-                    didntEat = null;
+                if(!MoveLogic.getMoves(board, Board.toIndex(p)).isEmpty()) {
+                    if (!MoveLogic.getSkips(this, board, Board.toIndex(p)).isEmpty()) {
+                        didntEat = null;
+                    }
+                }
             }
             o = board.find(queen);
             for(Point p : o){
