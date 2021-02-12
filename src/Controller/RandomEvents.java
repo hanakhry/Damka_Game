@@ -83,6 +83,17 @@ public class RandomEvents {
             validMoves.addAll(allValidMoves(troops.get(i), emptyBlackCells, g));
         return randomPoint(validMoves);
     }
+    // purpleEvents for select a random tile to color it to purple // zebra group
+    public static Point purpleEvents(Game g, List<Point> emptyBlackCells, Point redPoint) {
+        emptyBlackCells.remove(redPoint);
+        List<Point> validMoves = new ArrayList<>();
+        List<Point> troops = new ArrayList<>();
+        troops.addAll(getTroops(g, !g.isP1Turn()));
+
+        for (int i = 0; i < troops.size(); i++)
+            validMoves.addAll(allValidMoves(troops.get(i), emptyBlackCells, g));
+        return randomPoint(validMoves);
+    }
 
     //triggers red square
     public Point redEvents(Game g, boolean turn, List<Point> yellowPoints) {

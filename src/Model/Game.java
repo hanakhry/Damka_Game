@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The Game class represents a game of Hamka and ensures that all
@@ -39,6 +40,7 @@ public class Game {
      **/
     public List<Point> yellowSquares;
     public List<Point> greenSquare;
+    public List<Point> purpleSquare;
     public HashMap<String, List<Point>> colors;
     public List<Point> redSquare;
     public List<Point> orangeSquares;
@@ -49,9 +51,11 @@ public class Game {
     public static List<Point> tempYellow;
     public static Point tempGreen;
     public static Point tempRed;
+    public static Point tempPurple;
     public boolean redSwitch = false;
     public static boolean tempIsOrange;
     public static boolean tempIsGreen;
+    public static boolean tempIsPurple;
     public static Point tempBlue;
     public static boolean isChangeBlue;
     /**
@@ -59,6 +63,7 @@ public class Game {
      **/
     public boolean isGreen;
     public boolean isOrange;
+    public boolean isPurple;
     public Point eat = null;
     public static boolean chainEat = false;
     //if skipped eating, point to be removed
@@ -78,12 +83,16 @@ public class Game {
         tempYellow = new ArrayList<>();
         tempRed = new Point();
         tempBlue = new Point();
+        tempPurple = new Point();
         this.isOrange = false;
         this.isGreen = false;
+        this.isPurple = false;
         tempIsGreen = false;
         tempIsOrange = false;
+        tempIsPurple = false;
         this.greenSquare = new ArrayList<>();
         this.orangeSquares = new ArrayList<>();
+        this.purpleSquare = new ArrayList<>();
         restart();
     }
 
@@ -95,10 +104,13 @@ public class Game {
         this.redSquare = new ArrayList<>();
         this.greenSquare = new ArrayList<>();
         this.orangeSquares = new ArrayList<>();
+        this.purpleSquare = new ArrayList<>();
         this.yellowSquares = new ArrayList<>();
         this.isOrange = false;
         this.isGreen = false;
+        this.isPurple = false;
         tempGreen = new Point();
+        tempPurple = new Point();
         tempRed = new Point();
         tempBlue = new Point();
         tempYellow = new ArrayList<>();
@@ -114,15 +126,18 @@ public class Game {
      * not made to the other.
      * return an exact copy of this game.
      */
-    public Game copy(List<Point> yellowTemp, Point greenTemp, boolean isGreenTemp, Point redTemp, Point tempBlue) {
+    public Game copy(List<Point> yellowTemp, Point greenTemp, boolean isGreenTemp, Point purpleTemp, boolean isPurpleTemp, Point redTemp, Point tempBlue) {
         colors.put("yellow", this.yellowSquares);
         colors.put("red", this.redSquare);
         colors.put("green", this.greenSquare);
+        colors.put("purple", this.purpleSquare);
         colors.remove("orange");
         colors.put("orange", this.orangeSquares);
         colors.put("blue", this.blueSquare);
         Game g = new Game();
         tempGreen = greenTemp;
+        tempPurple = purpleTemp;
+        tempIsPurple = isPurpleTemp;
         tempYellow = yellowTemp;
         tempIsGreen = isGreenTemp;
         tempRed = redTemp;
@@ -145,6 +160,7 @@ public class Game {
         this.skipIndex = -1;
         this.isGreen = false;
         this.isOrange = false;
+        this.isPurple = false;
     }
 
     /**
@@ -162,6 +178,7 @@ public class Game {
             }
             this.isGreen = false;
             this.isOrange = false;
+            this.isPurple = false;
             ret = move(Board.toIndex(start), Board.toIndex(end), red);
             return ret;
         }
@@ -370,6 +387,40 @@ public class Game {
                     icon);
         }
 
+        int onPurple = Board.toIndex(tempPurple.x, tempPurple.y);
+        if (endIndex == onPurple && tempIsPurple) { /// if the solder stand in puprle tile // zebra group
+            Random random = new Random();
+            int randomEvent = random.nextInt(3);// random num from 0 to 2
+            if(randomEvent == 0) { // if the random num is 0 will ask an qusetion , but if the purple tile was a yellow tile before the game will ask the player 2 question // zebra group
+                final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+
+                SysData sysData = new SysData();
+                int result = sysData.randomQuestionFromJSON("./src/JSON/questions.JSON");
+                if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + result);
+                if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + result);
+                if (result > 0) JOptionPane.showMessageDialog(null,
+                        "Correct Answer! You won " + result + " points.", "Correct",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        icon);
+                else JOptionPane.showMessageDialog(null,
+                        "Wrong Answer! You lost " + result * -1 + " points.",
+                        "Wrong",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            if(randomEvent == 1) { /// if the random num is 1 will give the player 200 point. // zebra group
+                if (isP1Turn) this.black1Player.setpScore(this.black1Player.getpScore() + 200);
+                if (!isP1Turn) this.white2Player.setpScore(this.white2Player.getpScore() + 200);
+                final ImageIcon icon = new ImageIcon(this.getClass().getResource("/Images/v-icon.png"));
+                JOptionPane.showMessageDialog(null,
+                        "You got 200 points for stepping on Purple!", "Purple",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        icon);
+            }
+            if(randomEvent == 2) { // if the random num is 2 will restart the game and keeping the score and the timers . // zebra group
+                restart();// the hedgehog group do this method as bounos step , we check the method before use it .
+            }
+        }
+
         //handle stepping on red square
         int onRed = Board.toIndex(tempRed.x, tempRed.y);
         if (onRed == endIndex) {
@@ -552,6 +603,7 @@ public class Game {
 
         Point redPoint = random.redEvents(this, isP1Turn, yellowSquares);
         Point greenPoint = RandomEvents.greenEvents(this, this.getBoard().find(0), redPoint);
+        Point purplePoint = RandomEvents.purpleEvents(this, this.getBoard().find(0), redPoint);
         List<Point> orangePoints = RandomEvents.orangeEvents(this, this.getBoard().find(0));
         List<Point> availableBlocks = this.getBoard().find(0);
         availableBlocks.removeAll(yellowSquares);
@@ -568,7 +620,11 @@ public class Game {
             greenSquare.add(greenPoint);
         else
             greenSquare.add(new Point(0, 0));
-
+        if(purplePoint != null) {
+            purpleSquare.add(purplePoint);
+        } else {
+            purpleSquare.add(new Point(0, 0));
+        }
         if (orangePoints != null)
             orangeSquares.addAll(orangePoints);
         else

@@ -27,6 +27,7 @@ public class HamkaWindow extends JFrame {
 	public static List<Point>  yellowSquare = random.yellowEvents();
 	public static Point redSquare = random.redEvents(new Game(),new Game().isP1Turn(), yellowSquare);
 	public static Point greenSquare = random.greenEvents(new Game(), new Game().getBoard().find(0), redSquare);
+	public static Point purpleSquare = random.purpleEvents(new Game(), new Game().getBoard().find(0), redSquare);
 	public static List<Point>  orangeSquares = random.orangeEvents(new Game(), new Game().getBoard().find(0));
 	/** The checker board component playing the updatable game. */
 	private HamkaBoard board;
@@ -66,6 +67,7 @@ public class HamkaWindow extends JFrame {
 	public static Point getStartingGreen(){
 		return greenSquare;
 	}
+	public static Point getStartingPurple() { return purpleSquare; }
 	public static List<Point> getStartingOrange(){ return orangeSquares; }
 	public HamkaBoard getBoard() {
 		return board;
@@ -79,8 +81,6 @@ public class HamkaWindow extends JFrame {
 		this.board.update(true);
 		//to reset colors on board after restarting (clicking white tile)
 		this.board.handleClick(0,0, 1);
-
-
 	}
 
 	public void setGameState(String state) {

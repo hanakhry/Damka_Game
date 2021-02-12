@@ -42,7 +42,11 @@ public class CountTimerScore {
                     if (count > 30) {
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
                         hamkaOptionPanel.getWindow().getBoard().update(false);
-
+                    }
+                    // Condition for 45s // zebra group
+                    if(count >= 45 ){
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isPurple = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
                     }
                     if (count > 90) {
                         //orange
@@ -69,6 +73,11 @@ public class CountTimerScore {
                     if (count > 30) {
                         //green
                         hamkaOptionPanel.getWindow().getBoard().getGame().isGreen = true;
+                        hamkaOptionPanel.getWindow().getBoard().update(false);
+                    }
+                    // Condition for 45s // zebra group
+                    if(count >= 45 ){
+                        hamkaOptionPanel.getWindow().getBoard().getGame().isPurple = true;
                         hamkaOptionPanel.getWindow().getBoard().update(false);
                     }
                     if (count > 90) {
